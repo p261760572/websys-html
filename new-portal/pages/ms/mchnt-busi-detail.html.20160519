@@ -1,0 +1,1155 @@
+<!doctype html>
+<html><head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="renderer" content="webkit">
+    <title>商户业务</title>
+    <link rel="stylesheet" type="text/css" href="../../js/themes/default/xui.css">
+    <link rel="stylesheet" type="text/css" href="../../js/themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="../../css/tool.css">
+    <script type="text/javascript" src="../../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../../js/jquery.xui.min.js"></script>
+    <script type="text/javascript" src="../../js/jquery.xconfig.js"></script>
+    <script type="text/javascript" src="../../js/jquery.xdistrict.js"></script>
+    <script type="text/javascript" src="../../js/jquery.tool.js"></script>
+</head>
+
+<body class="detail-body">
+    <div class="xui-dialog dialog" id="check1-nopass-dlg" data-options="iconCls:'icon-search',modal:true,closed:true"><div class="dialog-header">审核客户基本资料<a class="dialog-close" href="javascript:void(0)"></a></div><div class="dialog-view"><div class="easyui-dialog dialog-body" title="审核客户基本资料" data-options="iconCls:'icon-search',modal:true,closed:true" style="padding:5px; display:none;">
+        <form id="check1-fm" class="form" method="post" data-options="">
+            <table class="table" style="table-layout:fixed; width:800px;">
+                <tbody><tr>
+                  <td class="right td20"><label>审核不通过原因：</label></td>
+                  <td class="td80"><input type="text" name="checked_reason" style="width:600px;"></td>
+                </tr>
+                </tbody><tfoot>
+                    <tr>
+                        <td colspan="2" class="center">
+                            <div style="margin:5px;"></div>
+                             <a href="javascript:void(0)" class="button check1 xui-linkbutton l-btn" data-options="iconCls:'icon-no',datagrid:'#search-dg',url:'/action/ms/mchnt-busi/check1-nopass',onBefore:onCheck1NopassBefore,onSuccess:onCheck1NopassSuccess" style="padding:0 5px;" onclick="xTool.check1Submit(this)"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">审核不通过</span><span class="l-btn-icon icon-no">&nbsp;</span></span></a>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </form>
+    </div></div></div>
+    
+    <div class="detail-div">
+        <form id="detail-fm" class="form view" action="/action/ms/mchnt-busi/view" method="post" data-options="onSerialize:onSerializeDetailForm,onLoad:onLoadDetailForm" style="width:950px;">
+            <div id="aa" class="xui-accordion accordion" data-options="multiple:true">
+                <div class="accordion-panel"><div class="accordion-header">商户业务<div class="accordion-icon accordion-collapse"></div></div><div data-options="selected:true" style="padding:5px;" class="accordion-body">
+                    <table class="table" style="width:100%;">
+                      <tbody><tr>
+                        <td class="right td20"><label>业务类型：</label></td>
+                        <td class="td30 clear-readonly"><input name="apppay_id" type="hidden">
+                          <input name="mcht_id" type="hidden" id="mcht_id">
+                          <span class="xui-combobox combobox" data-options="panelHeight:'auto',editable:false,required:true,data:xConfig['apptype'],onChange:onChangeApptype"><input type="text" class="combobox-text"><input type="hidden" name="apptype" class="combobox-value"><span class="combobox-addon"><i class="combobox-icon combobox-arrow"></i></span></span>
+                          <label class="required">*</label></td>
+                        <td class="right td20"><label>拓展方：</label></td>
+                        <td class="td30 clear-readonly"><span class="xui-combobox combobox" id="ec_id" data-options="required:true,validType:['combobox']"><input type="text" class="combobox-text"><input type="hidden" name="ec_id" class="combobox-value"><span class="combobox-addon"><i class="combobox-icon combobox-arrow"></i></span></span>
+                          <label class="required">*</label></td>
+                      </tr>
+                      <tr>
+                        <td class="right td20"><label>门店名称：</label></td>
+                        <td colspan="3" class="td80"><input type="text" name="marchant_name" class="xui-validatebox" data-options="required:true,validType:'maxByteLength[40]'" style="width:600px;">
+                         <label class="required">*</label></td>
+                      </tr>
+
+                      <tr>
+                        <td class="right td20"><label>收单机构：</label></td>
+                        <td class="td30 clear-readonly"><span class="xui-combobox combobox" id="acq_inst_id" data-options="editable:false,valueField:'acq_inst_id',textField:'acq_inst_name',required:true,onChange:onChangeAcqInstId"><input type="text" class="combobox-text"><input type="hidden" name="acq_inst_id" class="combobox-value"><span class="combobox-addon"><i class="combobox-icon combobox-arrow"></i></span></span>
+                        	<label class="required">*</label></td>
+                        <td class="right td20"><label>拓展方客户经理：</label></td>
+                        <td class="td30"><input type="text" name="ec_branch_name" class="xui-validatebox" data-options=""></td>
+                      </tr>
+                      <tr>
+                        <td class="right td20"><label>推荐支行：</label></td>
+                        <td class="td30"><input type="text" name="ec_branch" class="xui-validatebox" data-options=""></td>
+                        <td class="right td20"><label>拓展人：</label></td>
+                        <td class="td30 clear-readonly"><span class="xui-combobox combobox" id="e_id" data-options="required:true,validType:['combobox']"><input type="text" class="combobox-text"><input type="hidden" name="e_id" class="combobox-value"><span class="combobox-addon"><i class="combobox-icon combobox-arrow"></i></span></span>
+                        <label class="required">*</label></td>
+                      </tr>
+                      <tr>
+                        <td class="right td20"><label>拓展方客户经理联系电话：</label></td>
+                        <td class="td30"><input type="text" name="ec_branch_telno" class="xui-validatebox" data-options="" id="ec_branch_telno"></td>
+                        <td class="right td20"><label>收入所属方(实名支付用)：</label></td>
+                        <td class="td30"><input type="text" name="income_belong" class="xui-validatebox" data-options=""></td>
+                      </tr>
+                      <tr>
+                        <td class="right td20"><label>账户用途(实名支付用)：</label></td>
+                        <td class="td30 clear-readonly"><span class="xui-combobox combobox" data-options="panelHeight:'auto',editable:false,data:xConfig['count_desire']"><input type="text" class="combobox-text"><input type="hidden" name="count_desire" class="combobox-value"><span class="combobox-addon"><i class="combobox-icon combobox-arrow"></i></span></span></td>
+                        <td class="right td20"><label>信用卡开关：</label></td>
+                        <td class="td30 clear-readonly"><span class="xui-combobox combobox" data-options="panelHeight:'auto',editable:false,data:xConfig['credit_flag']"><input type="text" class="combobox-text"><input type="hidden" name="credit_flag" class="combobox-value"><span class="combobox-addon"><i class="combobox-icon combobox-arrow"></i></span></span></td>
+                      </tr>
+        <tr>
+          <td class="right td20"><label>信用卡单笔交易限额：</label></td>
+          <td class="td30"><input type="text" name="credit_card_limit" class="xui-validatebox" data-options=""></td>
+          <td class="right td20"><label>借记卡单笔交易限制：</label></td>
+          <td class="td30"><input type="text" name="debit_card_limit" class="xui-validatebox" data-options=""></td>
+          </tr>
+        <tr>
+          <td class="right td20"><label>信用卡月限额：</label></td>
+          <td class="td30"><input type="text" name="credit_m_a_limit" class="xui-validatebox" data-options=""></td>
+          <td class="right td20"><label>借记卡月限额：</label></td>
+          <td class="td30"><input type="text" name="debit_m_a_limit" class="xui-validatebox" data-options=""></td>
+          </tr>
+        <tr>
+          <td class="right td20"><label>信用卡月限次：</label></td>
+          <td class="td30"><input type="text" name="credit_m_c_limit" class="xui-validatebox" data-options=""></td>
+          <td class="right td20"><label>借记卡月限次：</label></td>
+          <td class="td30"><input type="text" name="debit_m_c_limit" class="xui-validatebox" data-options=""></td>
+          </tr>
+        <tr>
+          <td class="right td20"><label>备注：</label></td>
+          <td colspan="3" class="td30"><input type="text" name="remark_info" class="xui-validatebox" data-options="" style="width:600px;"></td>
+        </tr>
+                    </tbody></table>
+        </div></div>
+        
+        <div class="accordion-panel"><div class="accordion-header">资金划付<div class="accordion-icon accordion-collapse"></div></div><div style="padding:5px;" class="accordion-body">
+            <table class="table" style="width:100%;">
+            	<tbody><tr>
+            	  <td class="right td20"><label>资金入账方式：</label></td>
+            	  <td class="td30 clear-readonly"><span class="xui-combobox combobox" data-options="panelHeight:'auto',editable:false,required:true,data:xConfig['account_flag']"><input type="text" class="combobox-text"><input type="hidden" name="account_flag" class="combobox-value"><span class="combobox-addon"><i class="combobox-icon combobox-arrow"></i></span></span>
+            	    <label class="required">*</label></td>
+            	  <td class="right td20"><label>账户户名：</label></td>
+            	  <td class="td30"><input type="text" name="account_name" class="xui-validatebox" data-options="required:true" style="width:260px;">
+            	    <label class="required">*</label></td>
+           	  </tr>
+            	<tr>
+            	  <td class="right td20"><label>账户帐号：</label></td>
+            	  <td class="td30"><input type="text" id="account_no" name="account_no" class="xui-validatebox" data-options="required:true,validType:['digit']" style="font-weight:bold; font-size:18px;">
+            	    <label class="required">*</label></td>
+            	  <!-- <td class="right td20"><label>确认账户账号：</label></td> 
+            	  <td class="td30" colspan="2"><input type="text" id="account_no2" name="account_no2" class="easyui-validatebox" data-options="required:true,validType:['equals[\'#account_no\']']" style="font-weight:bold; font-size:18px;">
+            	    <label class="required">*</label></td>
+            	  -->
+            	  <td class="td30" colspan="2">
+            	    <label id="account_no2" style="font-weight:bold; font-size:24px; padding-left:20px; color: red;"></label></td>
+           	  </tr>
+            	<tr>
+            	  <td class="right td20"><label>账户类型：</label></td>
+            	  <td class="td30 clear-readonly"><span class="xui-combobox combobox" data-options="panelHeight:'auto',editable:false,required:true,data:xConfig['account_type'],onChange:onChangeAccountType"><input type="text" class="combobox-text"><input type="hidden" name="account_type" class="combobox-value"><span class="combobox-addon"><i class="combobox-icon combobox-arrow"></i></span></span>
+            	    <label class="required">*</label></td>
+            	  <td class="right td20"><label>账户银行：</label></td>
+            	  <td class="td30 clear-readonly"><span class="xui-combobox combobox" id="account_bank" data-options="required:true,validType:['combobox'],valueField:'bank_code',textField:'bank_name',onChange:onChangeAccountBank"><input type="text" class="combobox-text"><input type="hidden" name="account_bank" class="combobox-value"><span class="combobox-addon"><i class="combobox-icon combobox-arrow"></i></span></span>
+            	    <label class="required">*</label></td>
+           	  </tr>
+
+        <tr>
+          <td class="right td20"><label>开户支行名：</label></td>
+          <td colspan="3" class="td30"><span class="xui-combobox combobox" id="account_bank_brach" data-options="required:true,validType:['combobox'],mode:'remote',valueField:'subbranch_code',textField:'subbranch_name',url:'/action/ms/bank-subbranch/select_list',onBeforeLoad:onBeforeLoadAccountBankBrach,onSelect:onChangeAccountBankBrach"><input type="text" class="combobox-text" style="width: 475px;"><input type="hidden" name="account_bank_brach" class="combobox-value"><span class="combobox-addon"><i class="combobox-icon combobox-arrow"></i></span></span><label class="required">*</label></td>
+          </tr>
+        <tr>
+          <td class="right td20"><label>账户支行号：</label></td>
+          <td class="td30"><input type="text" id="account_bank_id" name="account_bank_id" class="add edit xui-validatebox" data-options="required:true">
+            <label class="required">*</label></td>
+          <td class="right td20"><label>开户行接收行行号：</label></td>
+          <td class="td30"><input type="text" id="settle_bank_cd" name="settle_bank_cd" class="add edit xui-validatebox" data-options="required:true">
+            <label class="required">*</label></td>
+          </tr>
+          <tr class="fee_chan8">
+          <td class="right td20"><label>开户省：</label></td>
+          <td class="td30">
+          	<input type="text" id="account_province" name="account_province" class="xui-combobox xui-validatebox" data-options="initDom:true,required:true,data:provinceData,onChange:onChangeProvince"><label class="required">*</label>
+          </td>
+          <td class="right td20"><label>开户市：</label></td>
+          <td class="td30">
+          	<input type="text" id="account_city" name="account_city" class="xui-combobox xui-validatebox" data-options="initDom:true,required:true"><label class="required">*</label>
+          </td>
+          </tr>
+          <tr class="fee_chan8">
+          <td class="right td20"><label>结算时间：</label></td>
+          <td class="td30">
+	          <select name="clearn" id="clearn">
+	          <option value="1" selected>T+1结算</option>
+	          <option value="0">T+0结算</option>
+	          </select>
+	          <span id="t0span"> &nbsp;&nbsp;<input type="checkbox" id="cleartimerule2" name="cleartimerule2" data-value="2"/>9点场次&nbsp;<input type="checkbox" id="cleartimerule3" name="cleartimerule3" data-value="3"/>15点场次</span>
+          </td>
+          <td class="right td20"><label>T+0加收手续费：</label></td>
+          <td class="td30">
+          	<input type="text" name="t0addfee" style="width: 50px;"/>&nbsp;&nbsp;(‰)
+          </td>
+          </tr>
+          <tr class="fee_chan8">
+          <td class="right td20"><label>节假日清算设置：</label></td>
+          <td class="td80" colspan="3">
+	      <input type="checkbox" id="skipholiday" name="skipholiday" data-value="1"/>
+          跳过节假日 <span>节假日结算加收手续费：<input type="text" name="holidayfee" style="width: 50px;"/>(‰)</span>
+          </td>
+          </tr>
+		  <tr class="fee_chan8">
+          <td class="right td20"><label>卡折类型：</label></td>
+          <td class="td30">
+          	<input type="text" name="card_type" class="xui-combobox xui-validatebox" data-options="initDom:true,panelHeight:'auto',required:true,data:xConfig['card_type2']"><label class="required">*</label>
+          </td>
+          <td class="right td20"><label>退货是否退手续费：</label></td>
+          <td class="td30">
+          	<input type="text" name="refund_fee" class="xui-combobox xui-validatebox" data-options="initDom:true,panelHeight:'auto',required:true,data:xConfig['refund_fee']"><label class="required">*</label>
+          </td>
+          </tr>
+        	</tbody></table>
+    	</div></div>
+                
+        <div class="accordion-panel"><div class="accordion-header">计费分润<div class="accordion-icon accordion-collapse"></div></div><div style="padding:5px; position:relative; overflow: hidden;" class="accordion-body">
+            <table class="table" style="width:100%;">
+              <tbody><tr>
+                <td class="right td20"><label>交易渠道：</label></td>
+                <td class="td30 clear-readonly"><span class="xui-combobox combobox" id="fee_chan" data-options="panelHeight:'auto',editable:false,required:true,data:xConfig['fee_chan'],onChange:onChangeFeeChan"><input type="text" class="combobox-text"><input type="hidden" name="fee_chan" class="combobox-value"><span class="combobox-addon"><i class="combobox-icon combobox-arrow"></i></span></span>
+                  <label class="required">*</label></td>
+                <td class="right td20"><label>商户号：</label></td>
+                <td class="td30"><input type="text" id="mchnt_cd" name="mchnt_cd" class="xui-validatebox" data-options="required:true,validType:['fixLength[15]']">
+                	<label class="required">*</label>
+                	</td>
+              </tr>
+                <tr>
+                  <td class="right td20"><label>MCC：</label></td>
+                  <td class="td30"><span class="xui-combobox combobox" id="mcc" data-options="valueField:'mcc',textField:'mcc_name',validType:['combobox'],onSelect:onSelectMcc"><input type="text" class="combobox-text"><input type="hidden" name="mcc" class="combobox-value"><span class="combobox-addon"><i class="combobox-icon combobox-arrow"></i></span></span></td>
+                  <td class="right td20"><label>MCC18（套用方式）：</label></td>
+                  <td class="td30"><span class="xui-combobox combobox" id="mcc18" data-options="valueField:'mcc',textField:'mcc_name',validType:['combobox']"><input type="text" class="combobox-text"><input type="hidden" name="mcc18" class="combobox-value"><span class="combobox-addon"><i class="combobox-icon combobox-arrow"></i></span></span></td>
+                </tr>
+                <tr class="fee_chan8">
+                  <td class="right td20"><label>多MCC套用策略：</label></td>
+		          <td class="td30"><input type="text" id="multi_mcc" name="multi_mcc" class="xui-validatebox add edit" data-options=""><input type="button" value="编辑" onclick="onEditMccRule()"></td>
+		          <td class="right td20"><label>父客户：</label></td>
+		          <td class="td30"><input type="text" id="mchnt_pid" name="mchnt_pid" class="xui-validatebox" data-options=""></td>
+		        </tr>
+                <tr class="fee_chan1 fee_chan2 fee_chan5 fee_chan7 fee_chan8 fee_chan9">
+                  <td class="right td20"><label>分润算法：</label></td>
+                  <td colspan="3" class="td80"><span class="xui-combobox combobox" id="lq_rule" data-options="required:true,validType:['combobox']"><input type="text" class="combobox-text" style="width: 475px;"><input type="hidden" name="lq_rule" class="combobox-value"><span class="combobox-addon"><i class="combobox-icon combobox-arrow"></i></span></span>
+                    <span class="td30">
+                    <label class="required">*</label>
+                  </span></td>
+          </tr>
+              <tr class="fee_chan1 fee_chan2 fee_chan5 fee_chan7 fee_chan9">
+	            <td class="right td20"><label>全国通配决定索引：</label></td>
+                <td class="td30"><span class="xui-combobox combobox" id="fee_rule2" data-options="valueField:'fee_algo',textField:'fee_algo_name',required:true,validType:['combobox']"><input type="text" class="combobox-text" style="width: 215px;"><input type="hidden" name="fee_rule2" class="combobox-value"><span class="combobox-addon"><i class="combobox-icon combobox-arrow"></i></span></span>
+                <label class="required">*</label></td>                
+	            <td class="right td20"><label>全国南卡北用决定索引：</label></td>
+                <td class="td30"><span class="xui-combobox combobox" id="fee_rule1" data-options="valueField:'fee_algo',textField:'fee_algo_name',required:true,validType:['combobox']"><input type="text" class="combobox-text" style="width: 215px;"><input type="hidden" name="fee_rule1" class="combobox-value"><span class="combobox-addon"><i class="combobox-icon combobox-arrow"></i></span></span>
+                <label class="required">*</label></td>
+              </tr>
+
+              <tr>
+                <td class="right td20"><label>特殊计费类型内容：</label></td>
+                <td class="td30 clear-readonly"><span class="xui-combobox combobox" data-options="panelHeight:'auto',editable:false,data:xConfig['fee_content'],onChange:onChangeFeeContent"><input type="text" class="combobox-text"><input type="hidden" name="fee_content" class="combobox-value"><span class="combobox-addon"><i class="combobox-icon combobox-arrow"></i></span></span></td>
+                <td class="right td20"><label>特殊计费类型档次：</label></td>
+                <td class="td30 clear-readonly"><span class="xui-combobox combobox" data-options="panelHeight:'auto',editable:false,data:xConfig['fee_lev']"><input type="text" class="combobox-text"><input type="hidden" name="fee_lev" class="combobox-value"><span class="combobox-addon"><i class="combobox-icon combobox-arrow"></i></span></span></td>
+              </tr>
+
+        <tr class="fee_chan3 fee_chan4">
+          <td class="right td20"><label>境内银联卡手续费标准：</label></td>
+          <td class="td30"><input type="text" name="lc_fee_pre" class="xui-validatebox" data-options="required:true,validType:['number']" style="width:40px;">
+            %-
+            <input type="text" id="lc_fee_top" name="lc_fee_top" class="xui-validatebox" data-options="required:true,validType:['number']" style="width:80px;">
+            元
+       	    <label class="required">*</label></td>
+          <td class="right td20"><label>境外银联卡手续费标准：</label></td>
+          <td class="td30"><input type="text" name="out_fee_pre" class="xui-validatebox" data-options="required:true,validType:['number']" style="width:40px;">
+            %-
+            <input type="text" id="out_fee_top" name="out_fee_top" class="xui-validatebox" data-options="required:true,validType:['number']" style="width:80px;">
+            元
+       	    <label class="required">*</label></td>
+        </tr>
+        <tr class="fee_chan6">
+          <td class="right td20"><label>签约扣率：</label></td>
+          <td class="td30"><input type="text" name="contract_fee" class="xui-validatebox" data-options="required:true,validType:['number']">
+            %              <label class="required">*</label></td>
+          <td class="right td20"><label>保底：</label></td>
+          <td class="td30"><span class="td30 clear-readonly">
+            <input type="text" name="base" class="xui-validatebox" data-options="required:true,validType:['number']">
+            <label class="required">*</label>
+          </span></td>
+        </tr>
+        <tr class="fee_chan6">
+          <td class="right td20"><label>封顶：</label></td>
+          <td class="td30"><span class="td30 clear-readonly">
+            <input type="text" id="top" name="top" class="xui-validatebox" data-options="validType:['number']">
+          </span></td>
+          <td class="right td20"><label>收费周期：</label></td>
+          <td class="td30"><span class="td30 clear-readonly">
+            <span class="xui-combobox combobox" data-options="panelHeight:'auto',editable:false,required:true,data:xConfig['charge_cycle']"><input type="text" class="combobox-text"><input type="hidden" name="charge_cycle" class="combobox-value"><span class="combobox-addon"><i class="combobox-icon combobox-arrow"></i></span></span>          
+            <label class="required">*</label>
+          </span></td>
+        </tr>
+        <tr class="fee_chan6">
+          <td class="right td20"><label>终端月保底：</label></td>
+          <td class="td30"><span class="td30 clear-readonly">
+            <input type="text" id="month_base" name="month_base" class="xui-validatebox" data-options="validType:['number']">
+          </span></td>
+          <td class="right td20">&nbsp;</td>
+          <td class="td30">&nbsp;</td>
+        </tr>
+
+        	</tbody></table>
+        </div></div>
+        <div class="accordion-panel fee_chan8"><div class="accordion-header">产品信息<div class="accordion-icon accordion-collapse"></div></div><div style="padding:5px; position:relative; overflow: hidden;" class="accordion-body">
+        <table id="product-dg" class="xui-datagrid" data-options="initDom:true,onLoadSuccess:onLoadProductSuccess">
+        	<thead>
+        		<tr>
+		            <th data-options="field:'prodchk',formatter:formatProdchk">选择</th>
+		            <th data-options="field:'prodcd',formatter:formatProdcd">产品名</th>
+		            <th style="text-align: center;" data-options="field:'rate',formatter:formatRate">手续费</th>
+	        	</tr>	
+        	</thead>
+            <tbody></tbody>          
+        </table>
+        </div></div>
+	            
+	            <div class="accordion-panel"><div class="accordion-header">系统使用<div class="accordion-icon accordion-collapse"></div></div><div id="system-use" style="padding:5px;" class="accordion-body">
+				                <table class="table" style="width:100%;">
+					                <tbody><tr>
+							          <td class="right td20"><label>记录编号：</label></td>
+							          <td class="td30"><input type="text" name="rec_id" class="add edit"></td>
+							          <td class="right td20"><label>记录操作标志：</label></td>
+							          <td class="td30"><input type="text" name="oper_in" class="add edit"></td>
+							        </tr>
+							
+							        <tr>
+							          <td class="right td20"><label>记录处理状态：</label></td>
+							          <td class="td30"><input type="text" name="proc_st" class="add edit"></td>
+							          <td class="right td20"><label>创建人：</label></td>
+							          <td class="td30"><input type="text" name="created_by" class="add edit"></td>
+							        </tr>
+							
+							        <tr>
+							          <td class="right td20"><label>创建时间：</label></td>
+							          <td class="td30"><input type="text" name="created_time" class="add edit"></td>
+							          <td class="right td20"><label>最后修改人：</label></td>
+							          <td class="td30"><input type="text" name="last_modified_by" class="add edit"></td>
+							        </tr>
+							
+							        <tr>
+							          <td class="right td20"><label>最后修改时间：</label></td>
+							          <td class="td30"><input type="text" name="last_modified_time" class="add edit"></td>
+							          <td class="right td20"><label>审核人：</label></td>
+							          <td class="td30"><input type="text" name="last_checked_by" class="add edit"></td>
+							        </tr>
+							        
+							        <tr>
+							          <td class="right td20"><label>审核时间：</label></td>
+							          <td class="td30"><input type="text" name="last_checked_time" class="add edit"></td>
+							          <td class="right td20"><label>审核通过或不通过原因：</label></td>
+							          <td class="td30"><input type="text" name="checked_reason" class="add edit" id="checked_reason"></td>
+						            </tr>
+				            	</tbody></table>
+				            </div></div>
+            </div>
+            <div style="display:block; height:50px;">
+            </div>
+            <div id="detail-tb" style="position:fixed; bottom:0px; z-index:999; height:40px; background:url(../../images/toolbar_bg.jpg) repeat-x top left;">
+                <div style="margin:7px;"></div>
+                <div style="text-align:center; width:950px;">
+                <a href="javascript:void(0)" class="button add xui-linkbutton l-btn" data-options="iconCls:'icon-save',url:'/action/ms/mchnt-busi/create-save',onSuccess:onCreateSaveSuccess" style="padding:0 5px;" onclick="xTool.addSubmit(this)"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">保存</span><span class="l-btn-icon icon-save">&nbsp;</span></span></a>
+                <a href="javascript:void(0)" class="button add xui-linkbutton l-btn" data-options="iconCls:'icon-ok',url:'/action/ms/mchnt-busi/create',onSuccess:onCreateSubmitSuccess,prompt:false" style="padding:0 5px;" onclick="xTool.addSubmit(this)"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">提交</span><span class="l-btn-icon icon-ok">&nbsp;</span></span></a>
+                <a href="javascript:void(0)" class="button edit xui-linkbutton l-btn" data-options="iconCls:'icon-ok',url:'/action/ms/mchnt-busi/update-save',onSuccess:onUpdateSaveSuccess" style="padding:0 5px;" onclick="xTool.editSubmit(this)"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">保存</span><span class="l-btn-icon icon-ok">&nbsp;</span></span></a>
+                <a href="javascript:void(0)" class="button edit xui-linkbutton l-btn" data-options="iconCls:'icon-ok',url:'/action/ms/mchnt-busi/update',onSuccess:onUpdateSubmitSuccess,prompt:false" style="padding:0 5px;" onclick="xTool.editSubmit(this)"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">提交</span><span class="l-btn-icon icon-ok">&nbsp;</span></span></a>
+                <a href="javascript:void(0)" class="button check1 xui-linkbutton l-btn" data-options="iconCls:'icon-ok',url:'/action/ms/mchnt-busi/check1-pass',onSuccess:onCheck1SubmitSuccess" style="padding:0 5px;" onclick="xTool.check1Submit(this)"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">审核通过</span><span class="l-btn-icon icon-ok">&nbsp;</span></span></a>
+                <a href="javascript:void(0)" class="button check1 xui-linkbutton l-btn" data-options="iconCls:'icon-no',url:'/action/ms/mchnt-busi/check1-nopass',onSuccess:onCheck1SubmitSuccess" style="padding:0 5px;" onclick="onClickCheckNopass(this)"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">审核不通过</span><span class="l-btn-icon icon-no">&nbsp;</span></span></a>
+                <a href="javascript:void(0)" class="button check2 xui-linkbutton l-btn" data-options="iconCls:'icon-ok',url:'/action/ms/mchnt-busi/check2-pass',onSuccess:onCheck2SubmitSuccess" style="padding:0 5px;" onclick="xTool.check2Submit(this)"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">审核通过</span><span class="l-btn-icon icon-ok">&nbsp;</span></span></a>
+                <a href="javascript:void(0)" class="button check2 xui-linkbutton l-btn" data-options="iconCls:'icon-no',url:'/action/ms/mchnt-busi/check2-nopass',onSuccess:onCheck2SubmitSuccess" style="padding:0 5px;" onclick="onClickCheckNopass(this)"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">审核不通过</span><span class="l-btn-icon icon-no">&nbsp;</span></span></a>
+                <a href="javascript:void(0)" id="return-btn" class="xui-linkbutton l-btn" data-options="iconCls:'icon-return',onSuccess:onReturnSearchSuccess" style="padding:0 5px;" onclick="onClickReturn(this)"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">返回</span><span class="l-btn-icon icon-return">&nbsp;</span></span></a>
+            	</div>
+            	<a style="position:fixed; left: 850px;  bottom:6px; z-index:1000;" href="javascript:void(0)" class="xui-linkbutton l-btn" onclick="xTool.openModifyInfoWin(this,'mchnt-busi')" data-options="iconCls:'icon-history',url:'/action/ms/mchnt-busi/modify-info'"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">历史变更信息</span><span class="l-btn-icon icon-history">&nbsp;</span></span></a>
+            </div>
+        </form>
+    </div>
+    
+    <div class="xui-dialog dialog" id="check-nopass-dlg" data-options="iconCls:'icon-search',modal:true,closed:true"><div class="dialog-header">审核商户业务<a class="dialog-close" href="javascript:void(0)"></a></div><div class="dialog-view"><div class="easyui-dialog dialog-body" title="审核商户业务" data-options="iconCls:'icon-search',modal:true,closed:true" style="padding:5px;">
+        <form id="check-nopass-fm" class="form" method="post" data-options="">
+            <table class="table" style="table-layout:fixed; width:800px;">
+                <tbody><tr>
+                  <td class="right td20"><label>审核不通过原因：</label></td>
+                  <td class="td80">
+                  	<input type="text" style="display:none;">
+                  	<input type="hidden" name="rec_id">	
+                  	<input type="text" name="checked_reason" class="xui-validatebox" data-options="required:true" style="width:600px;">
+                  	<label class="required">*</label>
+                  </td>
+                </tr>
+                </tbody><tfoot>
+                    <tr>
+                        <td colspan="2" class="center">
+                            <div style="margin:5px;"></div>
+                             <a href="javascript:void(0)" class="button edit xui-linkbutton l-btn" data-options="onSuccess:onCheckNopassSuccess" style="padding:0 5px;" onclick="xTool.submitForm(this)"><span class="l-btn-left"><span class="l-btn-text">提交</span></span></a>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </form>
+    </div></div></div>
+    <div id="multi-mcc-dlg" title="多MCC套用策略" class="xui-dialog" data-options="initDom:true,buttons:'#buttons',onClose:onCloseMccRule" style="padding: 10px; width:400px;">
+    	<div id="toolbar">
+			<a href="javascript:void(0)" class="xui-linkbutton" data-options="initDom:true" onclick="onClickAddMccRule()">添加规则</a>
+		</div>
+		<table id="multi-mcc-dg" class="xui-datagrid" data-options="initDom:true,toolbar:'#toolbar',onLoadSuccess:onLoadMccRuleSuccess"  border="0" cellspacing="0" cellpadding="0">
+		<thead>
+		  <tr>
+		  	<th rowspan="2" data-options="field:'rn',rownumber:true"></th>
+		    <th rowspan="2" data-options="field:'mcc',formatter:formatMccRuleInput">MCC码</th>
+		    <th colspan="2" data-options="">交易金额区间(元)</th>
+		    <th rowspan="2" data-options="field:'op',formatter:formatMccRuleOp">操作</th>
+		  </tr>
+		  <tr>
+		    <th data-options="field:'start_amount',formatter:formatMccRuleInput">起始金额</th>
+		    <th data-options="field:'end_amount',formatter:formatMccRuleInput">结束金额</th>
+		  </tr>
+		</thead>
+		<tbody></tbody>
+		</table>
+	</div>
+	<div id="buttons" class="dialog-button">
+		<a href="javascript:void(0)" class="xui-linkbutton" data-options="initDom:true,iconCls:'icon-ok'" onclick="onEditMccRuleOk()">确认</a>
+		<a href="javascript:void(0)" class="xui-linkbutton" data-options="initDom:true,iconCls:'icon-cancel'" onclick="onEditMccRuleCancel()">取消</a>
+	</div>
+    <script>
+    	var formDefaults = {
+    		'apptype': '105',
+    		'account_province':'43',
+    		'ec_id':'1',
+    		'credit_flag':'1',
+    		'credit_card_limit':'0',
+    		'credit_m_a_limit':'0',
+    		'credit_m_c_limit':'0',
+    		'debit_card_limit':'0',
+    		'debit_m_a_limit':'0',
+    		'debit_m_c_limit':'0',
+    		'fee_lev':'0',
+    		'fee_content':'00',
+    		'account_type':'1',
+    		'marchanttype':'17',
+    		'count_desire':'1',
+    		'status': '1',
+    		'account_flag': '2',
+    		//'unit_no': '1',
+    		'fee_chan': '1',
+    		'acq_inst_id': '48215500',
+    		'base': '2',
+    		'charge_cycle': '1',
+    		'clearn': '1',
+    		'mchnt_pid': ''
+    	};
+    	
+    	var myDefaultTransition = xConfig['status_transition']['A'];
+        var provinceData = xProvinceCityDistrict['province'];
+        var productData = [{
+		    'prodchk': '0',
+		    'prodcd': '001',
+		    'rate': '',
+		    'ratetype': '02',
+		    'lowlimit': '',
+		    'toplimit': '',
+		    'feecycle': '1'
+		}, {
+		    'prodchk': '0',
+		    'prodcd': '002',
+		    'rate': '',
+		    'ratetype': '02',
+		    'lowlimit': '',
+		    'toplimit': '',
+		    'feecycle': '1'
+		}, {
+		    'prodchk': '0',
+		    'prodcd': '004',
+		    'rate': '',
+		    'ratetype': '02',
+		    'lowlimit': '',
+		    'toplimit': '',
+		    'feecycle': '1'
+		}, {
+		    'prodchk': '0',
+		    'prodcd': '501',
+		    'rate': '',
+		    'ratetype': '02',
+		    'lowlimit': '',
+		    'toplimit': '',
+		    'feecycle': '1'
+		}, {
+		    'prodchk': '0',
+		    'prodcd': '511',
+		    'rate': '',
+		    'ratetype': '02',
+		    'lowlimit': '',
+		    'toplimit': '',
+		    'feecycle': '1'
+		}, {
+		    'prodchk': '0',
+		    'prodcd': '521',
+		    'rate': '',
+		    'ratetype': '02',
+		    'lowlimit': '',
+		    'toplimit': '',
+		    'feecycle': '1'
+		}];
+        
+        function onChangeProvince(newValue, oldValue) {
+             $('#account_city').combobox('clear').combobox('loadData', xProvinceCityDistrict['city'][newValue]);
+        }
+        
+	    function formatApptype(value, rowData, rowIndex) {
+	    	return xTool.formatField(xConfig['apptype'], value);
+	    }
+	    
+	    function formatAccountType(value, rowData, rowIndex) {
+	    	return xTool.formatField(xConfig['account_type'], value);
+	    }
+	    
+	    function formatAccountBank(value, rowData, rowIndex) {
+ 		    return xTool.formatField(xConfig['account_bank'], value, 'bank_code', 'bank_name');
+	    }
+	    
+	    function formatOperIn(value, rowData, rowIndex) {
+	    	return xTool.formatField(xConfig['oper_in']['A'], value);
+	    }
+	    
+	    function formatProcSt(value, rowData, rowIndex) {
+	    	return xTool.formatField(xConfig['proc_st']['A'], value);
+	    }
+	    
+	    function formatOp(value, rowData, rowIndex) {
+	    	
+	    	var query = {};
+	    		$.extend(query, g_query);
+	    		query.apptype = rowData.apptype;
+	    		var queryString = $.param(query).replace(/\+/g, '%20');
+			var url = 	'photo-copy.html?' + queryString;   		
+			
+	    	var s = '<a href="'+url+'" target="_blank">影印件</a>';
+	    	
+	    	return s;
+	
+	    }
+	    
+	    function onClickPhotoCopy(rowIndex) {
+	    	if(window.parent != window.self) {
+	    		var rows = $('#search-dg').datagrid('getRows', rowIndex);
+	    		var query = {};
+	    		$.extend(query, g_query);
+	    		query.apptype = rows[rowIndex].apptype;
+	    		var queryString = $.param(query).replace(/\+/g, '%20');
+	    		window.parent.g_select_tab = true;
+	    		$('#photo-copy-iframe', window.parent.document).attr('src', 'photo-copy.html?' + queryString);
+				$('#tt>div.tabs-header li:contains(影印件)', window.parent.document).trigger('click');
+			}
+	    }
+		
+		function onAddSuccess(clear) {
+			xTool.addSuccess.call(this, clear);
+			
+			$('#mchnt_cd').removeAttr('data-value'); //remove data-value
+			$('#account_province').combobox('clear').combobox('setValue', formDefaults.account_province);
+            //$('#account_city').combobox('setValue', formDefaults.account_city);
+            
+            $('#acq_inst_id').combobox('clear').combobox('setValue', formDefaults.acq_inst_id);
+            //$('#unit_no').combobox('setValue', formDefaults.unit_no);
+            $('#fee_chan').combobox('clear').combobox('setValue', formDefaults.fee_chan);
+            //产品信息
+            $('#product-dg').datagrid('loadData', productData);
+            
+        	$('#aa').accordion('expandAll');
+		}
+		
+		function onCreateSaveSuccess(request, response) {
+        	var fm = $('#detail-fm');
+        	xTool.loadDetail(fm[0], response.data);
+			xTool.transformStatus(fm[0], 'edit');
+        }
+
+        function onUpdateSaveSuccess(request, response) {
+        	var fm = $('#detail-fm');
+        	xTool.loadDetail(fm[0], {rec_id: request.rec_id});
+			xTool.transformStatus(fm[0], 'edit');
+        }
+        
+        function onCheck1Success() {
+        	$('#checked_reason').removeAttr('readonly');
+        }
+        
+        function onCheck2Success() {
+        	$('#checked_reason').removeAttr('readonly');
+        }
+        
+        function onCheck1SubmitSuccess(request, response) {
+        	/*
+			if(response.data.oper_in == 'I' && response.data.proc_st == '8') {
+            	xTool.showConfirm('是否审批终端?', function(r) {
+            		if(r) {
+            			if(window.parent != window.self) {
+							$('#tt>div.tabs-header li:contains(终端信息)', window.parent.document).trigger('click');
+						}
+            		} else {
+            			$('#return-btn').trigger('click');
+            		}
+            	});
+            } else {
+            	xTool.showInfo('操作成功');
+    			$('#return-btn').trigger('click');
+    		}
+    		*/
+    		xTool.showInfo('操作成功');
+    		$('#return-btn').trigger('click');
+        }
+        
+        function onCheck2SubmitSuccess() {
+        	$('#return-btn').trigger('click');
+        }
+        
+        function onChangeApptype(newValue, oldValue) {
+        	if(newValue == '109') {
+        		$('#fee_chan').combobox('setValue', '8');
+        	}
+        }
+        
+        function onChangeAccountType(newValue, oldValue) {
+        	if(newValue == '2') {
+        		$('#card_type').combobox('setValue', '01');
+        	}
+        }
+        
+        function onChangeFeeContent(newValue, oldValue) {
+        	if($('#fee_chan').combobox('getValue') == '8') {
+	        	if(newValue == '04') {
+	        		$('#lq_rule').combobox('setValue', 'AX300');
+	        	}
+        	}
+        }
+        
+        function onChangeFeeChan(newValue, oldValue) {
+        	var fm = $('#detail-fm');
+        	var t = fm.find('.fee_chan1,.fee_chan2,.fee_chan3,.fee_chan4,.fee_chan5,.fee_chan6,.fee_chan7,.fee_chan8,.fee_chan9').hide();
+        	t.find('.validatebox-text:not(:disabled)').validatebox({required:false});
+        	t = fm.find('.fee_chan' + newValue).show();
+        	t.find('.validatebox-text:not(:disabled)').not('#lc_fee_top,#out_fee_top,#top,#month_base,#mchnt_pid').validatebox({required:true});
+        	
+        	if($.inArray(newValue,['6','8']) >= 0) { //不自动生成
+        		if(!$('#mchnt_cd').attr('data-value')) {
+        			$('#mchnt_cd').validatebox({required:false}).val('').attr('readonly', 'readonly');
+        		}
+        		return;
+        	}
+        	$('#mchnt_cd').validatebox({required:true}); //.removeAttr('readonly');
+        	var cityMap = {
+				'4325': '4313',
+				'4326': '4331'
+			};
+			
+			var city = formDefaults.province + formDefaults.city;
+			if($.inArray(newValue, ['3','4']) >= 0) {
+            	city = cityMap[city] || city;
+        	}
+        	
+        	var mchnt_cd = $('#mchnt_cd').val();
+        	if(mchnt_cd.length == 0) { //重新生成前3位
+        		var rows = $('#acq_inst_id').combobox('getData');
+	            var row = xTool.inObjectArray( $('#acq_inst_id').combobox('getValue'), rows, 'acq_inst_id');
+	            if(row) {
+	            	$('#mchnt_cd').val(row.mchnt_cd_prefix);
+	            	mchnt_cd = row.mchnt_cd_prefix;
+	        	}
+        	}
+        	if(mchnt_cd.length >= 3) {
+        		mchnt_cd = mchnt_cd.substr(0,3)+city+mchnt_cd.substr(7);
+            	$('#mchnt_cd').val(mchnt_cd);
+        	}
+        	
+        	//修改直/间联
+        	var oldSI, newSI;
+        	
+        	if($.inArray(oldValue, ['3','4']) >= 0) {
+        		oldSI = 'I';
+        	}
+        	
+        	if($.inArray(newValue, ['3','4']) >= 0) {
+        		newSI = 'I';
+        	}
+        	
+        	if(oldSI != newSI) {
+            	if(mchnt_cd.length >= 11) {
+	        		$('#mchnt_cd').val(mchnt_cd.substr(0,11)).trigger('keyup');
+	        	}
+        	}
+        }
+        
+        /*
+        function onChangeUnitNo(newValue, oldValue) {
+        	var fm = $('#detail-fm');
+        	var t = fm.find('.unit_no1,.unit_no2,.unit_no3,.unit_no4').hide();
+        	t.find('.validatebox-text:not(:disabled)').validatebox({required:false});
+        	t = fm.find('.unit_no' + newValue).show();
+        	t.find('.validatebox-text:not(:disabled)').validatebox({required:true});
+        	
+        	var cityMap = {
+				'4325': '4313',
+				'4326': '4331'
+			};
+			
+			var city = g_search.province + g_search.city;
+			if($.inArray(newValue, ['2','3']) >= 0) {
+            	city = cityMap[city] || city;
+        	}
+        	
+        	var mchnt_cd = $('#mchnt_cd').val();
+        	if(mchnt_cd.length == 3) {
+            	$('#mchnt_cd').val(mchnt_cd + city);
+        	}
+        }
+        */
+        
+        function onChangeAccountBank(newValue, oldValue) {
+        	var data = $('#detail-fm').serializeObject();
+        	var row = xTool.inObjectArray(newValue, xConfig['account_bank'], 'bank_code');
+        	if(row) {
+	        	if(row.acct_settle_flag != '1' && data.account_flag == '2') {
+	        		$('#account_bank').combobox('clear');
+	        		xTool.showInfo('该银行不支持结算行入账，请选择其他银行');
+	        	} 
+	        }
+
+        	$('#account_bank_brach').combobox('clear').combobox('reload');
+    		$('#detail-fm').form('load', {
+    			account_bank_id: '',
+    			settle_bank_cd: ''
+    		});
+        }
+        
+        function onChangeAccountBankBrach(record) {
+        	$('#account_bank_id').val(record.subbranch_code);
+			var rows = $('#account_bank_brach').combobox('getData');
+            var row = xTool.inObjectArray(record.subbranch_code, rows, 'subbranch_code');
+            if(row) {
+            	$('#settle_bank_cd').val(row.settle_bank_cd);
+        	}
+        }
+        
+        function onChangeAcqInstId(newValue, oldValue) {
+            var rows = $('#acq_inst_id').combobox('getData');
+            var row = xTool.inObjectArray(newValue, rows, 'acq_inst_id');
+            if(row) {
+            	$('#mchnt_cd').val(row.mchnt_cd_prefix);
+        	}
+        }
+        
+        function onBeforeLoadAccountBankBrach(param) {
+        	var data = $('#detail-fm').serializeObject();
+        	//if(!data.account_bank) {
+        	//	return false;
+        	//}
+        	param.bank_code = data.account_bank;
+        	param.subbranch_name = param.q;
+        	param.subbranch_code = g_load_bank_subbranch;
+        	
+        	g_load_bank_subbranch = null;
+        }
+        
+        function onCreateSubmitSuccess(request, response) {
+            $('#detail-fm').form('load', response.data);
+            if(response.data.oper_in == 'I' && response.data.proc_st == '1') {
+            	xTool.showConfirm('是否新增终端?', function(r) {
+            		if(r) {
+            			if(window.parent != window.self) {
+							$('#tt>div.tabs-header li:contains(终端信息)', window.parent.document).trigger('click');
+						}
+            		} else {
+            			$('#return-btn').trigger('click');
+            		}
+            	});
+            } else {
+            	xTool.showInfo('操作成功');
+    			$('#return-btn').trigger('click');
+    		}
+        }
+        
+        function onUpdateSubmitSuccess(request, response) {
+            if(response.data.oper_in == 'I' && response.data.proc_st == '1') {
+            	//xTool.showConfirm('是否新增终端?', function(r) {
+            	//	if(r) {
+            	//		if(window.parent != window.self) {
+				//			$('#tt>div.tabs-header li:has(a span:contains("终端信息"))', window.parent.document).trigger('click');
+				//		}
+            	//	} else {
+            	//		$('#return-btn').trigger('click');
+            	//	}
+            	//});
+            } else {
+            	xTool.showInfo('操作成功');
+    			$('#return-btn').trigger('click');
+    		}
+        }
+        
+        function onSerializeDetailForm(data) {
+        	data.abarb_flag = g_abarb_flag;
+         	data.cleartimerule = '';
+        	if($('#cleartimerule2').prop('checked')) {
+				data.cleartimerule += '2';
+        	} else {
+        		data.cleartimerule += '0';
+        	}
+        	if($('#cleartimerule3').prop('checked')) {
+        		data.cleartimerule += '3';
+        	} else {
+        		data.cleartimerule += '0';
+        	}
+         	if($('#skipholiday').prop('checked')) {
+         		data.skipholiday = '1';
+         	} else {
+         		data.skipholiday = '0';
+         	}
+        	//产品信息
+        	data.product = $('#product-dg').datagrid('acceptChanges').datagrid('getRows');
+        }
+        
+        function onLoadDetailForm(data) {
+        	g_load_bank_subbranch = data.data.account_bank_id;
+        	
+        	if((data.data.oper_in == 'I' && data.data.proc_st == '8') ||
+        		data.data.oper_in != 'I') {
+        		$('#mchnt_cd').attr('readonly', 'readonly');
+        	}
+        	$('#mchnt_cd').attr('data-value', data.data.mchnt_cd);
+            $('#fee_chan').combobox('setValue', data.data.fee_chan);
+            $('#account_bank').combobox('setValue', data.data.account_bank);
+            //$('#district').combobox('clear').combobox('setValue', data.data.district);
+            
+            //data.data.account_no2 = data.data.account_no;
+            
+            $('#account_no2').text(formatAccountNo(data.data.account_no));
+            $('#account_province').combobox('setValue', data.data.account_province);
+            $('#account_city').combobox('setValue', data.data.account_city);
+            
+            if(data.data.cleartimerule.substr(0,1) == '2') {
+            	$('#cleartimerule2').prop('checked', true);
+             	}
+        	if(data.data.cleartimerule.substr(1,1) == '3') {
+            	$('#cleartimerule3').prop('checked', true);
+        	}
+         	if(data.data.skipholiday == '1') {
+         		$('#skipholiday').prop('checked', true);
+         	}
+            var i, obj, product = [];
+            for(i = 0; i < productData.length; i++) {
+            	obj = xTool.inObjectArray(productData[i].prodcd, data.product, 'prodcd') || {};
+            	product.push($.extend({}, productData[i], obj));
+            }
+            //产品信息
+            $('#product-dg').datagrid('loadData', product);
+        }
+        
+        function onSelectMcc(record) {
+        	var mchnt_cd = $('#mchnt_cd').val();
+        	if(mchnt_cd.length >= 7) {
+        		$('#mchnt_cd').val(mchnt_cd.substr(0,7)+newValue+mchnt_cd.substr(11)).trigger('keyup');
+        	}
+        	$('#mcc18').combobox('setValue', record.mcc);
+        }
+        
+        function onReturnSearchSuccess() {
+        	$('#search-dg').datagrid('reload');
+        }
+		
+		function onCheck1NopassBefore(data) {
+			var fData = $('#detail-fm').serializeObject();
+			var t = $.extend({}, data);
+        	$.extend(data, fData, t);
+        }
+        
+        function onCheck1NopassSuccess() {
+        	$('#check1-nopass-dlg').dialog('close');
+        }
+        
+        function onClickReturn() {
+        	if(window.parent != window.self) {
+				window.parent.onClickApptypeReturn();
+			}
+        }        
+        
+        function onClickCheckNopass(target) {
+			var opts = $.parser.parseOptions(target);
+			var data = $('#detail-fm').serializeObject();
+			var f = $('#check-nopass-fm');
+			xTool.transformStatus(f[0], 'edit');
+			f.form('clear').form('load',{
+				rec_id: data.rec_id
+			}).attr('action',opts.url);
+			$('#check-nopass-dlg').dialog('open').dialog('center');
+		}
+		
+		function onCheckNopassSuccess() {
+        	$('#check-nopass-dlg').dialog('close');
+        	$('#return-btn').trigger('click');
+        }
+        
+        function formatAccountNo(v) {
+           var nv = '';
+           var i;
+           for(i = 0; i < v.length; i ++) {
+           		if(i > 0 && i%4 == 0) {
+           			nv += '-';
+           		}
+           		nv += v.charAt(i);
+           }
+           return nv;
+        }
+        function onEditMccRule() {
+        	var multiMcc = $('#multi_mcc').val();
+        	var data = [];
+        	if(multiMcc.length > 0) {
+	        	var rows = multiMcc.split(';');
+	        	var i;
+	        	for(i = 0; i < rows.length; i++) {
+	        		var row = rows[i].split(',');
+	        		data.push({
+		        		mcc: row[0],
+		        		start_amount: row[1],
+		        		end_amount: row[2]
+		        	});
+	        	}
+	        }
+        	$('#multi-mcc-dg').datagrid('loadData', data);
+        	$('#multi-mcc-dlg').dialog('open').dialog('center');
+        }
+        function onCloseMccRule() {
+        	var dg = $('#multi-mcc-dg');
+			$('.validatebox-text', dg).validatebox('disableValidation');
+        }
+        function onClickAddMccRule() {
+        	$('#multi-mcc-dg').datagrid('acceptChanges').datagrid('appendRow',{
+        		mcc: '',
+        		start_amount: '',
+        		end_amount: ''
+        	});
+        	onLoadMccRuleSuccess();
+        }
+        function formatMccRuleInput(value) {
+			return '<input type="text" value="'+value+'" style="width:60px;"/>';
+		}
+		function formatMccRuleOp(value, row, index) {
+			return '<a href="javascript:void(0)" onclick="deleteMccRule('+index+')">删除</a>';
+		}
+		function deleteMccRule(index) {
+			$('#multi-mcc-dg').datagrid('deleteRow', index);
+		}
+		function onLoadMccRuleSuccess() {
+			var dg = $('#multi-mcc-dg');
+			$('td.datagrid-cell[field=mcc] input', dg).validatebox({
+				novalidate: true,
+			    required: true,    
+			    validType: 'fixLength[4]'
+			});
+			$('td.datagrid-cell[field=start_amount] input', dg).validatebox({
+				novalidate: true,
+			    required: true,    
+			    validType: 'number'
+			});
+		}
+		function onEditMccRuleOk() {
+			var dg = $('#multi-mcc-dg');
+			if(dg.form('enableValidation').form('validate') != true) {
+				return false;
+			}
+			var rows = dg.datagrid('acceptChanges').datagrid('getRows');
+			var i;
+			var multiMcc = [];
+			for(i = 0; i < rows.length; i++) {
+				var row = rows[i];
+				multiMcc.push(row.mcc+','+row.start_amount+','+row.end_amount);
+			}
+			$('#multi_mcc').val(multiMcc.join(';'));
+			$('#multi-mcc-dlg').dialog('close');
+		}
+		function onEditMccRuleCancel() {
+			$('#multi-mcc-dlg').dialog('close');
+		}
+		function formatProdchk(value, row, index) {
+			if(value == '1') {
+				return '<input type="checkbox" field="prodchk" data-options="on:\'1\',off:\'0\'" checked/>';
+			}
+			return '<input type="checkbox" field="prodchk" data-options="on:\'1\',off:\'0\'"/>';
+		}
+		function formatProdcd(value, row, index) {
+			return xTool.formatField(xConfig['prodcd'], value);
+		}
+		function formatRate(value, row, index) {
+			var s = '<span><input type="text" class="text" field="rate" style="width: 100px;" value="'+row['rate']+'">';
+			s += '&nbsp;<select field="ratetype">';
+			s += formatOption([{
+				'value': '02',
+				'text': '‰'
+			},{
+				'value': '01',
+				'text': '元'
+			}], row['ratetype']);
+			s += '</select>';
+			//s += '&nbsp;&nbsp;保底：<input type="text" field="lowlimit" style="width: 50px;" value="'+row['lowlimit']+'"/>(元)';
+			s += '&nbsp;&nbsp;封顶：<input type="text" field="toplimit" style="width: 50px;" value="'+row['toplimit']+'"/>(元)';
+			s += '&nbsp;&nbsp;收费周期：<select field="feecyle">';
+			s += formatOption([{
+				'value': '1',
+				'text': '日结'
+			},{
+				'value': '2',
+				'text': '月结'
+			}], row['ratetype']);
+			s += '</select>';
+			function formatOption(data, value) {
+				var i, v, s, item, dd = [];
+				for (i = 0; i < data.length; i++) {
+				    item = data[i];
+				    v = item['value'];
+				    s = item['text'];
+				    dd.push('<option value="' + v + '"');
+				    if(value == v) {
+				    	dd.push(' selected');
+				    }
+				    dd.push('>');
+				    dd.push(s);
+				    dd.push('</option>');
+				}
+				return dd.join('');
+			}
+			return s;
+		}
+		function onLoadProductSuccess() {
+			var dg = $('#product-dg');
+			if(!$('#detail-fm').hasClass('add-form') &&
+				!$('#detail-fm').hasClass('edit-form')) {
+				$('input[type!=checkbox]', dg).attr('readonly', 'readonly');
+				$('input[type=checkbox],select', dg).attr('disabled', 'disabled');
+			}
+        }
+        
+		function initCombobox() {
+            xTool.send('/action/ms/parameter/list', {
+            	ec_id: '1',
+                e_id: '1',
+                account_bank: '1',
+                lq_rule: '1',
+                fee_algo: '1',
+                acq_inst_id: '1',
+                mcc: '1'
+            }, function (data) {
+                if (data.code == 0) {
+                	$('#ec_id').combobox('loadData', data.ec_id);
+                    $('#e_id').combobox('loadData', data.e_id);
+                    $('#account_bank').combobox('loadData', data.account_bank);
+                    $('#lq_rule').combobox('loadData', data.lq_rule);
+                    $('#fee_rule1').combobox('loadData', data.fee_algo);
+                    $('#fee_rule2').combobox('loadData', data.fee_algo);
+                    $('#acq_inst_id').combobox('loadData', data.acq_inst_id);
+                    $('#mcc').combobox('loadData', data.mcc);
+                    $('#mcc18').combobox('loadData', data.mcc);
+                    
+                    //更新数据
+                    xConfig['ec_id'] = data.ec_id;
+                    xConfig['e_id'] = data.e_id;
+                    xConfig['account_bank'] = data.account_bank;
+                    xConfig['lq_rule'] = data.lq_rule;
+                    xConfig['fee_algo'] = data.fee_algo;
+                    xConfig['acq_inst_id'] = data.acq_inst_id;
+                    xConfig['mcc'] = data.mcc;
+                
+                	//加载详情  
+                	if($.inArray(g_query.displayType, ['search', 'update', 'abarbeitung', 'check1', 'check2']) >= 0) {  
+	                    loadDetail($('#detail-fm')[0], {
+							rec_id: g_query.rec_id
+						});	
+					}
+                }
+            });
+        }
+        
+        function loadDetail(target, params) {
+	        var f = $(target).form('clear').removeClass('form-loaded');
+	        var opts = $.parser.parseOptions(target, ['action']);
+	
+	        xTool.send(opts.action, params, function (data) {
+	            if (data.code == 0) {
+	                if (opts.onLoad) {
+	                    opts.onLoad.call(target, data);
+	                }
+	                
+	                f.form('load', data.data).addClass('form-loaded');
+	            }
+	        });
+	    }
+		
+		var g_query;
+		var g_abarb_flag = '0';
+		var g_load_bank_subbranch = null;
+		$(function() {
+			initCombobox();
+			
+			var fm = $('#detail-fm');
+			//当前模式
+			g_query  = xTool.parseQueryString();
+			
+			fm.find('div.accordion-header:contains(系统使用)').closest('div.accordion-panel').show();
+			if(g_query.displayType == 'search') {
+				xTool.displayType(['search','view','modify-info']);
+				xTool.transformStatus(fm[0], 'view');
+			} else if(g_query.displayType == 'update') {
+				xTool.displayType(['search','view','modify-info','create','update']);
+				xTool.transformStatus(fm[0], 'edit');
+				fm.find('div.accordion-header:contains(系统使用)').closest('div.accordion-panel').hide();
+			} else if(g_query.displayType == 'abarbeitung') {
+				g_abarb_flag = '1';
+				xTool.displayType(['search','view','modify-info','create','update']);
+				xTool.transformStatus(fm[0], 'edit');
+			} else if(g_query.displayType == 'check1') {
+				xTool.displayType(['search','view','modify-info','check1-pass','batch-check1-pass', 'batch-check1-nopass']);
+				xTool.transformStatus(fm[0], 'check1');
+			} else if(g_query.displayType == 'check2') {
+				xTool.displayType(['search','view','modify-info','check2-pass','batch-check2-pass', 'batch-check2-nopass']);
+				xTool.transformStatus(fm[0], 'check2');
+			}
+			
+			formDefaults.mcht_id = g_query.mcht_id;
+			
+			xTool.send('/action/ms/mchnt-base-info/view', {
+                mcht_id: g_query.mcht_id
+            }, function (data) {
+                if (data.code == 0) {
+                	formDefaults.marchant_name = data.data.mcht_name;
+                  	formDefaults.account_province = data.data.province;
+	            	formDefaults.account_city = data.data.city;
+	            	formDefaults.e_id = data.data.e_id;
+	            	formDefaults.ec_id = data.data.ec_id;
+	            	formDefaults.ec_branch_name = data.data.ec_branch_name;
+	            	formDefaults.ec_branch_telno = data.data.ec_branch_telno;
+	            	
+	            	formDefaults.province = data.data.province;
+	            	formDefaults.city = data.data.city;
+                }
+            });
+            
+            $('#account_no').keyup(function(e){
+               var v = $(this).val();
+               $('#account_no2').text(formatAccountNo(v));
+            });
+            
+            $('#account_no,#account_no2').bind("paste",function(e){
+               return false;
+            })
+            
+            $('#mchnt_cd').keyup(function() {
+            	var mchnt_cd = $(this).val();
+            	if(mchnt_cd.length == 11) {
+            		var data = $('#detail-fm').serializeObject();
+            		xTool.send('/action/ms/mchnt-busi/generate-mchnt-cd', data, function (data) {
+		                if (data.code == 0) {
+		                    $('#mchnt_cd').val(data.data.mchnt_cd);
+		                }
+		        	});
+		        	
+		        	var mcc = mchnt_cd.substr(7, 4);
+		        	$('#detail-fm').form('load',{
+		        		mcc: mcc,
+		        		mcc18: mcc
+		        	});
+            	}
+            });
+		});
+    </script>
+
+
+</body></html>

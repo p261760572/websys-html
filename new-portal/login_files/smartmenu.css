@@ -1,0 +1,63 @@
+.smartmenu {
+	PADDING-BOTTOM: 0px; LINE-HEIGHT: 30px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; BACKGROUND: url(../../merimages/bg.jpg); HEIGHT: 41px; OVERFLOW: hidden; PADDING-TOP: 0px
+}
+.smartmenufloaty {
+	PADDING-BOTTOM: 0px; LINE-HEIGHT: 20px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; BACKGROUND: url(../../merimages/bg.jpg); HEIGHT: 20px; OVERFLOW: hidden; PADDING-TOP: 0px
+}
+.smartmenuie6 {
+	HEIGHT: 41px
+}
+.smartmenu A {
+	PADDING-BOTTOM: 0px; PADDING-LEFT: 10px; PADDING-RIGHT: 10px; COLOR: #fff; FONT-SIZE: 14px; FONT-WEIGHT: bold; BORDER-RIGHT: #fff 1px dotted; TEXT-DECORATION: none; PADDING-TOP: 0px
+}
+.smartmenufloaty A {
+	PADDING-BOTTOM: 0px; PADDING-LEFT: 10px; PADDING-RIGHT: 10px; COLOR: #fff; FONT-SIZE: 14px; FONT-WEIGHT: bold; BORDER-RIGHT: #fff 1px dotted; TEXT-DECORATION: none; PADDING-TOP: 0px
+}
+.smartmenu A {
+	PADDING-BOTTOM: 0px; PADDING-LEFT: 5px; PADDING-RIGHT: 5px; PADDING-TOP: 0px
+}
+.smartmenu A:hover {
+	COLOR: #11426f
+}
+.smartmenu UL {
+	PADDING-BOTTOM: 0px; LIST-STYLE-TYPE: none; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; LIST-STYLE-IMAGE: none; PADDING-TOP: 0px
+}
+.smartmenufloaty UL {
+	PADDING-BOTTOM: 0px; LIST-STYLE-TYPE: none; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; LIST-STYLE-IMAGE: none; PADDING-TOP: 0px
+}
+.smartmenu UL LI {
+	PADDING-BOTTOM: 5px; PADDING-LEFT: 10px; PADDING-RIGHT: 10px; FLOAT: left; PADDING-TOP: 5px
+}
+.smartmenufloaty LI {
+	PADDING-BOTTOM: 5px; PADDING-LEFT: 10px; PADDING-RIGHT: 10px; FLOAT: left; PADDING-TOP: 5px
+}
+.smartmenu LI UL {
+	DISPLAY: none
+}
+.smartmenufloaty {
+	BORDER-BOTTOM: medium none; POSITION: absolute; BORDER-LEFT: medium none; WIDTH: auto; BACKGROUND: none transparent scroll repeat 0% 0%; HEIGHT: auto; BORDER-TOP: medium none; TOP: 0px; BORDER-RIGHT: medium none; LEFT: 0px
+}
+.smartmenufloaty .tip {
+	MARGIN: 0px; WIDTH: 14px; DISPLAY: block; BACKGROUND: url(../../merimages/floatytip.png) no-repeat; HEIGHT: 0px; FONT-SIZE: 0px; OVERFLOW: hidden
+}
+.smartmenufloaty .tipIE6 {
+	BACKGROUND: url(../../merimages/floatytip.gif)
+}
+.smartmenufloaty .padder {
+	PADDING-BOTTOM: 0px; PADDING-LEFT: 8px; PADDING-RIGHT: 8px; BACKGROUND: url(../../merimages/floatybg.png); PADDING-TOP: 0px
+}
+.smartmenufloaty .padderIE6 {
+	BACKGROUND: url(../../merimages/floatybg.gif)
+}
+.smartmenufloaty LI {
+	BORDER-BOTTOM: #fff 1px dotted; PADDING-BOTTOM: 5px; PADDING-LEFT: 8px; PADDING-RIGHT: 8px; FLOAT: none; PADDING-TOP: 5px
+}
+.smartmenufloaty LI.last {
+	BORDER-BOTTOM: medium none; BORDER-LEFT: medium none; BORDER-TOP: medium none; BORDER-RIGHT: medium none
+}
+.smartmenufloaty A {
+	BORDER-BOTTOM: medium none; BORDER-LEFT: medium none; PADDING-BOTTOM: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; COLOR: #fff; FONT-SIZE: 12px; BORDER-TOP: medium none; BORDER-RIGHT: medium none; PADDING-TOP: 0px
+}
+.smartmenufloaty A:hover {
+	COLOR: #ccc
+}

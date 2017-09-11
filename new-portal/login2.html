@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>登录系统</title>
+    <link rel="stylesheet" type="text/css" href="js/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="js/themes/icon.css">
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/md5.min.js"></script>
+    <script type="text/javascript" src="js/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="js/jquery.xtool.js"></script>
+</head>
+
+<body style="text-align:center;">
+    <div style="margin:120px;"></div>
+    <div style="margin:0 auto; width:400px;">
+        <div class="easyui-panel" title="登录系统" style="width:400px; padding:30px 60px 20px 60px; position: relative;">
+            <form id="login-fm" method="post" action="#">
+                <div style="margin-bottom:10px;">
+                    <input id="login-name" name="login_name" class="easyui-textbox" style="width:100%;height:40px;" data-options="iconAlign:'left',iconCls:'icon-man',iconWidth:38,required:true,novalidate:true">
+                </div>
+                <div style="margin-bottom:20px;">
+                    <input id="login-pwd" name="login_pwd" class="easyui-textbox" type="password" style="width:100%;height:40px;" data-options="iconAlign:'left',iconCls:'icon-lock',iconWidth:38,required:true,novalidate:true">
+                </div>
+                <div style="margin-bottom:20px; vertical-align:middle;">
+                    <input id="captcha" name="captcha" class="easyui-textbox" style="width:100px;height:40px;padding:12px" data-options="required:true,novalidate:true">
+                	<img src="/action/user/captcha" onclick="onClickCaptcha(this)" style="padding-left:20px; width:100px; height:35px; vertical-align:middle;"></img>
+                </div>
+            </form>
+            <div>
+                <a id="login-btn" href="javascript:void(0)" tabindex="4" class="easyui-linkbutton" data-options="iconCls:'icon-ok',onClick:onLogin" style="padding:5px 0px;width:260px;"> <span style="font-size:14px;">登录</span> 
+                </a>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(function () {
+            $('#login-name').textbox('textbox').attr('tabindex', '1');
+            $('#login-pwd').textbox('textbox').attr('tabindex', '2');
+            $('#captcha').textbox('textbox').attr('tabindex', '3');
+            $('#login-name').textbox('textbox').focus();
+
+            $(document).keydown(function (event) {
+                if (event.keyCode == 13) {
+                    var jq = $('#login-fm').find(':focus');
+                    if(jq.length > 0) {
+                        $('#login-name').textbox('setValue',$('#login-name').textbox('getText'));
+                        $('#login-pwd').textbox('setValue',$('#login-pwd').textbox('getText'));
+                        $('#login-btn').click();
+                    }
+                }
+            });
+        });
+
+        function onLogin() {
+            var fm = $('#login-fm');
+            var isValid = $(fm).form('enableValidation').form('validate');
+            
+            var data = fm.serializeObject();
+            
+            if (!isValid) {
+                return;
+            }
+            
+            data.login_pwd = md5(md5(data.login_name+data.login_pwd) + data.captcha);
+                      
+            /*submit*/
+            $('#login-btn').linkbutton({text:'登录中...'}).linkbutton('disable');
+            xTool.send('/action/user/login', data, function (data) {
+                if (data.code == 0) {
+                    window.top.location.href = "pages/index.html";
+                } else {
+                	$('#login-btn').linkbutton({text:'登录'}).linkbutton('enable');
+                	$(fm).form('disableValidation')
+            	}
+            });
+        }
+        
+        function onClickCaptcha(target) {
+        	$(target).attr('src', '/action/user/captcha?' + Math.random()*1000000);
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,194 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>机构</title>
+    <link rel="stylesheet" type="text/css" href="../../js/themes/default/easyui.css" />
+    <link rel="stylesheet" type="text/css" href="../../js/themes/icon.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/tool.css" />
+    <script type="text/javascript" src="../../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../../js/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../../js/jquery.xtool.js"></script>
+</head>
+
+<body>
+    <div style="width:500px;">
+        <div id="search-dg-tb">
+            <a href="javascript:void(0)" class="easyui-linkbutton action" onClick="onAdd(this)" data-options="plain:true,iconCls:'icon-add',form:'#detail-fm',url:'/action/admin/inst-info/create',onSuccess:onAddSuccess">新增子机构</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton action" onClick="onView(this)" data-options="plain:true,iconCls:'icon-view',tree:'#tt',form:'#detail-fm',url:'/action/admin/inst-info/view'">查看详情</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton action" onClick="onEdit(this)" data-options="plain:true,iconCls:'icon-edit',tree:'#tt',form:'#detail-fm',url:'/action/admin/inst-info/update'">编辑</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton action" onClick="xTool.deleteNodeSubmit(this)" data-options="plain:true,iconCls:'icon-remove',tree:'#tt',url:'/action/admin/inst-info/delete'">删除</a>
+        </div>
+		<div style="height:1px;">&nbsp;</div>
+        <ul id="tt" data-options="idField:'inst_id'"></ul>
+    </div>
+
+	<div id="detail-dlg" class="easyui-dialog" title="机构" data-options="modal:true,closed:true" style="width:800px;  padding:5px;">
+        <form id="detail-fm" class="form view" action="/action/admin/inst-info/view" method="post">
+            <table class="table" style="width:750px;">
+                <tbody>
+                    <tr>
+                        <td class="right td15">
+                            <label>机构ID：</label>
+                        </td>
+                        <td class="td35">
+                            <input type="text" name="inst_id" class="edit">
+                        </td>
+                        <td class="td20 right">
+                            <label>父机构ID：</label>
+                        </td>
+                        <td class="td30">
+                            <input type="text" id="inst-pid" name="inst_pid" class="add edit">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="right td15">
+                            <label>机构名称：</label>
+                        </td>
+                        <td class="td35">
+                            <input type="text" name="inst_name" class="easyui-validatebox" data-options="required:true"><label class="required">*</label>
+                        </td>
+                        <td class="right td15"><label>属性1(渠道方)：</label></td>
+                        <td class="td35"><input type="text" id="attr1" name="attr1" class="easyui-combobox" data-options=""></td>
+                    </tr>
+                    <tr>
+                      <td class="right td15"><label>属性2：</label></td>
+                      <td class="td35"><input type="text" name="attr2" class="easyui-validatebox" data-options=""></td>
+                      <td class="right td15"><label>属性3：</label></td>
+                      <td class="td35"><input type="text" name="attr3" class="easyui-validatebox" data-options=""></td>
+                    </tr>
+                    <tr>
+                      <td class="right td15"><label>属性4(终端投资方)：</label></td>
+                      <td class="td35"><input type="text" id="attr4" name="attr4" class="easyui-combobox" data-options=""></td>
+                      <td class="right td15"><label>属性5：</label></td>
+                      <td class="td35"><input type="text" name="attr5" class="easyui-validatebox" data-options=""></td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="4">
+                            <div style="margin:5px;"></div>
+                            <a href="#" class="easyui-linkbutton button add" data-options="iconCls:'icon-ok',url:'/action/admin/inst-info/create',onSuccess:onAddSubmit" style="padding:0 5px;" onclick="xTool.addSubmit(this)">新增提交</a>
+                            <a href="#" class="easyui-linkbutton button edit" data-options="iconCls:'icon-ok',url:'/action/admin/inst-info/update',onSuccess:onEditSubmit" style="padding:0 5px;" onclick="xTool.editSubmit(this)">编辑提交</a>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </form>
+    </div>
+    <script>
+        var formDefaults = {
+            display: "1"
+        };
+
+        $(function () {
+            initTree();
+        });
+
+        function initTree() {
+            xTool.send('/action/admin/inst-info/list', {}, function (data) {
+                if (data.code == 0) {
+                    $('#tt').tree({
+                        dnd: true,
+                        data: xTool.genEasyuiTreeData(data.rows,{
+                        	id: 'inst_id',
+                        	pid: 'inst_pid',
+                        	text: 'inst_name'
+                        }),
+                        onDrop: onDropInst
+                    });
+                }
+            });
+        }
+
+		function onAdd(target) {
+            var node = $('#tt').tree('getSelected');
+            if (node) {         
+				$('#detail-dlg').dialog('open');  
+				xTool.add(target);   				
+				$('#inst-pid').val(node.id);
+            } else {
+				xTool.showInfo('没有选择结点');
+                return false;
+            }
+        }
+        
+        function onAddSuccess(clear) {
+            var node = $('#tt').tree('getSelected');
+            if (node) {         				
+				$('#inst-pid').val(node.id);
+            }
+        }
+
+		function onView(target) {
+			if(xTool.viewNode(target) != false) {
+				$('#detail-dlg').dialog('open');
+			}            
+		}
+		
+		function onEdit(target) {
+			if(xTool.editNode(target) != false) {
+				$('#detail-dlg').dialog('open');
+			}            
+		}
+
+        function onAddSubmit(request, response) {
+            var selected = $('#tt').tree('getSelected');
+            $('#tt').tree('append', {
+                parent: selected ? selected.target : null,
+                data: [{
+                    id: request.inst_id,
+                    text: request.inst_name
+                }]
+            });
+            $('#detail-dlg').dialog('close');
+        }
+
+        function onEditSubmit(request, response) {
+            var selected = $('#tt').tree('getSelected');
+            if (selected) {
+                $('#tt').tree('update', {
+                    target: selected.target,
+                    text: request.inst_name
+                });
+            }
+            $('#detail-dlg').dialog('close');
+        }
+
+        function onDropInst(target, source, point) {
+            var targetNode = $('#tt').tree('getNode', target);
+            var sendData = {};
+            sendData.inst_id = source.id;
+            sendData.inst_pid = targetNode.id;
+            sendData.type = point;
+
+            xTool.send('/action/admin/inst-info/drop', sendData, function (data) {
+                if (data.code == 0) {
+                    //nothing
+                } else {
+                    initTree();
+                }
+            });
+        }
+        
+        
+        function initCombobox() {
+            xTool.send('/action/admin/parameter/list', {
+                ec_id: '1',
+                term_inves: '1'
+            }, function (data) {
+                if (data.code == 0) {
+                    $('#attr1').combobox('loadData', data.ec_id);                    
+                    $('#attr4').combobox('loadData', data.term_inves);                    
+                }
+            });
+        }
+        
+        $(function(){
+        	initCombobox();
+        });
+    </script>
+</body>
+
+</html>

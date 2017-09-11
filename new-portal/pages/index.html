@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta name="renderer" content="webkit" />
+    <title>参数管理系统</title>
+    <link rel="stylesheet" type="text/css" href="../js/themes/default/easyui.css" />
+    <link rel="stylesheet" type="text/css" href="../js/themes/icon.css" />
+    <link rel="stylesheet" type="text/css" href="../css/tool.css" />
+    <style>
+        .tree-node {
+            height: 22px;
+        }
+        .tree-title {
+            font-size: 16px;
+            height: 22px;
+            line-height: 22px;
+        }
+        .tab-body-overflow {
+            overflow: hidden;
+        }
+    </style>
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/md5.min.js"></script>
+    <script type="text/javascript" src="../js/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../js/des.min.js"></script>
+    <script type="text/javascript" src="../js/jquery.xtool.js"></script>
+</head>
+
+<body class="easyui-layout">
+    <div data-options="region:'north',border:false,noheader:true" style="height:40px;background:#CDE3F0; padding:8px 20px 8px 0px;">
+        <div style="float:right;">
+            <a id="login-name-ln" href="javascript:void(0)" style="font-size:18px;">用户名</a>  <span style="margin:5px;"></span>  <a href="javascript:void(0)" style="font-size:18px;" onclick="onChangePasswd()">修改密码</a>  <span style="margin:5px;"></span>
+            <a href="javascript:void(0)" style="font-size:18px;" onclick="onLogout()">退出</a>
+        </div>
+    </div>
+    <div data-options="region:'west',split:true,collapsible:false,title:'导航菜单'" style="width:200px;">
+        <div style="margin:5px;"></div>
+        <ul id="tt" class="easyui-tree" data-options="onClick:onClickNode">
+        </ul>
+    </div>
+    <div data-options="region:'south',border:false,noheader:true" style="height:25px;background:#CDE3F0;padding:10px;"></div>
+    <div data-options="region:'center'">
+        <div id="main-tabs" class="easyui-tabs" data-options="fit:true,border:false" style="overflow:hidden;">
+            <div title="公告" style="padding:20px; font-size:14px; line-height:20px;"></div>
+        </div>
+
+    </div>
+    <div id="dd" class="easyui-dialog" title="修改密码" style="width:400px;height:260px;" data-options="closed:true,modal:true">
+        <form id="passwd-fm" class="form" style="margin:10px;" method="post" action="#">
+
+            <table class="table" style="width:360px;">
+                <tr>
+                    <td class="td30 right">
+                        <label>原密码:</label>
+                    </td>
+                    <td>
+                        <input name="login_pwd" class="easyui-textbox" type="password" style="width:200px;height:30px;padding:5px" data-options="required:true">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td30 right">
+                        <label>新密码:</label>
+                    </td>
+                    <td>
+                        <input name="new_login_pwd" class="easyui-textbox" type="password" style="width:200px;height:30px;padding:5px" data-options="required:true,validType:['minLength[8]','password']">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td30 right">
+                        <label>确认密码:</label>
+                    </td>
+                    <td>
+                        <input name="new_login_pwd2" class="easyui-textbox" type="password" style="width:200px;height:30px;padding:5px" data-options="required:true">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td30 right">
+                        <label>验证码:</label>
+                    </td>
+                    <td>
+                        <input name="captcha" class="easyui-textbox" style="width:100px;height:30px;padding:5px" data-options="required:true" />
+                        <img id="captcha-img" src="javascript:void(0)" onclick="onClickCaptcha(this)" style="width:100px; height:35px; vertical-align:middle;" />
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="center"><a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-ok',onClick:onChangePasswdSubmit" style="padding:0 5px;">确认</a>
+                    </td>
+                </tr>
+            </table>
+
+
+        </form>
+
+    </div>
+    <script>
+    	var g_login_name;
+        $(function () {
+            $('#main-iframe').load(function (e) {
+                //$('#main').mask('hide');
+            });
+
+            xTool.send('/action/user/view', {}, function (data) {
+                if (data.code == 0) {
+                    $('#login-name-ln').html(data.data.login_name);
+                    g_login_name = data.data.login_name;
+                }
+            });
+
+            xTool.send('/action/user/menu', {},
+                function (data) {
+                    if (data.code == 0) {
+                        var treeData = xTool.genEasyuiTreeData(data.rows, {
+                            id: 'menu_id',
+                            pid: 'menu_pid',
+                            text: 'menu_name',
+                            icon: 'icon',
+                            attributes: ['url']
+                        });
+                        $('#tt').tree({
+                            data: treeData,
+                            formatter: function (node) {
+                                if (node.attributes && node.attributes.url) {
+                                    return '<a href="' + node.attributes.url + '" style="text-decoration: none; color:#000;" onclick="return false;">' + node.text + '</a>';;
+                                }
+                                return node.text;
+                            }
+                        });
+                    }
+                });
+        });
+
+        function onClickNode(node) {
+            if ($(this).tree('isLeaf', node.target)) {
+                var url = $('#main-iframe').attr('src');
+                //if (url != node.attributes.url) {
+                $('#main-iframe').attr('src', node.attributes.url);
+                //}
+                addTab(node.text, node.attributes.url, node.iconCls)
+            } else {
+                $(this).tree('toggle', node.target);
+            }
+        }
+
+        function onReloadConfig() {
+            xTool.send('/action/admin/reload', {}, function () {
+                showInfo("重新加载配置成功");
+            });
+        }
+
+        function onLogout() {
+            xTool.send('/action/user/logout', {}, function () {
+                window.top.location.href = '/';
+            });
+        }
+
+        function onChangePasswd() {
+            $('#passwd-fm').form('clear').find('.validatebox-text').validatebox('disableValidation').bind('blur', function(){
+				$(this).validatebox('enableValidation').validatebox('validate');
+			});
+            $('#dd').dialog('center').dialog('open');
+            $('#captcha-img').click();
+        }
+
+        function onChangePasswdSubmit() {
+        	var f = $('#passwd-fm');
+        	var data = f.serializeObject();
+        	
+        	if (f.form('enableValidation').form('validate') != true) {
+	            return false;
+	        }
+
+            if (data.new_login_pwd != data.new_login_pwd2) {
+                xTool.showError('两次输入的密码不一致');
+                return false;
+            }
+            
+            delete data.new_login_pwd2;
+            
+            //data.login_pwd = md5(md5(g_login_name+data.login_pwd) + data.captcha);
+            data.login_pwd = md5(g_login_name+data.login_pwd);
+            data.new_login_pwd = md5(g_login_name+data.new_login_pwd);
+            
+            data.new_login_pwd = des_ecb_encrypt(data.login_pwd, data.new_login_pwd)
+            
+            
+			data.login_pwd = md5(data.login_pwd + data.captcha);
+			
+			data.version = '20160111';
+			
+            xTool.send('/action/user/change-passwd', data, function (data) {
+                if (data.code == 0) {
+                    xTool.showInfo('密码修改成功')
+                    $('#dd').dialog('close');
+                }
+            });
+        }
+
+        function addTab(title, url, icon) {
+            if (!$('#main-tabs').tabs('exists', title)) {
+                $('#main-tabs')
+                    .tabs(
+                        'add', {
+                            title: title,
+                            content: '<iframe  src="' + url + '" frameborder="0" style="width:100%; height:100%; border: 0; overflow: hidden;"></iframe>',
+                            closable: true,
+                            icon: icon,
+                            bodyCls: 'tab-body-overflow'
+                        });
+            } else {
+                $('#main-tabs').tabs('select', title);
+            }
+
+            $('#main-tabs').find('.tabs-inner').unbind('.main-tabs').bind(
+                'dblclick.main-tabs',
+                function () {
+                    var title = $(this).find('.tabs-title.tabs-closable')
+                        .text();
+                    if (title) {
+                        $('#main-tabs').tabs('close', title);
+                    }
+                });
+        }
+        
+        function onClickCaptcha(target) {
+        	$(target).attr('src', '/action/user/captcha?' + Math.random()*1000000);
+        }
+        
+        
+        function des_ecb_encrypt(key, val) {
+        	var ev, i;
+                          
+             ev = '';
+             for(i = 0; i < 32; i +=8) {
+	         	ev += des(key.substr(i, 8), val.substr(i,8), 1);
+	         }
+			 return stringToHex(ev).substr(2);
+        }
+    </script>
+</body>
+
+</html>

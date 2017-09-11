@@ -1,0 +1,205 @@
+/* CSS Document */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 12px;
+}
+
+.table {
+	border-collapse: collapse;
+	font-size: 13px;
+	table-layout:fixed;
+}
+.table>caption {
+	background-color: #E2EEFA;
+	text-align: left;
+	font-weight: bold;
+	color: #0E2D5F;
+	border-color: #95B8E7;
+	border-width: 1px 1px 0px 1px;
+	border-style: solid;
+	line-height: 25px;
+	height: 25px;
+	padding-left: 5px;
+}
+.table thead th {
+	border: 1px solid #95B8E7;
+	background-color: #E0ECFF;
+	margin: 0;
+	padding-top: 4px;
+	padding-bottom: 4px;
+}
+.table tbody td {
+	border: 1px solid #95B8E7;
+	background-color: #E0ECFF;
+	margin: 0;
+	padding-top: 4px;
+	padding-bottom: 4px;
+}
+.table tfoot td {
+	text-align: center;
+}
+.table-no-top-border tbody:first-child td{
+	border-top-width: 0;
+}
+input[disabled], select[disabled], textarea[disabled], input[readonly], select[readonly], textarea[readonly] {
+	/*cursor: not-allowed;*/
+	background-color: #eeeeee;
+}
+input[type="radio"][disabled], input[type="checkbox"][disabled], input[type="radio"][readonly], input[type="checkbox"][readonly] {
+	background-color: transparent;
+}
+/*easyui*/
+form.add-form .clear-readonly input[readonly] {
+	background-color: #ffffff;
+}
+form.edit-form .clear-readonly input[readonly] {
+	background-color: #ffffff;
+}
+form.search-form input[readonly] {
+	background-color: #ffffff;
+}
+form {
+	margin: 0;
+	padding: 0;
+}
+span.required,label.required {
+	color: red;
+}
+span.optional,label.optional {
+	color: blue;
+}
+form.view-form label.required {
+	display: none;
+}
+form.edit-form label.required.edit-v {
+	display: none;
+}
+.td10 {
+	width: 10%;
+}
+.td15 {
+	width: 15%;
+}
+.td20 {
+	width: 20%;
+}
+.td30 {
+	width: 30%;
+}
+.td35 {
+	width: 35%;
+}
+.td40 {
+	width: 40%;
+}
+.td50 {
+	width: 50%;
+}
+.td60 {
+	width: 60%;
+}
+.td70 {
+	width: 70%;
+}
+.td80 {
+	width: 80%;
+}
+.td85 {
+	width: 85%;
+}
+.td90 {
+	width: 90%;
+}
+
+.left {
+	text-align: left;
+}
+
+.right {
+	text-align: right;
+}
+
+.center {
+	text-align: center;
+}
+
+.ft_right {
+    float: right;
+}
+
+.clearfix:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+
+.clearfix {
+    *+height: 1%;
+}
+
+/*icon*/
+.icon-sys {
+	background: url('icons/admin.gif') no-repeat center center;
+}
+.icon-user {
+	background: url('icons/user.gif') no-repeat center center;
+}
+.icon-users {
+	background: url('icons/users.gif') no-repeat center center;
+}
+.icon-group {
+	background: url('icons/group.gif') no-repeat center center;
+}
+.icon-view {
+	background: url('icons/view.gif') no-repeat center center;
+}
+.icon-left {
+	background: url('icons/left.gif') no-repeat center center;
+}
+.icon-right {
+	background: url('icons/right.gif') no-repeat center center;
+}
+.icon-return {
+	background: url('icons/return.gif') no-repeat center center;
+}
+.icon-rule {
+	background: url('icons/rule.gif') no-repeat center center;
+}
+.icon-rules {
+	background: url('icons/rules.gif') no-repeat center center;
+}
+.icon-sql {
+	background: url('icons/sql.gif') no-repeat center center;
+}
+.icon-application {
+	background: url('icons/application.gif') no-repeat center center;
+}
+.icon-add2 {
+	background: url('icons/add.png') no-repeat center center;
+}
+.icon-remove2 {
+	background: url('icons/remove.png') no-repeat center center;
+}
+.icon-check1 {
+	background: url('icons/view.gif') no-repeat center center;
+}
+.icon-check2 {
+	background: url('icons/view.gif') no-repeat center center;
+}
+.icon-history {
+	background: url('icons/history.gif') no-repeat center center;
+}
+.icon-import {
+	background: url('icons/import.png') no-repeat center center;
+}
+.icon-export {
+	background: url('icons/export.png') no-repeat center center;
+}
+.icon-upload {
+	background: url('icons/upload.png') no-repeat center center;
+}

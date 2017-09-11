@@ -1,0 +1,327 @@
+<!doctype html>
+<html><head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="renderer" content="webkit">
+    <title>快速调试</title>
+    <link rel="stylesheet" type="text/css" href="../../js/themes/default/xui.css">
+    <link rel="stylesheet" type="text/css" href="../../js/themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="../../css/tool.css">
+    <script type="text/javascript" src="../../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../../js/jquery.xui.min.js"></script>
+    <script type="text/javascript" src="../../js/My97DatePicker/WdatePicker.js"></script><link href="../../js/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="../../js/jquery.xconfig.js"></script>
+    <script type="text/javascript" src="../../js/jquery.tool.js"></script>
+</head>
+
+<body class="search-body">
+    <div class="search-div">
+        <div>
+            <form id="search-fm" class="form search-form" action="/action/ms/workorder/search" method="post" data-options="onSerialize:serializeSearchForm">
+                <table class="table" style="width:950px;">
+                  <caption>查询工作单</caption>
+                  <tbody><tr>
+                    <td class="right td20"><label>工作单号：</label></td>
+                    <td class="td30"><input type="text" name="work_order_no"></td>
+                    <td class="right td20"><label>工作单类型：</label></td>
+                    <td class="td30"><span class="xui-combobox combobox" data-options="required:true,data:xConfig['work_order_type']"><input type="text" class="combobox-text"><input type="hidden" name="work_order_type" class="combobox-value" value="1"><span class="combobox-addon"><i class="combobox-icon combobox-arrow"></i></span></span></td>
+                  </tr>
+                  <tr>
+                    <td class="right td20"><label>商户号：</label></td>
+                    <td class="td30"><input type="text" name="mchnt_cd"></td>
+                    <td class="right td20"><label>终端号：</label></td>
+                    <td class="td30"><input type="text" name="term_id"></td>
+                  </tr>
+                  <tr>
+                    <td class="right td20"><label>工商营业执照名称：</label></td>
+                    <td class="td30"><input type="text" name="mcht_name"></td>
+                    <td class="right td20"><label>派单日期：</label></td>
+                    <td class="td30"><input id="created_time" type="text" class="Wdate" name="created_time" style="width:100px;" onfocus="WdatePicker({onpicked:function(){$dp.$('created_time2').focus();},maxDate:'#F{$dp.$D(\'created_time2\')}'})">
+                      <input id="created_time2" type="text" class="Wdate" name="created_time2" style="width:100px;" onfocus="WdatePicker({minDate:'#F{$dp.$D(\'created_time\')}'})"></td>
+                  </tr>
+                  <tr>
+                    <td class="right td20"><label>执行人：</label></td>
+                    <td class="td30"><span class="xui-combobox combobox combobox-f" id="work_id"><input type="text" class="combobox-text validatebox-text"><input type="hidden" name="work_id" class="combobox-value" value=""><span class="combobox-addon"><i class="combobox-icon combobox-arrow"></i></span></span></td>
+                    <td class="right td20"><label>计划执行日期：</label></td>
+                    <td class="td30"><input type="text" class="Wdate" onfocus="WdatePicker()" name="plan_date" style="width:100px;"></td>
+                  </tr>
+                  <tr>
+                    <td class="right td20"><label>执行日期：</label></td>
+                    <td class="td30"><input type="text" class="Wdate" onfocus="WdatePicker()" name="work_date" style="width:100px;"></td>
+                    <td class="right td20"><label>是否调试通过：</label></td>
+                    <td class="td30"><span class="xui-combobox combobox" data-options="panelHeight:'auto',editable:false,required:true,data:xConfig['debug_flag']"><input type="text" class="combobox-text"><input type="hidden" name="debug_flag" class="combobox-value"><span class="combobox-addon"><i class="combobox-icon combobox-arrow"></i></span></span></td>
+                  </tr>    
+                  <tr>
+	                <td class="right td20"><label>终端标识码：</label></td>
+	                <td class="td30"><input type="text" name="term_no"></td>
+	                <td class="right td20"></td>
+	                <td class="td30"></td>
+	              </tr>                 
+                    </tbody><tfoot>
+                        <tr>
+                            <td colspan="4" class="center">
+                                <div style="margin:5px;"></div>
+                                <a href="javascript:void(0)" id="search-btn" class="xui-linkbutton l-btn" data-options="iconCls:'icon-search',datagrid:'#search-dg',onSuccess:onSearchSuccess" style="padding:0 5px;" onclick="xTool.search(this)"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">查询</span><span class="l-btn-icon icon-search">&nbsp;</span></span></a>
+                                <a href="javascript:void(0)" class="xui-linkbutton l-btn" data-options="iconCls:'icon-clear',datagrid:'#search-dg'" style="padding:0 5px;" onclick="xTool.reset(this)"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">重置</span><span class="l-btn-icon icon-clear">&nbsp;</span></span></a>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </form>
+        </div>
+        <br>        
+        <div class="xui-datagrid datagrid" style="min-width: 800px;" id="search-dg" data-options="[myGridDefaults, {toolbar:null,idField:'rec_id',transition:myDefaultTransition,onClickRow:onClickRow}]"><div class="datagrid-header">工作单列表</div><div class="datagrid-body"><div class="datagrid-view"><table class="datagrid-table" border="0" cellspacing="0" cellpadding="0"><thead><tr class="datagrid-header-row"><th class="datagrid-header-rownumber" data-options="field:'rn',rownumber:true"></th><th data-options="field:'op',width:50,formatter:formatOp">操作</th><th data-options="field:'work_order_no',width:100">工作单号</th><th data-options="field:'work_order_type',width:80,formatter:formatWorkOrderType">工作单类型</th><th data-options="field:'term_no',width:80">终端标识码</th><th data-options="field:'marchant_name'">门店名称</th><th data-options="field:'work_id',width:120,formatter:formatWorkId">执行人</th><th data-options="field:'plan_date',width:100,formatter:formatPlanDate">计划执行日期</th><th data-options="field:'sender_id',width:80">派单人</th><th data-options="field:'sender_date',width:140">派单时间</th><th data-options="field:'tms_captcha',width:140">验证码</th></tr></thead><tbody></tbody></table></div><div class="datagrid-pager"></div></div></div>
+        <br>
+        <div class="xui-datagrid datagrid" style="min-width: 800px;" id="busi-binding-dg" data-options="pagination:false,fitColumns:true"><div class="datagrid-header">终端业务</div><div class="datagrid-body"><div class="datagrid-view"><table class="datagrid-table" border="0" cellspacing="0" cellpadding="0"><thead><tr class="datagrid-header-row"><th class="datagrid-header-rownumber" data-options="field:'rn',rownumber:true"></th><th data-options="field:'apptype',width:60,formatter:formatApptype">业务类型</th>
+        <th data-options="field:'fee_chan',width:60,formatter:formatFeeChan">交易渠道</th>
+        <th data-options="field:'psam_no',width:100">PSAM卡号</th><th data-options="field:'mchnt_cd',width:100,formatter:formatMchntCd">商户号</th><th data-options="field:'term_id',width:60,formatter:formatTermId">终端号</th>
+        	<th data-options="field:'term_secret_enc_key_inf1'">POS密钥</th>
+        	<th data-options="field:'tm_key2'">其他渠道密钥</th>
+        	<th data-options="field:'lc_fee_pre',width:60,formatter:formatLcFeePre">扣率</th><th data-options="field:'e_name',width:60">拓展人</th><th data-options="field:'proc_st',width:60,formatter:formatProcSt">业务状态</th></tr></thead><tbody></tbody></table></div></div></div>
+    </div>
+    <script>
+    	var formDefaults = {
+    		'work_order_type': '1'
+            //'debug_flag': '0'
+        };
+
+
+        var myDefaultTransition = xConfig['status_transition']['D'];
+
+		function serializeSearchForm(data) {
+			data.proc_st = '1';
+			//data.depot_flag = '1';
+        }
+
+        function serializeDetailForm(data) {
+            /*
+                  var i;
+                  var work_flag = [];
+                  for(i = 0; i < 9; i++) {
+                  	work_flag.push($('#work_flag'+i).is( ":checked" ) ? '1' : '0');
+                  }
+                  data.work_flag = work_flag.join('');
+                  */
+        	data.zj_device_no = data.zj_device_no.toUpperCase();
+        	data.jp_device_no = data.jp_device_no.toUpperCase();
+        	data.fj1_device_no = data.fj1_device_no.toUpperCase();
+        }
+
+        function onLoadDetailForm(data) {
+            var i;
+
+            for (i = 0; i < data.data.work_flag.length; i++) {
+                if (data.data.work_flag.charAt(i) == '1') {
+                    $('#work_flag' + i).prop("checked", true);
+                }
+            }
+
+            data.data.plan_date = data.data.plan_date.substr(0, 10);
+            
+        }
+
+        function formatPlanDate(value) {
+            return value.substr(0, 10);
+        }
+
+        function formatWorkFlag(value) {
+            var flag = ['送纸', '调单', '移机', '培训', '其它', '换机'];
+            var work_flag = [],
+                i;
+
+            for (i = 0; i < value.length; i++) {
+                if (value.charAt(i) == '1') {
+                    work_flag.push(flag[i]);
+                }
+            }
+
+            return work_flag.join(',');
+        }
+
+		function formatOperIn(value, rowData, rowIndex) {
+	    	return xTool.formatField(xConfig['oper_in']['D'], value);
+	    }
+
+        function formatProcSt(value, rowData, rowIndex) {
+            return xTool.formatField(xConfig['proc_st']['D'], value);
+        }
+        
+        function onBeforeSign(data) {
+        	var a = $('#detail-fm').find('.accordion');
+        	a.accordion('getPanel','派发').panel('panel').hide();
+        	a.accordion('getPanel','签收').panel('panel').show();
+            a.accordion('getPanel','回访').panel('panel').hide();
+            a.accordion('getPanel','其它信息').panel('panel').hide();
+            
+            a.accordion('select','签收');
+        }
+
+		function onBeforeVisit() {
+			var a = $('#detail-fm').find('.accordion');
+        	a.accordion('getPanel','派发').panel('panel').hide();
+        	a.accordion('getPanel','签收').panel('panel').hide();
+            a.accordion('getPanel','回访').panel('panel').show();
+            a.accordion('getPanel','其它信息').panel('panel').hide();
+            
+            a.accordion('select','回访');
+		}
+		
+		function formatWorkOrderType(value, rowData, rowIndex) {
+            return xTool.formatField(xConfig['work_order_type'], value);
+        }
+        
+        function formatWorkId(value, rowData, rowIndex) {
+            return xTool.formatField(xConfig['work_id'], value) || value;
+        }
+        
+        /*
+        function formatAppSt(value, row, index) {
+            return xTool.formatField(xConfig['oper_in'], row.oper_in) + xTool.formatField(xConfig['proc_st'], row.proc_st);
+        }
+        */
+        
+        function formatProcSt(value, rowData, rowIndex) {
+	    	return xTool.formatField(xConfig['proc_st']['A'], value);
+	    }
+        
+        function formatApptype(value) {
+            return xTool.formatField(xConfig['apptype'], value);
+        }
+        
+        function formatFeeChan(value) {
+            return xTool.formatField(xConfig['fee_chan'], value);
+        }
+        
+        function formatTermKey(value, rowData, rowIndex) {
+        	if($.inArray(rowData.fee_chan,['4','5']) >= 0) {
+        		return rowData.tm_key2;
+        	}
+	    	return rowData.term_secret_enc_key_inf1;
+	    }
+        
+        function formatLcFeePre(value, row, index) {
+        	var s = '';
+        	
+        	if($.inArray(row.fee_chan,['3','4']) >= 0) {
+        		if(row.lc_fee_pre) {
+	            	s += row.lc_fee_pre+'%';
+	            	if(row.lc_fee_top) {
+	            		s += '-' + row.lc_fee_top;
+	            	}
+	        	}
+        	} else if(row.fee_chan != '8') {
+        		s = '借:' + xTool.formatField(xConfig['fee_algo'], row.debit_card_fee, 'fee_algo', 'fee_algo_name');
+        		s += ',贷:' + xTool.formatField(xConfig['fee_algo'], row.credit_card_fee, 'fee_algo', 'fee_algo_name');
+        	}
+        	
+        	return s;
+        }
+        
+        function onClickDebugDeivce(rowIndex) {
+	    	var rows = $('#search-dg').datagrid('getRows');
+	    	var row = rows[rowIndex];
+	        xTool.send('/action/ms/workorder/quick-debug', row, function (data) {
+                if (data.code == 0) {
+                	//alert(1);
+                	xTool.showInfo('操作成功,验证码'+data.data.tms_captcha);
+                	$('#search-dg').datagrid('reload');
+                }
+            });
+	    }
+        
+        function formatOp(value, rowData, rowIndex) {
+	    	var s = '<a href="#" onclick="onClickDebugDeivce('+rowIndex+')">生成验证码</a>';
+	    	
+	    	return s;
+	    }
+	    
+	    function formatMchntCd(value, rowData, rowIndex) {
+	    	if($.inArray(rowData.fee_chan,['4','5']) >= 0) {
+        		return null;
+        	}
+	    	return rowData.mchnt_cd;
+	    }
+	    
+	    function formatTermId(value, rowData, rowIndex) {
+	    	if($.inArray(rowData.fee_chan,['4','5']) >= 0) {
+        		return null;
+        	}
+	    	return rowData.term_id;
+	    }
+        
+        function onClickRow(rowIndex, rowData) {
+            var param = {
+                term_no: rowData.term_no
+            };
+
+            $('#busi-binding-dg').datagrid('clearSelections').datagrid({
+                url: xTool.getUrl('/action/ms/term-info/list-term-busi'),
+                queryParams: param
+            });
+        }
+        
+        function onSelectRow(rowIndex, rowData) {
+            
+        }
+        
+        function onDebugSubmitSuccess() {
+        	$('#return-btn').trigger('click');
+        	g_no_data_found = false;
+        	$('#search-btn').trigger('click');
+        }
+        
+        function onSearchSuccess(data) {
+			if(data.total == 0 && g_no_data_found) {				 
+				xTool.showInfo('没有查到数据');
+			}
+			g_no_data_found = true;
+		}
+        
+        function formatTermInves(value, rowData, rowIndex) {
+            return xTool.formatField(xConfig['term_inves'], value);
+        }
+        
+        function formatDepotId(value, rowData, rowIndex) {
+            return xTool.formatField(xConfig['depot_id'], value, 'depot_id', 'depot_name');
+        }
+        
+        function initCombobox() {
+            xTool.send('/action/ms/parameter/list', {
+                term_inves: '1', 
+                depot_id: '1',
+                work_id: '1',
+                fee_algo: '1'
+            }, function (data) {
+                if (data.code == 0) {
+                    $('#teminal_product').combobox('loadData', data.term_inves);
+                    $('#work_id').combobox('loadData', data.work_id);
+       
+                    //更新数据
+                    xConfig['term_inves'] = data.term_inves;
+                    xConfig['depot_id'] = data.depot_id;
+                    xConfig['work_id'] = data.work_id;
+                    xConfig['fee_algo'] = data.fee_algo;
+                }
+            });
+        }
+        
+        var g_no_data_found = true;
+        $(function() {
+        	initCombobox();
+        	
+        	$('#search-fm').form('load', formDefaults);
+        	
+			setTimeout(function() {
+        		g_no_data_found = false;
+        		$('#search-btn').trigger('click');
+			
+				setInterval(function() {
+					g_no_data_found = false;
+					$('#search-btn').trigger('click');
+				}, 1200000);
+			}, 0);
+        });
+    </script>
+
+
+</body></html>

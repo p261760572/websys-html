@@ -1,0 +1,96 @@
+<!doctype html>
+<html>
+
+<head>
+<meta charset="utf-8">
+<title>POS单影印件</title>
+<link rel="stylesheet" type="text/css" href="../../js/themes/default/xui.css" />
+<link rel="stylesheet" type="text/css" href="../../js/themes/icon.css" />
+<link rel="stylesheet" type="text/css" href="../../css/tool.css" />
+<script type="text/javascript" src="../../js/jquery.min.js"></script>
+<script type="text/javascript" src="../../js/jquery.xui.min.js"></script>
+<script type="text/javascript" src="../../js/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript" src="../../js/jquery.tool-v2.js"></script>
+<script type="text/javascript" src="../../js/jquery.xconfig.js"></script>
+</head>
+
+<body class="search-body">
+	<div class="search-div">
+		<div>
+			<form id="search-fm" class="form search-form" action="/action/ms/pos-order-photo-copy/search" method="post">
+				<table class="table" style="width: 950px;">
+					<caption>查询POS单影印件</caption>
+					<tr>
+			        <td class="right td20"><label>终端标识码：</label></td>
+			        <td class="td30"><input type="text" name="term_no"></td>
+			        <td class="right td20"><label>商户号：</label></td>
+			        <td class="td30"><input type="text" name="mchnt_cd"></td>
+			      </tr><tr>
+			        <td class="right td20"><label>终端号：</label></td>
+			        <td class="td30"><input type="text" name="term_id"></td>
+			        <td class="right td20"><label>交易日期：</label></td>
+			        <td class="td30"><input type="text" name="settle_date" class="xui-datebox" data-options="datePickerOptions:{dateFmt:'yyyyMMdd'}"></td>
+			      </tr>
+					<tr>
+						<td class="right td20">
+							<label>上传日期：</label>
+						</td>
+						<td class="td30">
+							<input id="created_time" type="text" class="Wdate" name="created_time" style="width: 100px;" onfocus="WdatePicker({onpicked:function(){$dp.$('created_time2').focus();},maxDate:'#F{$dp.$D(\'created_time2\')}'})">
+							<input id="created_time2" type="text" class="Wdate" name="created_time2" style="width: 100px;" onfocus="WdatePicker({minDate:'#F{$dp.$D(\'created_time\')}'})">
+						</td>
+						<td class="right td20">&nbsp;
+							
+						</td>
+						<td class="td30">&nbsp;
+							
+						</td>
+					</tr>
+					<tfoot>
+						<tr>
+							<td colspan="4" class="center">
+								<div style="margin: 5px;"></div>
+								<a class="xui-linkbutton" href="javascript:void(0)" style="padding: 0 5px;" data-options="initDom:true,iconCls:'icon-search',datagrid:'#search-dg'" onclick="xTool.search(this)">查询</a>
+								&nbsp;&nbsp;
+								<a class="xui-linkbutton" href="javascript:void(0)" style="padding: 0 5px;" data-options="initDom:true,iconCls:'icon-clear'" onclick="xTool.reset(this)">重置</a>
+							</td>
+						</tr>
+					</tfoot>
+				</table>
+			</form>
+		</div>
+		<br>
+		<table id="search-dg" title="POS单影印件列表" class="xui-datagrid" style="width: 950px;" data-options="initDom:true,idField:'rec_id',pagination:true,toolbar:'#search-dg-tb'">
+			<thead>
+				<tr>
+					<th data-options="field:'rn',rownumber:true"></th>
+					<!--<th data-options="field:'chk',checkbox:true"></th>-->
+					<th data-options="field:'term_no'">终端标识码</th>
+		            <th data-options="field:'mchnt_cd'">商户号</th>
+		            <th data-options="field:'term_id'">终端号</th>
+		            <th data-options="field:'settle_date'">交易日期</th>
+		            <th data-options="field:'trace_no'">流水号</th>
+		            <th data-options="field:'refer_no'">参考号</th>
+		            <th data-options="field:'file_name',formatter:formatFileName">文件名</th>
+					<th data-options="field:'created_by'">上传人</th>
+					<th data-options="field:'created_time'">上传时间</th>
+				</tr>
+			</thead>
+			<tbody></tbody>
+		</table>
+	</div>
+	<script>
+		
+		function formatFileName(value, rowData, rowIndex) {
+	    	var queryString = $.param({url:rowData.file_url}).replace(/\+/g, '%20');
+	    	return '<a href="preview-photo.html?'+queryString+'" target="_blank">'+value+'</a>';
+	    }
+		
+		function reloadSearchDatagrid() {
+			$('#search-dg').datagrid('reload');
+		}
+		
+	</script>
+</body>
+
+</html>

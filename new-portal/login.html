@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="renderer" content="webkit" />
+<title>通联支付湖南分公司银行卡业务管理系统</title>
+<link rel="stylesheet" type="text/css" href="login_files/smartmenu.css">
+<link rel="stylesheet" type="text/css" href="login_files/stylesub.css">
+<link rel="stylesheet" type="text/css" href="login_files/css.css">
+<link rel="stylesheet" type="text/css" href="login_files/merlogin.css">
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/md5.min.js"></script>
+</head>
+<BODY>
+<FORM id="login-fm" method="post" action="#">
+  <DIV id="login">
+    <UL class="ul_input">
+      <LI class="li_radio"></LI>
+      <LI class="li_input">
+        <INPUT id="userId" class="input_long" type="text" name="login_name" autocomplete="off">
+      </LI>
+      <LI class="li_input">
+        <INPUT id="password" class="input_long"
+					type="password" name="login_pwd" autocomplete="off">
+      </LI>
+      <LI class="li_input">
+        <INPUT maxlength="5" class="input_short"
+					type="text" name="captcha" autocomplete="off">
+        <DIV class="input_code" style="height:40px;"> <IMG id="captcha-img" alt="验证码"
+							src="/action/user/captcha" onclick="onClickCaptcha(this)" style="width:100px; height:35px; vertical-align:middle; margin-top:-8px; margin-left:-20px;"> </DIV>
+      </LI>
+    </UL>
+    <UL class="ul_btn">
+      <INPUT id="login-btn" class="login_btn" value="" type="button"
+					name="submit_btn" onclick="onLogin(this)">
+    </UL>
+  </DIV>
+</FORM>
+<script>
+	$(function () {
+            $(document).keydown(function (event) {
+                if (event.keyCode == 13) {
+                    var jq = $('#login-fm').find(':focus');
+                    if(jq.length > 0) {
+                        $('#login-btn').click();
+                    }
+                }
+            });
+        });
+        
+        
+        function send(url, data, success, async) {
+        $.ajax(url, {
+            type: 'POST',
+            async: (async == false ? false : true),
+            contentType: 'application/json',
+            dataType: 'json',
+            data: $.toJSON(data),
+            success: success
+        });
+    }
+
+        function onLogin() {
+            var fm = $('#login-fm');
+            var data = fm.serializeObject();
+            
+            if(!data.login_name) {
+            	alert('用户名不能为空');
+            	return;
+            }
+            
+            if(!data.login_pwd) {
+            	alert('密码不能为空');
+            	return;
+            }
+            
+            if(!data.captcha) {
+            	alert('验证码不能为空');
+            	return;
+            }
+            
+            data.login_pwd = md5(md5(data.login_name+data.login_pwd) + data.captcha);
+                      
+            /*submit*/
+            send('/action/user/login', data, function (data) {
+                if (data.code == 0) {
+                    window.top.location.href = "pages/index.html";
+                } else {
+                	alert(data.msg);
+                	$('#captcha-img').click();
+                }
+            });
+        }
+        
+        function onClickCaptcha(target) {
+        	$(target).attr('src', '/action/user/captcha?' + Math.random()*1000000);
+        }
+</script>
+</BODY>
+</HTML>

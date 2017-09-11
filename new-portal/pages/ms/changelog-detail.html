@@ -1,0 +1,295 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>信息变更</title>
+    <link rel="stylesheet" type="text/css" href="../../js/themes/default/xui.css" />
+    <link rel="stylesheet" type="text/css" href="../../js/themes/icon.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/tool-v2.css" />
+    <!-- <link rel="stylesheet" type="text/css" href="../../js/cropperjs/cropper.min.css" /> -->
+    <style>
+    .image-cell-hd {
+        font-size: 17px;
+        font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+        line-height: 1.41176471;
+        width: 1000px;
+    }
+    
+    .image-cells {
+        padding: 10px 15px;
+    }
+    
+    .image-cell-bd {
+        /*max-height:600px;*/
+        overflow: auto;
+        /*width: 80%;*/
+    }
+    
+    .img-container {
+        /*		min-width: 450px;
+		padding: 20px;*/
+        margin: auto;
+    }
+    
+    .img-container img {
+        max-width: 100%;
+    }
+    </style>
+    <script type="text/javascript" src="../../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../../js/jQueryRotate-2.3.min.js"></script>
+    <script type="text/javascript" src="../../js/jquery.xui.min.js"></script>
+    <script type="text/javascript" src="../../js/My97DatePicker/WdatePicker.js"></script>
+    <script type="text/javascript" src="../../js/jquery.tool-v2.js"></script>
+    <script type="text/javascript" src="../../js/jquery.xconfig.js"></script>
+    <script type="text/javascript" src="../../js/layer/layer.js"></script>
+    <!-- <script type="text/javascript" src="../../js/cropperjs/cropper.min.js"></script> -->
+</head>
+
+<body class="search-body">
+    <div class="detail-div">
+        <form id="detail-fm" class="form" action="/action/ms/changelog/view" method="post" data-options="onSerialize:onSerializeForm,onLoad:onLoadForm">
+            <input type="hidden" name="rec_id">
+            <div class="readonly" style="padding: 5px; width:1000px;">
+                <table class="table" style="width: 100%;">
+                    <tr>
+                        <td class="right td20">
+                            <label>变更类型：</label>
+                        </td>
+                        <td class="td30">
+                            <input type="text" name="form_desc" class="xui-validatebox" data-options="required:true"><span class="required">*</span></td>
+                        <td class="right td20">
+                            <label>关键值：</label>
+                        </td>
+                        <td class="td30">
+                            <input type="text" name="key_value" class="xui-validatebox" data-options="required:true"><span class="required">*</span></td>
+                    </tr>
+                    <tr>
+					  <td class="right td20"><label>附加描述信息：</label></td>
+					  <td class="td80" colspan="3"><input type="text" name="desc_info" class="xui-validatebox" style="width:85%;" data-options="">
+					  </td>
+				  </tr>
+				  <tr>
+					  <td class="right td20"><label>附加描述信息：</label></td>
+					  <td class="td80" colspan="3"><input type="text" name="remark" class="xui-validatebox" style="width:85%;" data-options="">
+					  </td>
+				  </tr>
+                    <tr class="editable-check1">
+					  <td class="right td20"><label>通过或驳回原因：</label></td>
+					  <td class="td80" colspan="3"><input type="text" id="checked_reason" name="checked_reason" class="xui-validatebox" style="width:85%;" data-options="">
+					  </td>
+				  </tr>
+                </table>
+            </div>
+            <div style="position:fixed; bottom:0px; z-index:1000; height:36px; background:url(../../images/toolbar_bg.jpg) repeat-x bottom left; background-color: #d6e9fa;">
+                <div style="text-align: center;  width:1000px;">
+                    <!-- <div style="padding:8px; font-size: 14px;"><a href="#营业执照照片">营业执照照片</a>
+<a href="#照片">照片</a>
+<a href="#法人身份证照片">法人身份证照片</a>
+<a href="#门店照片">门店照片</a>
+<a href="#结算账户(银行卡)照片">结算账户(银行卡)照片</a>
+<a href="#商户协议">商户协议</a>
+<a href="#账号授权书">账号授权书</a>
+<a href="#其他照片">其他照片</a></div> -->
+                    <a class="xui-linkbutton invisible visible-check1" href="javascript:void(0)" style="padding: 0 5px;" data-options="initDom:true,iconCls:'icon-ok',url:'/action/ms/changelog/check1-pass',onBefore:onBeforeCheck1Pass,onSubmit:onCheck1PassSubmit" onClick="check1PassSubmit(this)">通过</a>
+                    <a class="xui-linkbutton invisible visible-check1" href="javascript:void(0)" style="padding: 0 5px;" data-options="initDom:true,iconCls:'icon-no',url:'/action/ms/changelog/check1-nopass',onBefore:onBeforeCheck1NoPass,onSubmit:onSubmit" onClick="xTool.submit(this)">驳回</a>
+                    <a class="xui-linkbutton" href="javascript:void(0)" style="padding: 0 5px;" data-options="initDom:true,iconCls:'icon-cancel'" onClick="xTool.close(this)">关闭</a>
+                </div>
+            </div>
+            <div style="padding: 5px; width:1000px;">
+                <table id="field-dg" title="信息变更明细列表" class="xui-datagrid" data-options="initDom:true">
+                    <thead>
+                        <tr>
+                            <th data-options="field:'rn',rownumber:true"></th>
+                            <!-- <th data-options="field:'chk',checkbox:true"></th> -->
+                            <th data-options="field:'column_desc'">字段名</th>
+                            <th data-options="field:'original_value'">变更前</th>
+                            <th data-options="field:'new_value'">变更后</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <div class="image-cells readonly-view">
+                <!-- <div class="image-cell-hd" id="照片">
+                    <a href="#照片">照片</a>
+                </div> -->
+                <div class="image-cell-bd" id="images">
+                </div>
+            </div>
+        </form>
+        <div style="display:block; height:50px;"> </div>
+    </div>
+    <script>
+    
+    var query;
+    $(function() {
+        var fm, fmDom;
+        initCombobox();
+        fm = $('#detail-fm');
+        fmDom = fm[0];
+
+        query = xTool.parseQueryString();
+        query.operateType = query.operateType || 'view';
+        xTool.transformStatus(fm, query.operateType);
+
+        if (query.operateType == 'view') {
+            $('span.required', fm).hide();
+        }
+
+        xTool.loadDetail(fmDom, query);
+    });
+
+    function initCombobox() {
+        xTool.send('/action/ms/parameter/list', {
+            //work_id: '1'
+        }, function(data) {
+            if (data.code == 0) {
+                /*
+                	$('#recipient_id').combobox('loadData', data.work_id);
+                    xConfig['work_id'] = data.work_id;
+                    */
+            }
+        });
+    }
+
+    function onSerializeForm(data) {
+    }
+
+
+    function onLoadForm(data) {
+    	$('#field-dg').datagrid('loadData', data.rows);
+        $.each(data.images, function(index, item) {
+            var op = '';
+            // if (data.images[index].ei_type == '03') {
+            //     op = '<button type="button" onclick="idcardocr(this,0)">识别身份证(正面)</button><button type="button" onclick="idcardocr(this,1)">识别身份证(反面)</button><span style="padding-left:50px; color:red; font-size:16px;"></span>';
+            // } else if (data.images[index].ei_type == '16') {
+            //     op = '<button type="button" onclick="bankcardocr(this)">识别银行卡</button><button type="button" onclick="cropperImage(this)">裁剪识别银行卡</button><span style="padding-left:50px; color:red; font-size:16px;"></span>';
+            // }
+
+            $('#images').append('<div><button type="button" onclick="onClickLeft(this)">向左</button><button type="button" onclick="onClickRight(this)">向右</button>' + op + '</div><img alt="照片" src="' + xTool.getUrl(data.images[index].file_url) + '" style="">');
+        });
+    }
+
+    function check1PassSubmit(target) {
+        var license_no = $('#license_no').val();
+        //$(target).linkbutton('disable');
+        xTool.send('/action/ms/mchnt-base-info/exist', {
+            license_no: license_no
+        }, function(data) {
+            if (data.code == 0) {
+                var formData = $('#detail-fm').serializeObject();
+                $('#detail-fm').form('load', {
+                    mcht_name: formData.mcht_name || data.data.mcht_name,
+                    license_date: formData.license_date || data.data.license_date,
+                    business_scope: formData.business_scope || data.data.business_scope,
+                    cert_name: formData.cert_name || data.data.cert_name,
+                    cert_id: formData.cert_id || data.data.cert_id,
+                    cert_date: formData.cert_date || data.data.cert_date
+                });
+                if (data.data.mcht_name) {
+                    xTool.showConfirm(data.data.mcht_name + '已经存在,是否继续?', function(r) {
+                        if (r) {
+                            xTool.submit(target);
+                        }
+                    });
+                } else {
+                    xTool.submit(target);
+                }
+            }
+        });
+    }
+
+
+    function onCheck1PassSubmit(requestData, responseData) {
+        xTool.showInfo('操作成功', function() {
+            try {
+                if (window.opener && !window.opener.closed) {
+                    window.opener.reloadSearchDatagrid();
+                }
+            } catch (e) {}
+            window.location.href = xTool.getUrl('/pages/ms/mchnt-base-info.html?displayType=update&') + $.param({
+                mcht_id: responseData.mcht_id
+            });
+        });
+    }
+
+
+    function onSubmit(requestData, responseData) {
+        xTool.showInfo('操作成功', function() {
+            try {
+                if (window.opener && !window.opener.closed) {
+                    window.opener.reloadSearchDatagrid();
+                }
+            } catch (e) {}
+            xTool.close();
+        });
+    }
+
+    function onBeforeCheck1Pass() {
+        $('#detail-fm').find('.editable-check1 .validatebox-text').validatebox({
+            required: true
+        });
+        $('#checked_reason').validatebox({
+            required: false
+        });
+    }
+
+    function onBeforeCheck1NoPass() {
+        $('#detail-fm').find('.editable-check1 .validatebox-text').validatebox({
+            required: false
+        });
+        $('#checked_reason').validatebox({
+            required: true
+        });
+    }
+
+    function onClickLeft(target) {
+        var img = $(target).parent().next('img');
+        var state = img.data('img');
+        if (!state) {
+            state = {
+                width: img.width(),
+                height: img.height(),
+                degree: 0
+            };
+            img.data('img', state);
+        }
+        state.degree -= 90;
+        state.degree = state.degree % 360;
+        // console.log(state.degree);
+        img.rotate(state.degree > 0 ? state.degree : 360 + state.degree);
+        img.css({
+            'margin-top': Math.abs((state.degree / 90) % 2) * (state.width - state.height) / 2,
+            'margin-left': Math.abs((state.degree / 90) % 2) * (state.height - state.width) / 2
+        });
+
+        return false;
+    }
+
+    function onClickRight(target) {
+        var img = $(target).parent().next('img');
+        var state = img.data('img');
+        if (!state) {
+            state = {
+                width: img.width(),
+                height: img.height(),
+                degree: 0
+            };
+            img.data('img', state);
+        }
+        state.degree += 90;
+        state.degree = state.degree % 360;
+        // console.log(state.degree);
+        img.rotate(state.degree > 0 ? state.degree : 360 + state.degree);
+        img.css({
+            'margin-top': Math.abs((state.degree / 90) % 2) * (state.width - state.height) / 2,
+            'margin-left': Math.abs((state.degree / 90) % 2) * (state.height - state.width) / 2
+        });
+
+        return false;
+    }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,473 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>用户信息管理</title>
+    <link rel="stylesheet" type="text/css" href="../../js/themes/default/easyui.css" />
+    <link rel="stylesheet" type="text/css" href="../../js/themes/icon.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/tool.css" />
+    <script type="text/javascript" src="../../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../../js/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../../js/jquery.xdistrict.js"></script>
+    <script type="text/javascript" src="../../js/jquery.xtool.js"></script>
+</head>
+
+<body class="search-body">
+    <div class="search-div">
+        <div>
+            <form class="form search-form" method="post" action="/action/admin/userinfo/search">
+                <table class="table" style="width:950px;">
+                    <caption>
+                        查询用户
+                    </caption>
+                    <tr>
+                        <td class="right td20">
+                            <label>登录名：</label>
+                        </td>
+                        <td class="td30">
+                            <input type="text" name="login_name">
+                        </td>
+                        <td class="right td20">
+                            <label>用户姓名：</label>
+                        </td>
+                        <td class="td30">
+                            <input type="text" name="full_name">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="right td20">
+                            <label>功能角色名：</label>
+                        </td>
+                        <td class="td30">
+                            <input type="text" name="fun_role_name">
+                        </td>
+                        <td class="right td20">
+                            <label>数据角色名：</label>
+                        </td>
+                        <td class="td30">
+                            <input type="text" name="data_role_name">
+                        </td>
+                    </tr>
+                    <tfoot>
+                        <tr>
+                            <td colspan="4" class="center">
+                                <div style="margin:5px;"></div>
+                                <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-search',datagrid:'#search-dg'" style="padding:0 5px;" onclick="xTool.search(this)">查询</a> &nbsp;&nbsp;
+                                <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-clear',datagrid:'#search-dg'" style="padding:0 5px;" onclick="xTool.reset(this)">重置</a>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </form>
+        </div>
+        <br>
+        <div>
+            <div id="search-dg-tb" style="background-color: #f4f4f4;">
+                <a href="javascript:void(0)" class="easyui-linkbutton action" data-options="plain:true,iconCls:'icon-add',form:'#detail-fm',url:'/action/admin/userinfo/create',onSuccess:xTool.addSuccess" onClick="xTool.add(this)">新增</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton action" style="display:none;" data-options="plain:true,iconCls:'icon-view',datagrid:'#search-dg',form:'#detail-fm',url:'/action/admin/userinfo/view'" onClick="xTool.view(this)">查看详情</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton action" style="display:none;" data-options="plain:true,iconCls:'icon-edit',datagrid:'#search-dg',form:'#detail-fm',url:'/action/admin/userinfo/update'" onClick="xTool.edit(this)">编辑</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton action" style="display:none;" data-options="plain:true,iconCls:'icon-group',url:'/action/admin/userinfo/assign-fun-role'" onClick="$('#fun-role-dlg').dialog('center').dialog('open')">功能角色分配</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton action" style="display:none;" data-options="plain:true,iconCls:'icon-group',url:'/action/admin/userinfo/assign-data-role'" onClick="$('#data-role-dlg').dialog('center').dialog('open')">数据角色分配</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton action" style="display:none;" data-options="plain:true,iconCls:'icon-remove',datagrid:'#search-dg',url:'/action/admin/userinfo/batch-delete'" onClick="xTool.deleteBatchSubmit(this)">批量删除</a>
+            </div>
+            <table id="search-dg" class="easyui-datagrid" title="用户信息列表" data-options="[myGridDefaults, {idField:'userid',transition:userinfoTransition}]" style="width:950px;">
+                <thead>
+                    <tr>
+                        <th data-options="field:'chk',checkbox:true"></th>
+                        <th data-options="field:'userid',width:80">用户ID</th>
+                        <th data-options="field:'login_name',width:100">登录名</th>
+                        <th data-options="field:'full_name',width:100">用户姓名</th>
+                        <th data-options="field:'fun_role_name',width:200">功能角色</th>
+                        <th data-options="field:'data_role_name',width:200">数据角色</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <br>
+    </div>
+    <div class="detail-div">
+        <form id="detail-fm" class="form init-view" action="/action/admin/userinfo/view" method="post" data-options="onLoad:onLoadDetailForm">
+            <table class="table" style="width:950px;">
+                <caption>
+                    用户信息
+                </caption>
+                <tbody>
+                    <tr>
+                        <td class="right td15">
+                            <label>用户ID：</label>
+                        </td>
+                        <td class="td35">
+                            <input type="text" name="userid" class="add edit">
+                            <label class="required">*</label>
+                        </td>
+                        <td class="right td15">
+                            <label>登录名：</label>
+                        </td>
+                        <td class="td35">
+                            <input type="text" name="login_name" class="easyui-validatebox" data-options="required:true">
+                            <label class="required">*</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="right td15">
+                            <label>用户姓名：</label>
+                        </td>
+                        <td class="td35">
+                            <input type="text" name="full_name" class="easyui-validatebox" data-options="required:true">
+                            <label class="required">*</label>
+                        </td>
+                        <td class="right td15">
+                            <label>登录密码：</label>
+                        </td>
+                        <td class="td35">
+                            <input type="password" name="login_pwd" class="easyui-validatebox edit-v" data-options="required:true">
+                            <label class="required edit-v">*</label>
+                        </td>
+                    </tr>
+                    <tr>
+                      <td class="right td15"><label>手机号码：</label></td>
+                      <td class="td35"><input type="text" name="mobile" id="mobile"></td>
+                      <td class="right td15"><label>联系电话：</label></td>
+                      <td class="td35"><input type="text" name="telno" id="telno"></td>
+                    </tr>
+                    <tr>
+                      <td class="right td15"><label>邮件地址：</label></td>
+                      <td class="td35"><input type="text" name="email"></td>
+                      <td class="right td20"><label>所在地区：</label></td>
+                      <td class="td30 clear-readonly"><span>
+                        <input type="text" id="province" name="province" class="easyui-combobox" data-options="editable:false,required:true,data:provinceData,onChange:onChangeProvince" style="width:80px;">
+                        <input type="text" id="city" name="city" class="easyui-combobox" data-options="editable:false,required:true,data:cityData,onChange:onChangeCity" style="width:80px;">
+                        <input type="text" id="district" name="district" class="easyui-combobox" data-options="editable:false,required:true" style="width:80px;">
+                        <label class="required">*</label>
+                      </span></td>
+                    </tr>
+                    <tr>
+                      <td class="right td15"><label>机构：</label></td>
+                      <td class="td35"><input type="text" name="inst_name" id="inst-name" class="easyui-validatebox add edit" data-options="required:true">
+                        <input type="hidden" name="inst_id" id="inst-id">
+                        <label class="required">*</label>
+                        <input type="button" value="选择" class="button add edit" onclick="$('#inst-dlg').dialog('center').dialog('open')"></td>
+                      <td class="right td15"><label>状态：</label></td>
+                      <td class="td35"><select name="status" class="easyui-validatebox" data-options="required:true">
+                        <option value="0">禁用</option>
+                        <option value="1">启用</option>
+                      </select>
+                        <label class="required">*</label></td>
+                    </tr>
+                    <tr>
+                      <td class="right td15"><label>创建人：</label></td>
+                      <td class="td35"><input type="text" name="created_by" class="add edit" data-options="required:true" id="created_by"></td>
+                      <td class="right td15"><label>创建时间：</label></td>
+                      <td class="td35"><input type="text" name="created_time" class="add edit" data-options="required:true" id="created_time"></td>
+                    </tr>
+                    <tr>
+                      <td class="right td15"><label>最后修改人：</label></td>
+                      <td class="td35"><input type="text" name="last_modified_by" class="add edit" data-options="required:true" id="last_modified_by"></td>
+                      <td class="right td15"><label>最后修改时间：</label></td>
+                      <td class="td35"><input type="text" name="last_modified_time" class="add edit" data-options="required:true" id="last_modified_time"></td>
+                    </tr>
+                    <tr>
+                      <td class="right td15"><label>最近尝试登录次数：</label></td>
+                      <td class="td35"><input type="text" name="try_login_times" class="add edit">
+                      	<input type="checkbox" name="reset_try_login_times" class="add" value="1">重置</td>
+                      <td class="right td20"></td>
+                      <td class="td30 clear-readonly">
+                       </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="4" class="center">
+                            <div style="margin:5px;"></div>
+                            <a href="javascript:void(0)" class="easyui-linkbutton button add" data-options="iconCls:'icon-ok',url:'/action/admin/userinfo/create'" style="padding:0 5px;" onclick="xTool.addSubmit(this)">新增提交</a>
+                            <a href="javascript:void(0)" class="easyui-linkbutton button edit" data-options="iconCls:'icon-ok',url:'/action/admin/userinfo/update'" style="padding:0 5px;" onclick="xTool.editSubmit(this)">编辑提交</a>
+                            <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-return'" style="padding:0 5px;" onclick="xTool.returnSearch(this)">返回</a>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </form>
+    </div>
+    <div id="fun-role-dlg" class="easyui-dialog" title="功能角色分配" data-options="modal:true,closed:true,buttons:'#fun-role-dlg-btn',onBeforeOpen:onFunRoleAssign" style="height:400px;">
+        <div style="padding:5px;">
+            <span style="font-size:12px;font-weight:bold;line-height:24px;">
+            <label>登录名：</label>
+            <label id="login-name1"></label>
+        </span>
+            <form id="search-fun-fole-fm" action="/action/admin/userinfo/exist-fun-role" method="post">
+                <input class="reset" name="userid" type="hidden" value="">
+                <label>角色名称：</label>
+                <input type="text" name="role_name" id="role_name">&nbsp;
+                <a href="javascript:void(0)" class="easyui-linkbutton" data-options="datagrid:'#fun-role-dg'" style="padding:0 5px;" onclick="xTool.search(this)">查询</a> &nbsp; <a href="javascript:void(0)" class="easyui-linkbutton" style="padding:0 5px;" onclick="xTool.reset(this)">重置</a>
+            </form>
+        </div>
+        <div>
+            <table>
+                <tr>
+                    <td>
+                        <table id="fun-role-dg" class="easyui-datagrid" title="待选角色" data-options="pagination:true,rownumbers:true,singleSelect:false" style="width:450px; height:200px;">
+                            <thead>
+                                <tr>
+                                    <th data-options="field:'role_id',width:80">角色ID</th>
+                                    <th data-options="field:'role_name',width:100">角色名称</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </td>
+                    <td>
+                        <a id="fun-move-right-btn" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-right',from:'#fun-role-dg',to:'#selected-fun-role-dg'" onclick="xTool.move(this)"></a>
+                        <br>
+                        <a id="fun-move-left-btn" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-left',to:'#fun-role-dg',from:'#selected-fun-role-dg'" onclick="xTool.move(this)"></a>
+                    </td>
+                    <td>
+                        <table id="selected-fun-role-dg" class="easyui-datagrid" title="已选角色" data-options="rownumbers:true,singleSelect:false" style="width:450px; height:200px;">
+                            <thead>
+                                <tr>
+                                    <th data-options="field:'role_id',width:80">角色ID</th>
+                                    <th data-options="field:'role_name',width:100">角色名称</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div id="fun-role-dlg-btn">
+            <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-ok'" style="padding:0 5px;" onclick="onFunRoleAssignSubmit(this)"> 确定 </a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-cancel'" style="padding:0 5px;" onClick="$('#fun-role-dlg').dialog('close')"> 关闭 </a>
+        </div>
+    </div>
+    <div id="data-role-dlg" class="easyui-dialog" title="数据角色分配" data-options="modal:true,closed:true,buttons:'#data-role-dlg-btn',onBeforeOpen:onDataRoleAssign" style="width:350px;height:400px;">
+        <span style="font-size:12px;font-weight:bold;padding:5px;line-height:30px;">
+            <label>登录名：</label>
+            <label id="login-name2"></label>
+        </span>
+        <div>
+            <ul id="data-role-tree" data-options="idField:'role_id'"></ul>
+        </div>
+        <div id="data-role-dlg-btn">
+            <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-ok'" style="padding:0 5px;" onclick="onDataRoleAssignSubmit(this)"> 确定 </a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-cancel'" style="padding:0 5px;" onClick="$('#data-role-dlg').dialog('close')"> 关闭 </a>
+        </div>
+    </div>
+
+    <div id="inst-dlg" class="easyui-dialog" title="选择机构" data-options="modal:true,closed:true,buttons:'#inst-dlg-btn',onOpen:onSelectInst" style="width:350px;height:400px;">
+        <div>
+            <ul id="inst-tree" data-options="idField:'inst_id'"></ul>
+        </div>
+        <div id="inst-dlg-btn">
+            <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-ok'" style="padding:0 5px;" onclick="onSelectInstSubmit(this)"> 确定 </a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-cancel'" style="padding:0 5px;" onClick="$('#inst-dlg').dialog('close')"> 关闭 </a>
+        </div>
+    </div>
+
+    <script>
+        var formDefaults = {
+            status: '1'
+        };
+        
+        var provinceData = xProvinceCityDistrict['province'];
+        var cityData = xProvinceCityDistrict['city']['43'];
+        
+        function onChangeProvince(newValue, oldValue) {
+            if (newValue) {
+                $('#city').combobox('clear').combobox('loadData', xProvinceCityDistrict['city'][newValue]);
+                $('#district').combobox('clear');
+            }
+        }
+        
+        function onChangeCity(newValue, oldValue) {
+            if (newValue) {
+                var province = $('#province').combobox('getValue');
+                $('#district').combobox('clear').combobox('loadData', xProvinceCityDistrict['district'][province + newValue]);
+            }
+        }
+        
+        function onLoadDetailForm(data) {
+            $('#province').combobox('clear').combobox('setValue', data.data.province);
+            $('#city').combobox('clear').combobox('setValue', data.data.city);
+            $('#district').combobox('clear').combobox('setValue', data.data.district);
+        }
+
+        $(function () {
+            initInstTree();
+            initDataRoleTree();
+        });
+
+        function onFunMoveRight() {
+            $('#fun-move-right-btn').click();
+        }
+
+        function onFunMoveLeft() {
+            $('#fun-move-left-btn').click();
+        }
+
+        function onFunRoleAssign() {
+            var row = $('#search-dg').datagrid('getSelected');
+
+            if (row) {
+                $('#login-name1').html(row.login_name);
+                $('#search-fun-fole-fm').form('load', row);
+                $('#fun-role-dg').datagrid('loadData', {
+                    total: 0,
+                    rows: []
+                });
+                $('#selected-fun-role-dg').datagrid('loadData', {
+                    total: 0,
+                    rows: []
+                });
+
+                row.flag = '0';
+                $('#fun-role-dg').datagrid({
+                    url: '/action/admin/userinfo/exist-fun-role',
+                    queryParams: row,
+                    onLoadSuccess: function () {
+                        //$(target).removeAttr('disabled');
+                    },
+                    onLoadError: function () {
+                        //$(target).removeAttr('disabled');
+                    }
+                });
+
+                row.flag = '1';
+                $('#selected-fun-role-dg').datagrid({
+                    url: '/action/admin/userinfo/exist-fun-role',
+                    queryParams: row,
+                    onLoadSuccess: function () {
+                        //$(target).removeAttr('disabled');
+                    },
+                    onLoadError: function () {
+                        //$(target).removeAttr('disabled');
+                    }
+                });
+            } else {
+                return false;
+            }
+        }
+
+        function onFunRoleAssignSubmit(target) {
+            var row = $('#search-dg').datagrid('getSelected');
+            var rows = $('#selected-fun-role-dg').datagrid('getRows');
+
+            xTool.send('/action/admin/userinfo/assign-fun-role', {
+                userid: row.userid,
+                rows: rows
+            }, function (data, textStatus, jqXHR) {
+                if (data.code == 0) {
+                    $('#fun-role-dlg').dialog('close');
+                }
+            });
+        }
+
+        function onDataRoleAssign(target) {
+            var row = $('#search-dg').datagrid('getSelected');
+            var dataRoleTree = $('#data-role-tree');
+            if (row) {
+                $('#login-name2').html(row.login_name);
+
+                var selected = dataRoleTree.tree('getSelected');
+                if (selected) {
+                    dataRoleTree.tree('unselect', selected.target);
+                }
+
+                xTool.send('/action/admin/userinfo/exist-data-role', row, function (data) {
+                    if (data.code == 0) {
+                        if (data.rows.length > 0) {
+                            var node = dataRoleTree.tree('find', data.rows[0].role_id);
+                            dataRoleTree.tree('select', node.target);
+                        }
+                    }
+                });
+
+            } else {
+                return false;
+            }
+        }
+
+        function onDataRoleAssignSubmit(target) {
+            var row = $('#search-dg').datagrid('getSelected');
+            var selected = $('#data-role-tree').tree('getSelected');
+
+            xTool.send('/action/admin/userinfo/assign-data-role', {
+                userid: row.userid,
+                role_id: selected.id
+            }, function (data, textStatus, jqXHR) {
+                if (data.code == 0) {
+                    $('#data-role-dlg').dialog('close');
+                }
+            });
+
+        }
+
+        function initInstTree() {
+            xTool.send('/action/admin/inst-info/list', {}, function (data) {
+                if (data.code == 0) {
+                    $('#inst-tree').tree({
+                        data: xTool.genEasyuiTreeData(data.rows, {
+                            id: 'inst_id',
+                            pid: 'inst_pid',
+                            text: 'inst_name'
+                        })
+                    });
+                }
+            });
+        }
+
+        function initDataRoleTree() {
+            xTool.send('/action/admin/data-role/list', {}, function (data) {
+                if (data.code == 0) {
+                    $('#data-role-tree').tree({
+                        data: xTool.genEasyuiTreeData(data.rows, {
+                            id: 'role_id',
+                            pid: 'role_pid',
+                            text: 'role_name'
+                        })
+                    });
+                }
+            });
+        }
+
+        function onSelectInst() {
+            var instTree = $('#inst-tree');
+            var role_id = $('#inst-id').val();
+
+            var selected = instTree.tree('getSelected');
+            if (selected) {
+                instTree.tree('unselect', selected.target);
+            }
+
+            if (role_id) {
+                var node = instTree.tree('find', role_id);
+                if (node) {
+                    instTree.tree('select', node.target);
+                }
+            }
+        }
+
+        function onSelectInstSubmit() {
+            var selected = $('#inst-tree').tree('getSelected');
+            if (selected) {
+                $('#inst-id').val(selected.id);
+                $('#inst-name').val(selected.text);
+                $('#inst-dlg').dialog('close');
+            } else {
+                xTool.showInfo('请选择机构')
+                return false;
+            }
+            return true;
+        }
+
+        var userinfoTransition = [{
+            oper_in: '0',
+            proc_st: '0',
+            action: 'update'
+        }, {
+            oper_in: '0',
+            proc_st: '0',
+            action: 'delete'
+        }];
+    </script>
+</body>
+
+</html>

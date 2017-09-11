@@ -1,0 +1,74 @@
+<!doctype html>
+<html>
+
+<head>
+<meta charset="utf-8">
+<title>终端类业务审批历史记录</title>
+<link rel="stylesheet" type="text/css" href="../../js/themes/default/xui.css" />
+<link rel="stylesheet" type="text/css" href="../../js/themes/icon.css" />
+<link rel="stylesheet" type="text/css" href="../../css/tool-v2.css" />
+<script type="text/javascript" src="../../js/jquery.min.js"></script>
+<script type="text/javascript" src="../../js/jquery.xui.min.js"></script>
+<script type="text/javascript" src="../../js/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript" src="../../js/jquery.tool-v2.js"></script>
+<script type="text/javascript" src="../../js/jquery.xconfig.js"></script>
+</head>
+
+<body class="search-body">
+	<div class="search-div">
+		<div>
+			<form id="search-fm" class="form search-form" action="/action/ms/term-busi-approval-his/search" method="post" data-options="">
+				<table class="table" style="width: 950px;">
+					<caption>查询终端类业务审批历史记录</caption>
+					<tr>
+						<td class="right td20"><label>录入日期：</label></td>
+						<td class="td30"><input id="created_time" type="text" class="Wdate" name="created_time" style="width: 100px;"
+							onfocus="WdatePicker({onpicked:function(){$dp.$('created_time2').focus();},maxDate:'#F{$dp.$D(\'created_time2\')}'})">
+							<input id="created_time2" type="text" class="Wdate" name="created_time2" style="width: 100px;"
+							onfocus="WdatePicker({minDate:'#F{$dp.$D(\'created_time\')}'})"></td>
+						<td class="right td20"><label>审批日期：</label></td>
+						<td class="td30"><input id="last_checked_time" type="text" class="Wdate" name="last_checked_time"
+							style="width: 100px;"
+							onfocus="WdatePicker({onpicked:function(){$dp.$('last_checked_time2').focus();},maxDate:'#F{$dp.$D(\'last_checked_time2\')}'})">
+							<input id="last_checked_time2" type="text" class="Wdate" name="last_checked_time2" style="width: 100px;"
+							onfocus="WdatePicker({minDate:'#F{$dp.$D(\'last_checked_time\')}'})"></td>
+					</tr>
+					<tfoot>
+						<tr>
+							<td colspan="4" class="center">
+								<div style="margin: 5px;"></div> <a class="xui-linkbutton" href="javascript:void(0)" style="padding: 0 5px;"
+									data-options="initDom:true,iconCls:'icon-search',datagrid:'#search-dg'" onclick="xTool.search(this)">查询</a>
+								&nbsp;&nbsp; <a class="xui-linkbutton" href="javascript:void(0)" style="padding: 0 5px;"
+									data-options="initDom:true,iconCls:'icon-clear'" onclick="xTool.reset(this)">重置</a>
+								&nbsp;&nbsp; <a class="xui-linkbutton" href="javascript:void(0)" style="padding: 0 5px;"
+									data-options="initDom:true,iconCls:'icon-export',url:'/action/ms/term-busi-approval-his/export'" onclick="xTool.exportData(this)">导出</a>
+							</td>
+						</tr>
+					</tfoot>
+				</table>
+			</form>
+		</div>
+		<br>
+		<table id="search-dg" title="终端类业务审批历史记录列表" class="xui-datagrid" style="width: 950px;"
+			data-options="initDom:true,pagination:true">
+			<thead>
+				<tr>
+					<th data-options="field:'rn',rownumber:true"></th>
+					<!-- <th data-options="field:'chk',checkbox:true"></th> -->
+					<th data-options="field:'apptype'">业务类型</th>
+					<th data-options="field:'mchnt_cd'">商户编号</th>
+					<th data-options="field:'marchant_name'">商户名称</th>
+					<th data-options="field:'proc_st'">审批状态</th>
+					<th data-options="field:'last_modified_time'">审批时间</th>
+					<th data-options="field:'checked_reason'">审批通过或不通过原因</th>
+				</tr>
+			</thead>
+			<tbody></tbody>
+		</table>
+	</div>
+	<script>
+		
+	</script>
+</body>
+
+</html>

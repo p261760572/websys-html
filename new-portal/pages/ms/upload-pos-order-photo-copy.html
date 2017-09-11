@@ -1,0 +1,203 @@
+<!doctype html>
+<html>
+
+<head>
+<meta charset="utf-8">
+<title>上传POS单影印件</title>
+<link rel="stylesheet" type="text/css" href="../../css/uploadify.css">
+<link rel="stylesheet" type="text/css" href="../../js/themes/default/xui.css" />
+<link rel="stylesheet" type="text/css" href="../../js/themes/icon.css" />
+<link rel="stylesheet" type="text/css" href="../../css/tool.css" />
+<style>
+	.uploadify-button {
+		background-color: #eeeeee;
+		background-image: linear-gradient(bottom, #eeeeee 0%, #ffffff 100%);
+		background-image: -o-linear-gradient(bottom, #eeeeee 0%, #ffffff 100%);
+		background-image: -moz-linear-gradient(bottom, #eeeeee 0%, #ffffff 100%);
+		background-image: -webkit-linear-gradient(bottom, #eeeeee 0%, #ffffff 100%);
+		background-image: -ms-linear-gradient(bottom, #eeeeee 0%, #ffffff 100%);
+		background-repeat: no-repeat;
+		-webkit-border-radius: 5px;
+		-moz-border-radius: 5px;
+		border-radius: 5px;
+		border: 1px solid #bbb;
+		color: #444;
+		font: normal 12px Verdana, Geneva, sans-serif;;
+		text-align: center;
+		text-shadow: 0 -1px 0 rgba(0,0,0,0.25);
+		width: 100%;
+	}
+	.uploadify:hover .uploadify-button {
+		background: #eaf2ff;
+		color: #000000;
+		border: 1px solid #b7d2ff;
+		filter: none;
+	}
+</style>
+<script type="text/javascript" src="../../js/js.cookie.js"></script>
+<script type="text/javascript" src="../../js/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript" src="../../js/jquery.min.js"></script>
+<script type="text/javascript" src="../../js/jquery.xui.min.js"></script>
+<script type="text/javascript" src="../../js/jquery.uploadify.min.js"></script>
+<script type="text/javascript" src="../../js/jquery.tool-v2.js"></script>
+<script type="text/javascript" src="../../js/jquery.xconfig.js"></script>
+</head>
+
+<body class="search-body">
+	<div class="search-div">
+		<div>
+			<form id="search-fm" class="form search-form" action="/action/ms/term-busi-binding/search" method="post">
+				<table class="table" style="width: 950px;">
+					<caption>查询终端参数</caption>
+					<tr>
+				        <td class="right td20"><label>商户号：</label></td>
+				        <td class="td30"><input type="text" name="mchnt_cd"></td>
+				        <td class="right td20"><label>终端号：</label></td>
+				        <td class="td30"><input type="text" name="term_id"></td>
+				      </tr>
+					<tfoot>
+						<tr>
+							<td colspan="4" class="center">
+								<div style="margin: 5px;"></div>
+								<a class="xui-linkbutton" href="javascript:void(0)" style="padding: 0 5px;" data-options="initDom:true,iconCls:'icon-search',datagrid:'#search-dg'" onclick="xTool.search(this)">查询</a>
+								&nbsp;&nbsp;
+								<a class="xui-linkbutton" href="javascript:void(0)" style="padding: 0 5px;" data-options="initDom:true,iconCls:'icon-clear'" onclick="xTool.reset(this)">重置</a>
+							</td>
+						</tr>
+					</tfoot>
+				</table>
+			</form>
+		</div>
+		<br>
+		<table id="search-dg" title="终端参数列表" class="xui-datagrid" style="width: 950px;" data-options="initDom:true,idField:'rec_id',pagination:true,pageSize:5,pageList: [5, 10, 20],onClickRow:onClickRow">
+			<thead>
+				<tr>
+					<th data-options="field:'rn',rownumber:true"></th>
+					<!--<th data-options="field:'chk',checkbox:true"></th>-->
+					<th data-options="field:'term_no'">终端标识码</th>
+		            <th data-options="field:'mchnt_cd'">商户号</th>
+		            <th data-options="field:'term_id'">终端号</th>
+		            <th data-options="field:'marchant_name'">门店名称</th>
+		            <th data-options="field:'district_name'">装机城市</th>
+		            <th data-options="field:'installed_addr'">客户装机地址</th>
+				</tr>
+			</thead>
+			<tbody></tbody>
+		</table>
+	</div>
+	<div class="detail-div">
+		<form id="detail-fm" class="form view" action="/action/ms/pos-order-photo-copy/view" method="post" style="width: 950px;">
+			<div style="padding: 5px;">
+				<table class="table readonly-view" style="width: 100%;">
+					<caption>上传POS单影印件</caption>
+		<tr>
+          <td class="right td20"><label>终端标识码：</label></td>
+          <td class="td30"><input name="term_no" type="text" class="xui-validatebox" readonly data-options="required:true"><span class="required">*</span></td>
+          <td class="right td20"><label>商户号：</label></td>
+          <td class="td30"><input name="mchnt_cd" type="text" class="xui-validatebox" readonly data-options="required:true"><span class="required">*</span></td>
+        </tr>
+
+        <tr>
+          <td class="right td20"><label>终端号：</label></td>
+          <td class="td30"><input name="term_id" type="text" class="xui-validatebox" readonly data-options="required:true"><span class="required">*</span></td>
+          <td class="right td20"><label>日期：</label></td>
+          <td class="td30"><input type="text" name="settle_date" class="xui-datebox xui-validatebox" data-options="required:true,datePickerOptions:{dateFmt:'yyyyMMdd'}"><span class="required">*</span></td>
+        </tr>
+
+        <tr>
+          <td class="right td20"><label>流水号：</label></td>
+          <td class="td30"><input type="text" name="trace_no" class="xui-validatebox" data-options=""></td>
+          <td class="right td20"><label>参考号：</label></td>
+          <td class="td30"><input type="text" name="refer_no" class="xui-validatebox" data-options=""></td>
+        </tr>
+        <tr>
+    	  <td class="right td20"> 
+    	  <label>上传文件：</label>
+    	  </td>
+    	  <td colspan="2">
+    	  <div id="file_upload" class="uploadify" style="height: 30px; width: 120px;"><div id="file_upload-button" class="uploadify-button " style="height: 30px; line-height: 30px; width: 120px;"><span class="uploadify-button-text">浏览...</span></div></div><div id="file_upload-queue" class="uploadify-queue"></div>
+    	  </td>
+    	  <td>
+    	  	<a href="javascript:void(0)" class="xui-linkbutton l-btn" data-options="iconCls:'icon-upload'" style="padding:0 5px;" onclick="onClickUpload()"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">上传</span><span class="l-btn-icon icon-upload">&nbsp;</span></span></a>
+    	  </td>
+        </tr>
+				</table>
+			</div>
+		</form>
+	</div>
+	<script>
+		
+		function onClickRow(rowIndex, rowData) {
+            $('#detail-fm').form('load', rowData);
+        }
+        
+        function onClickUpload() {
+	    	if ($('#detail-fm').form('enableValidation').form('validate') != true) {
+	            return false;
+	        }
+	    	$('#file_upload').uploadify('upload', '*');
+	    }
+	    
+	    function createPhotoCopy(name, url, data) {
+	    	console.log(data);
+	    	
+			$.extend(data, {
+				file_name: name,
+				file_url: url
+			});
+			
+			xTool.send('/action/ms/pos-order-photo-copy/create', data, function (data) {
+	            if(data.code == 0) {
+	            	xTool.showInfo('上传成功', function() {
+						$('#detail-fm').form('load',{
+							term_no: '',
+							mchnt_cd: '',
+							term_id: ''
+						});
+					});
+	            }
+	        });
+	    }
+		
+		function reloadSearchDatagrid() {
+			$('#search-dg').datagrid('reload');
+		}
+		
+		function initUpload() {
+		
+			$('#file_upload').uploadify({
+	        	'auto' : false,
+	        	'buttonText' : '浏览...',
+	        	'fileSizeLimit' : '1MB',
+	        	'fileTypeDesc' : '图片文件',
+	        	'fileTypeExts' : '*.gif; *.jpg; *.png',
+	        	//'buttonImage' : '../../images/browse-btn.png',
+	            'swf' : '../../js/uploadify.swf',
+	            'uploader' : '/action/ms/upload?suid=' + Cookies.get('suid') + ';si=' + Cookies.get('si') + ';3',
+	            'onUploadSuccess' : function(file, data, response) {
+	            	data = $.evalJSON(data);
+	            	if(data.code == 0) {
+	            		createPhotoCopy(file.name, data.url, $('#file_upload').data(file.id));
+	            	} else {
+	            		xTool.showError(data.msg);
+	            	}
+	        	}, 'onSelect' : function(file) {
+		        	var data = $('#detail-fm').serializeObject();
+		        	$('#file_upload').data(file.id, data);
+			        if ($('#detail-fm').form('enableValidation').form('validate') != true) {
+			            $('#file_upload').uploadify('cancel', file.id);
+			        }
+		        },'onQueueComplete' : function(queueData) {
+		            //xTool.showInfo('成功上传'+ queueData.uploadsSuccessful + '个文件');
+		        }
+	        });
+    	}
+		
+		$(function() {
+			initUpload();
+		});
+		
+	</script>
+</body>
+
+</html>

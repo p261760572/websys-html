@@ -1,0 +1,33 @@
+.collapsible {
+	background: #ffffff;	
+}
+.collapsible-header {
+	position: relative;
+	background: #E2EEFA;
+	cursor: pointer;
+	padding: 5px 0;
+	border: 1px solid #95B8E7;
+	_zoom: 1; //IE6 bug
+}
+.collapsible-icon {
+	position: absolute;
+	top: 50%;
+	margin-top: -8px;
+	height: 16px;
+	width: 16px;
+	overflow: hidden;
+}
+.collapsible-title {
+	padding-left: 18px;
+	height: 16px;
+	line-height: 16px;
+	font-size: 12px;
+	font-weight: bold;
+	color: #0E2D5F;
+}
+.collapsible-icon-collapse {
+	background: url('icons/collapsible_arrows.gif') no-repeat 0 0;
+}
+.collapsible-icon-expand {
+	background: url('icons/collapsible_arrows.gif') no-repeat -16px 0;
+}

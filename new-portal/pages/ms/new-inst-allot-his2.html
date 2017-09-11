@@ -1,0 +1,227 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="renderer" content="webkit">
+    <title>代理分润</title>
+    <link rel="stylesheet" type="text/css" href="../../js/themes/default/xui.css">
+    <link rel="stylesheet" type="text/css" href="../../js/themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="../../css/tool.css">
+    <script type="text/javascript" src="../../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../../js/jquery.xui.min.js"></script>
+    <script type="text/javascript" src="../../js/My97DatePicker/WdatePicker.js"></script>
+    <link href="../../js/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="../../js/jquery.xconfig.js"></script>
+    <script type="text/javascript" src="../../js/jquery.xdistrict.js"></script>
+    <script type="text/javascript" src="../../js/jquery.tool.js"></script>
+</head>
+
+<body>
+    <div>
+        <div>
+            <form id="search-fm" class="form search-form" action="/action/ms/new-inst-allot-his2/search" method="post">
+                <table class="table" style="width:950px;">
+                    <caption>查询代理分润<span style="color: red;">(数据仅供参考)</span></caption>
+                    <tbody>
+                        <tr>
+                            <td class="right td20">
+                                <label>清算日期：</label>
+                            </td>
+                            <td class="td30">
+                                <input id="settle_date" type="text" class="Wdate xui-validatebox" name="settle_date" style="width:100px;" onfocus="WdatePicker({onpicked:function(){$dp.$('settle_date2').focus();},maxDate:'#F{$dp.$D(\'settle_date2\')||\'%y-%M-{%d-3}\'}'})" data-options="required:true">
+                                <input id="settle_date2" type="text" class="Wdate xui-validatebox" name="settle_date2" style="width:100px;" onfocus="WdatePicker({minDate:'#F{$dp.$D(\'settle_date\');}',maxDate:maxDate()})" data-options="required:true">
+                                <label class="required">*</label>
+                            </td>
+                            <td class="right td20">
+                                <label>拓展方：</label>
+                            </td>
+                            <td class="td30 clear-readonly"><span class="xui-combobox combobox" id="ec_id" data-options="validType:['combobox']">
+                        <input type="text" class="combobox-text">
+                        <input type="hidden" name="ec_id" class="combobox-value">
+                        <span class="combobox-addon"><i class="combobox-icon combobox-arrow"></i></span></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="right td20">
+                                <label>所在地区：</label>
+                            </td>
+                            <td class="td30 clear-readonly"><span> <span class="xui-combobox combobox" id="province" data-options="editable:false,data:provinceData,onChange:onChangeProvince">
+                        <input type="text" class="combobox-text" style="width: 45px;">
+                        <input type="hidden" name="province" class="combobox-value">
+                        <span class="combobox-addon"><i class="combobox-icon combobox-arrow"></i></span></span> <span class="xui-combobox combobox" id="city" data-options="editable:false,onChange:onChangeCity">
+                        <input type="text" class="combobox-text" style="width: 45px;">
+                        <input type="hidden" name="city" class="combobox-value">
+                        <span class="combobox-addon"><i class="combobox-icon combobox-arrow"></i></span></span> <span class="xui-combobox combobox" id="district" data-options="editable:false">
+                        <input type="text" class="combobox-text" style="width: 45px;">
+                        <input type="hidden" name="district" class="combobox-value">
+                        <span class="combobox-addon"><i class="combobox-icon combobox-arrow"></i></span></span>
+                                </span>
+                            </td>
+                            <td class="right td20">
+                                <label>录入时间：</label>
+                            </td>
+                            <td class="td30">
+                                <input id="created_time" type="text" class="Wdate" name="created_time" style="width:100px;" onfocus="WdatePicker({onpicked:function(){$dp.$('created_time2').focus();},maxDate:'#F{$dp.$D(\'created_time2\');}'})">
+                                <input id="created_time2" type="text" class="Wdate" name="created_time2" style="width:100px;" onfocus="WdatePicker({minDate:'#F{$dp.$D(\'created_time\');}'})">
+                            </td>
+                        </tr>
+                        <tr>                     
+                      <td class="right td20"><label>终端标识码：</label></td>
+                      <td class="td30"><input type="text" name="term_no"></td>
+                      <td class="right td20">&nbsp;</td>
+                      <td class="td30">&nbsp;</td>
+                    </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="4" class="center">
+                                <div style="margin:5px;"></div>
+                                <a href="javascript:void(0)" class="xui-linkbutton l-btn" data-options="iconCls:'icon-search',datagrid:'#search-dg',onBefore:onBeforeSearch" style="padding:0 5px;" onclick="xTool.search(this)"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">查询</span><span class="l-btn-icon icon-search">&nbsp;</span></span></a> &nbsp;&nbsp;
+                                <a href="javascript:void(0)" class="xui-linkbutton l-btn" data-options="iconCls:'icon-clear',datagrid:'#search-dg'" style="padding:0 5px;" onclick="xTool.reset(this)"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">重置</span><span class="l-btn-icon icon-clear">&nbsp;</span></span></a> &nbsp;&nbsp;
+                                <a href="javascript:void(0)" class="xui-linkbutton l-btn" data-options="iconCls:'icon-export',url:'/action/ms/new-inst-allot-his2/export',onBefore:onBeforeSearch" style="padding:0 5px;" onclick="xTool.exportData(this)"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">导出</span><span class="l-btn-icon icon-export">&nbsp;</span></span></a>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </form>
+        </div>
+        <br>
+        <div class="xui-datagrid datagrid" style="min-width: 800px;" id="search-dg" data-options="pagination:true">
+            <div class="datagrid-header">代理分润</div>
+            <div class="datagrid-body">
+                <div class="datagrid-view">
+                    <table class="datagrid-table" border="0" cellspacing="0" cellpadding="0">
+                        <thead>
+                            <tr class="datagrid-header-row">
+                                <th class="datagrid-header-rownumber" data-options="field:'rn',rownumber:true"></th>
+                                <th data-options="field:'ec_name'">拓展机构</th>
+                                <th data-options="field:'term_inves_name'">产权</th>
+                                <th data-options="field:'rate'">分润算法</th>
+                                <th data-options="field:'allot_tp'">交易渠道</th>
+                                <th data-options="field:'term_no'">终端标识码</th>
+                                <!-- <th data-options="field:'shop_id'">商户编号</th>
+                                <th data-options="field:'pos_id'">终端编号</th> -->
+                                <th data-options="field:'mcht_name'">商户名称</th>
+                                <th data-options="field:'district_name'">装机城市</th>
+                                <th data-options="field:'created_time'">录入时间</th>
+                                <th data-options="field:'last_modified_time'">审批时间</th>
+                                <th data-options="field:'installed_date'">归档时间</th>
+                                <th data-options="field:'installed_status'">终端状态</th>
+                                <th data-options="field:'removed_date'">撤机时间</th>
+                                <th data-options="field:'trans_count'">交易笔数</th>
+                                <th data-options="field:'amount'">交易金额</th>
+                                <th data-options="field:'mchnt_fee'">商户手续费</th>
+                                <!-- <th data-options="field:'tl_income'">中间业务收入</th>
+                                <th data-options="field:'brand_fee'">银联品牌费</th> -->
+                                <th data-options="field:'tl_real_income'">通联实收</th>
+                                <th data-options="field:'term_cost'">终端成本</th>
+                                <th data-options="field:'inst_income'">代理分润</th>
+                                <th data-options="field:'settle_date'">统计日期</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+                <div class="datagrid-pager"></div>
+            </div>
+        </div>
+    </div>
+    <script>
+    var provinceData = xProvinceCityDistrict['province'];
+
+    function parseDate(s, format) {
+        var date = new Date(1970, 0, 1, 0, 0, 0, 0);
+        var o = {
+            "y+": 'setFullYear', //year
+            "M+": 'setMonth', //month
+            "d+": 'setDate', //day
+            "h+": 'setHours', //hour
+            "m+": 'setMinutes', //minute
+            "s+": 'setSeconds', //second
+            "S": 'setMilliseconds' //millisecond
+        }
+
+        for (var k in o) {
+            var result;
+            if ((result = new RegExp("(" + k + ")").exec(format)) != null) {
+                console.log(s.substr(result.index, result[0].length));
+                if(k == 'M+') {
+                    date[o[k]](s.substr(result.index, result[0].length)-1);
+                } else {
+                    date[o[k]](s.substr(result.index, result[0].length));    
+                }                
+            }
+        }
+
+        return date;
+    };
+
+    function formatDate(date, format) {
+        var o = {
+            "M+": date.getMonth() + 1, //month
+            "d+": date.getDate(), //day
+            "h+": date.getHours(), //hour
+            "m+": date.getMinutes(), //minute
+            "s+": date.getSeconds(), //second
+            "q+": Math.floor((date.getMonth() + 3) / 3), //quarter
+            "S": date.getMilliseconds() //millisecond
+        }
+        if (/(y+)/.test(format))
+            format = format.replace(RegExp.$1, (date.getFullYear() + "").substr(4 - RegExp.$1.length));
+        for (var k in o)
+            if (new RegExp("(" + k + ")").test(format))
+                format = format.replace(RegExp.$1, RegExp.$1.length == 1 ? o[k] : ("00" + o[k]).substr(("" + o[k]).length));
+        return format;
+    };
+
+    function maxDate() {
+        var date = parseDate($('#settle_date').val(), 'yyyy-MM-dd'); //#F{$dp.$D(\'settle_date\',{M:1});}';
+        var lastDay = new Date(date.getFullYear(), date.getMonth()+1, 0); 
+        var now = new Date();
+        var endDay = new Date(now.getFullYear(), now.getMonth(), now.getDate()-3);
+        console.log(formatDate(date, 'yyyy-MM-dd'));
+        console.log(formatDate(lastDay, 'yyyy-MM-dd'));
+
+        if(lastDay < endDay) {
+            endDay = lastDay;
+        }
+        return formatDate(endDay, 'yyyy-MM-dd');
+    }
+
+    function onChangeProvince(newValue, oldValue) {
+        if (newValue) {
+            $('#city').combobox('clear').combobox('loadData', xProvinceCityDistrict['city'][newValue]);
+            $('#district').combobox('clear').combobox('loadData', []);
+        }
+    }
+
+    function onChangeCity(newValue, oldValue) {
+        if (newValue) {
+            var province = $('#province').combobox('getValue');
+            $('#district').combobox('clear').combobox('loadData', xProvinceCityDistrict['district'][province + newValue]);
+        }
+    }
+
+    function onBeforeSearch() {
+        return $('#search-fm').form('enableValidation').form('validate');
+    }
+
+    function initCombobox() {
+        xTool.send('/action/ms/parameter/list', {
+            ec_id: '1'
+        }, function(data) {
+            if (data.code == 0) {
+                $('#ec_id').combobox('loadData', data.ec_id);
+            }
+        });
+    }
+
+    $(function() {
+        initCombobox();
+    })
+    </script>
+</body>
+
+</html>

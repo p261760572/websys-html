@@ -1,0 +1,446 @@
+<!doctype html>
+<html><head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="renderer" content="webkit">
+    <title>工作单回访</title>
+    <link rel="stylesheet" type="text/css" href="../../js/themes/default/xui.css">
+    <link rel="stylesheet" type="text/css" href="../../js/themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="../../css/tool.css">
+    <script type="text/javascript" src="../../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../../js/jquery.xui.min.js"></script>
+    <script type="text/javascript" src="../../js/My97DatePicker/WdatePicker.js"></script><link href="../../js/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="../../js/jquery.xconfig.js"></script>
+    <script type="text/javascript" src="../../js/jquery.xdistrict.js"></script>
+    <script type="text/javascript" src="../../js/jquery.tool.js"></script>
+</head>
+
+<body class="search-body" style="padding:5px;">
+    <div class="search-div">
+        <div>
+            <form id="search-fm" class="form search-form" action="/action/ms/workorder/search" method="post" data-options="onSerialize:serializeSearchForm">
+                <table class="table" style="width:950px;">
+                  <caption>查询工作单</caption>
+                  <tbody><tr>
+                    <td class="right td20"><label>工作单号：</label></td>
+                    <td class="td30"><input type="text" name="work_order_no"></td>
+                    <td class="right td20"><label>工作单类型：</label></td>
+                    <td class="td30"><span class="xui-combobox combobox" data-options="required:true,data:xConfig['work_order_type']"><input type="text" class="combobox-text"><input type="hidden" name="work_order_type" class="combobox-value"><span class="combobox-addon"><i class="combobox-icon combobox-arrow"></i></span></span></td>
+                  </tr>
+                  <tr>
+                    <td class="right td20"><label>工商营业执照名称：</label></td>
+                    <td class="td30"><input type="text" name="mcht_name"></td>
+                    <td class="right td20"><label>派单日期：</label></td>
+                    <td class="td30"><input id="created_time" type="text" class="Wdate" name="created_time" style="width:100px;" onfocus="WdatePicker({onpicked:function(){$dp.$('created_time2').focus();},maxDate:'#F{$dp.$D(\'created_time2\')}'})">
+                      <input id="created_time2" type="text" class="Wdate" name="created_time2" style="width:100px;" onfocus="WdatePicker({minDate:'#F{$dp.$D(\'created_time\')}'})">
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="right td20"><label>执行人：</label></td>
+                    <td class="td30"><input type="text" name="work_id"></td>
+                    <td class="right td20"><label>执行日期：</label></td>
+                    <td class="td30"><input type="text" class="Wdate" onfocus="WdatePicker()" name="work_date" style="width:100px;"></td>
+                  </tr>
+                  <tr>
+	                <td class="right td20"><label>商户号：</label></td>
+	                <td class="td30"><input type="text" name="mchnt_cd"></td>
+	                <td class="right td20"><label>终端号：</label></td>
+	                <td class="td30"><input type="text" name="term_id"></td>
+	              </tr>
+	              <tr>
+	              	<td class="right td20"><label>终端标识码：</label></td>
+	                <td class="td30"><input type="text" name="term_no"></td>
+	                <td class="right td20"></td>
+	                <td class="td30"></td>
+	              </tr>   
+                    </tbody><tfoot>
+                        <tr>
+                            <td colspan="4" class="center">
+                                <div style="margin:5px;"></div>
+                                <a href="javascript:void(0)" class="xui-linkbutton l-btn" data-options="iconCls:'icon-search',datagrid:'#search-dg',onSuccess:onSearchSuccess" style="padding:0 5px;" onclick="xTool.search(this)"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">查询</span><span class="l-btn-icon icon-search">&nbsp;</span></span></a>
+                                <a href="javascript:void(0)" class="xui-linkbutton l-btn" data-options="iconCls:'icon-clear',datagrid:'#search-dg'" style="padding:0 5px;" onclick="xTool.reset(this)"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">重置</span><span class="l-btn-icon icon-clear">&nbsp;</span></span></a>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </form>
+        </div>
+        <br>
+        
+        <div class="xui-datagrid datagrid" style="min-width: 800px;" id="search-dg" data-options="[myGridDefaults, {idField:'rec_id',transition:myDefaultTransition}]"><div class="datagrid-header">工作单列表</div><div class="datagrid-body"><div class="datagrid-toolbar"><a href="javascript:void(0)" class="action xui-linkbutton l-btn l-btn-plain" style="display:none;" onclick="xTool.view(this)" data-options="disabled:true,plain:true,iconCls:'icon-view',datagrid:'#search-dg',form:'#detail-fm',url:'/action/ms/workorder/view'"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">查看详情</span><span class="l-btn-icon icon-view">&nbsp;</span></span></a><a href="javascript:void(0)" class="action xui-linkbutton l-btn l-btn-plain" style="display:none;" onclick="xTool.edit(this)" data-options="disabled:true,plain:true,iconCls:'icon-edit',datagrid:'#search-dg',form:'#detail-fm',url:'/action/ms/workorder/visit'"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">回访</span><span class="l-btn-icon icon-edit">&nbsp;</span></span></a></div><div class="datagrid-view"><table class="datagrid-table" border="0" cellspacing="0" cellpadding="0"><thead><tr class="datagrid-header-row"><th class="datagrid-header-rownumber" data-options="field:'rn',rownumber:true"></th><th data-options="field:'work_order_no',width:100">工作单号</th><th data-options="field:'work_order_type',width:120,formatter:formatWorkOrderType">工作单类型</th><th data-options="field:'term_no',width:80">终端标识码</th><th data-options="field:'mcht_name',width:120">工商营业执照名称</th><th data-options="field:'work_id',width:120,formatter:formatWorkId">执行人</th><th data-options="field:'work_date',width:100,formatter:formatDate">执行日期</th><th data-options="field:'sender_id',width:80">派单人</th><th data-options="field:'sender_date',width:140">派单时间</th><th data-options="field:'oper_in',width:80,formatter:formatOperIn">操作标志</th><th data-options="field:'proc_st',width:90,formatter:formatProcSt">记录处理状态</th></tr></thead><tbody></tbody></table></div><div class="datagrid-pager"></div></div></div>
+    </div>
+    <div class="detail-div" style="display: none;">
+    	<div class="xui-datagrid datagrid" style="min-width: 800px;" id="busi-binding-dg" data-options="pagination:false">
+    	<div class="datagrid-body">
+    		<div class="datagrid-view">
+    			<table class="datagrid-table" border="0" cellspacing="0" cellpadding="0">
+    				<thead><tr class="datagrid-header-row">
+    					<th class="datagrid-header-rownumber" data-options="field:'rn',rownumber:true"></th>
+    					<th data-options="field:'apptype',width:100,formatter:formatApptype">业务类型</th>
+    					<th data-options="field:'lc_fee_pre',width:140,formatter:formatLcFeePre">扣率</th>
+    					<th data-options="field:'e_name',width:100">拓展人</th>
+    					<th data-options="field:'app_st',width:100,formatter:formatAppSt">业务状态</th>
+    					<th data-options="field:'psam_no',width:80">PSAM卡号</th>
+    					<th data-options="field:'mchnt_cd',width:140">商户号</th>
+    					<th data-options="field:'term_id',width:80">终端号</th>
+    					</tr>
+    			</thead>
+    			<tbody></tbody>
+    		    </table>
+    		</div>
+    	</div>
+    	</div>
+    	<form id="term-detail-fm" class="form view" method="post" data-options="" style="width:950px;">
+            <div style="padding:5px;">
+                <table class="table" style="width:100%;">
+                	<caption>终端信息</caption>
+                    <tbody>
+                    <tr>
+                    	<td class="right td20"><label>拓展人：</label></td>
+                <td class="td30"><span class="xui-combobox combobox" id="e_id" data-options="required:true,validType:['combobox']">
+                  <input type="text" class="combobox-text">
+                  <input type="hidden" name="e_id" class="combobox-value">
+                  <span class="combobox-addon"><i class="combobox-icon combobox-arrow"></i></span></span>
+                  <label class="required">*</label></td>
+                  	<td class="right td20"><label>维护人：</label></td>
+                      <td class="td30"><span class="xui-combobox combobox" id="maintained_by" data-options="">
+                        <input type="text" class="combobox-text">
+                        <input type="hidden" name="maintained_by" class="combobox-value">
+                        <span class="combobox-addon"><i class="combobox-icon combobox-arrow"></i></span></span></td>
+                    </tr>
+                    <tr>
+                <td class="right td20"><label>装机城市：</label></td>
+                <td class="td30 clear-readonly"><span class="xui-combobox combobox" id="province" data-options="required:true,data:provinceData,onChange:onChangeProvince">
+                  <input type="text" class="combobox-text" style="width: 55px;">
+                  <input type="hidden" name="province" class="combobox-value">
+                  <span class="combobox-addon"><i class="combobox-icon combobox-arrow"></i></span></span> <span class="xui-combobox combobox" id="city" data-options="required:true,data:[],onChange:onChangeCity">
+                  <input type="text" class="combobox-text" style="width: 55px;">
+                  <input type="hidden" name="city" class="combobox-value">
+                  <span class="combobox-addon"><i class="combobox-icon combobox-arrow"></i></span></span> <span class="xui-combobox combobox" id="district" data-options="required:true">
+                  <input type="text" class="combobox-text" style="width: 55px;">
+                  <input type="hidden" name="district" class="combobox-value">
+                  <span class="combobox-addon"><i class="combobox-icon combobox-arrow"></i></span></span>
+                  <label class="required">*</label></td>
+                <td class="right td20"><label>客户装机地址：</label></td>
+                <td class="td30"><input type="text" name="installed_addr" class="xui-validatebox" data-options="required:true">
+                  <label class="required">*</label></td>
+              </tr>
+                    <tr>
+                    	 <td class="right td20"><label>机具类型：</label></td>
+                    <td class="td30"><span class="edit xui-combobox combobox" id="equi_type" data-options="data:xConfig['equi_type']"><input type="text" class="combobox-text"><input type="hidden" name="equi_type" class="combobox-value"><span class="combobox-addon"><i class="combobox-icon combobox-arrow"></i></span></span></td>
+                        <td class="right td20">
+                            <label>押金：</label>
+                        </td>
+                        <td class="td30">
+                            <input type="text" name="money0" class="xui-validatebox" data-options="">
+                        </td>                       
+                    </tr>
+                     <tr>
+                    	 <td class="right td20">
+                            <label>服务费：</label>
+                        </td>
+                        <td class="td30">
+                            <input type="text" name="money1" class="xui-validatebox" data-options="">
+                        </td>
+                        <td class="right td20">
+                            <label>通讯费：</label>
+                        </td>
+                        <td class="td30">
+                            <input type="text" name="money2" class="xui-validatebox" data-options="">
+                        </td>                       
+                    </tr>
+                </tbody></table>
+            </div>
+        </form>
+        <form id="detail-fm" class="form view" action="/action/ms/workorder/view" method="post" data-options="onSerialize:serializeDetailForm,onLoad:onLoadDetailForm" style="width:950px;">
+            <div style="padding:5px;">
+                <table class="table" style="width:100%;">
+                	<caption>回访信息</caption>
+                    <tbody><tr>
+                        <td class="right td20">
+                            <label>工作单号：</label>
+                        </td>
+                        <td class="td30">
+							<input type="hidden" name="rec_id">
+							<input type="text" name="work_order_no" class="edit xui-validatebox" data-options="required:true">
+                            <label class="required">*</label>
+                        </td>
+                        <td class="right td20">&nbsp;</td>
+                        <td class="td30">&nbsp;</td>
+                    </tr>
+                    <tr>
+                      <td class="right td20"><label>商户地址：</label></td>
+                      <td class="td30"><input type="text" name="installed_addr" class="xui-validatebox" data-options="required:true">
+                        <label class="required">*</label></td>
+                      <td class="right td20"><label>联系人：</label></td>
+                      <td class="td30"><input type="text" name="linkman" class="xui-validatebox" data-options="required:true">
+                        <label class="required">*</label></td>
+                    </tr>
+                    <tr>
+                      <td class="right td20"><label>手机号码：</label></td>
+                      <td class="td30"><input type="text" name="mobile" class="xui-validatebox" data-options=""></td>
+                      <td class="right td20"><label>联系电话：</label></td>
+                      <td class="td30"><input type="text" name="telno" class="xui-validatebox" data-options="required:true">
+                        <label class="required">*</label></td>
+                    </tr>
+                    <tr>
+                      <td class="right td20"><label>商户签收人：</label></td>
+                      <td class="td30"><input type="text" name="sign_name" class="xui-validatebox" data-options=""></td>
+                      <td class="right td20"><label>是否完成：</label></td>
+                      <td class="td30"><span class="xui-combobox combobox" data-options="required:true,data:xConfig['install_flag']"><input type="text" class="combobox-text"><input type="hidden" name="install_flag" class="combobox-value"><span class="combobox-addon"><i class="combobox-icon combobox-arrow"></i></span></span>
+                        <label class="required">*</label></td>
+                    </tr>
+                    <tr>
+                      <td class="right td20"><label>对安装人员服务<br>
+                        态度是否满意：</label>
+                      </td>
+                      <td class="td30">
+                      	<input type="radio" name="radio_group0" value="4" id="radio_group0_4">
+                      	<label>很满意</label>
+                      	<input type="radio" name="radio_group0" value="3" id="radio_group0_3">
+                      	<label>满意</label>
+                      	<input type="radio" name="radio_group0" value="2" id="radio_group0_2">
+                      	<label>一般</label>
+                      	<input type="radio" name="radio_group0" value="1" id="radio_group0_1">
+                      	<label>不满意</label>
+                      </td>
+                      <td class="right td20"><label>是否熟悉POS机<br>
+                      具的基本操作：</label></td>
+                      <td class="td30">
+                      	<input type="radio" name="radio_group1" value="3" id="radio_group1_3">
+                        <label>很熟悉</label>
+                        <input type="radio" name="radio_group1" value="2" id="radio_group1_2">
+                        熟悉
+                        <input type="radio" name="radio_group1" value="1" id="radio_group1_1">
+                        <label>完全不会操作</label>
+                       </td>
+                    </tr>
+                    <tr>
+                      <td class="right td20">
+                      	<label>是否清楚伪卡识别及<br>
+                      信用卡风险注意事项：</label>
+                      </td>
+                      <td class="td30">
+                        <input type="radio" name="radio_group2" value="3" id="radio_group2_3">
+                        <label>很清楚</label>
+                        <input type="radio" name="radio_group2" value="2" id="radio_group2_2">
+                        <label>清楚</label>
+                        <input type="radio" name="radio_group2" value="1" id="radio_group2_1">
+                        <label>不清楚</label></td>
+                      <td class="right td20">
+                      	<label>是否留下了POS<br>
+                      机具维护电话：</label></td>
+                      <td class="td30">
+                        <input type="radio" name="radio_group3" value="2" id="radio_group3_2">
+                        <label>是</label>
+                        <input type="radio" name="radio_group3" value="1" id="radio_group3_1">
+                        <label> 否</label></td>
+                    </tr>
+                    <tr>
+                      <td class="right td20">
+                      <label>是否清楚签购单要<br>
+                      保留12个月以上：</label>
+                      </td>
+                      <td class="td30">
+                        <input type="radio" name="radio_group4" value="3" id="radio_group4_3">
+                        <label>很清楚</label>
+                        <input type="radio" name="radio_group4" value="2" id="radio_group4_2">
+                        <label> 清楚</label>
+                        <input type="radio" name="radio_group4" value="1" id="radio_group4_1">
+                        <label>不清楚</label></td>
+                      <td class="right td20">
+                      <label>押金收取是否与收据金额相符：</label>
+                      </td>
+                      <td class="td30">
+                        <input type="radio" name="radio_group5" value="1" id="radio_group5_1">
+                        <label>是</label>
+                        <input type="radio" name="radio_group5" value="0" id="radio_group5_0">
+                        <label>否</label></td>
+                    </tr>
+                    <tr>
+                      <td class="right td20">
+                      <label>机具类型是否正确：</label>
+                      </td>
+                      <td class="td30">
+                        <input type="radio" name="radio_group6" value="1" id="radio_group6_1">
+                        <label>是</label>
+                        <input type="radio" name="radio_group6" value="0" id="radio_group6_0">
+                        <label>否</label></td>
+                      <td class="right td20">
+                      <label>装机地址是否相符：</label>
+                      </td>
+                      <td class="td30">
+                        <input type="radio" name="radio_group7" value="1" id="radio_group7_1">
+                        <label>是</label>
+                        <input type="radio" name="radio_group7" value="0" id="radio_group7_0">
+                        <label>否</label></td>
+                    </tr>
+                    
+                    <tr>
+                      <td class="right td20"><label>服务质量评分：</label></td>
+                      <td class="td30"><input type="text" name="service_mark" class="xui-validatebox" data-options=""></td>
+                      <td class="right td20"><label>回访备注：</label></td>
+                      <td class="td30"><input type="text" name="visit_note" class="xui-validatebox" data-options="" style="width:220px;"></td>
+                    </tr>
+                </tbody></table>
+            </div>
+                                
+            <div style="text-align:center;">
+                <div style="margin:5px;"></div>
+                <a href="javascript:void(0)" class="button edit xui-linkbutton l-btn" data-options="iconCls:'icon-ok',url:'/action/ms/workorder/visit',onSuccess:onSubmitSuccess,prompt:false,datagrid:'#search-dg'" style="padding:0 5px;" onclick="xTool.editSubmit(this)"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">提交</span><span class="l-btn-icon icon-ok">&nbsp;</span></span></a>
+                <a href="javascript:void(0)" class="xui-linkbutton l-btn" data-options="iconCls:'icon-return'" style="padding:0 5px;" onclick="xTool.returnSearch(this)"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">返回</span><span class="l-btn-icon icon-return">&nbsp;</span></span></a>
+            </div>
+        </form>
+    </div>
+    <script>
+        var myDefaultTransition = xConfig['status_transition']['D'];
+        var provinceData = xProvinceCityDistrict['province'];
+        
+        function onChangeProvince(newValue, oldValue) {
+            $('#city').combobox('clear').combobox('loadData', xProvinceCityDistrict['city'][newValue]);
+            $('#district').combobox('clear');
+        }
+
+        function onChangeCity(newValue, oldValue) {
+            var province = $('#province').combobox('getValue');
+            $('#district').combobox('clear').combobox('loadData', xProvinceCityDistrict['district'][province + newValue]);
+        }
+        
+        function serializeSearchForm(data) {
+        	data.proc_st = '2';
+        }
+
+        function serializeDetailForm(data) {
+            var fm = $('#detail-fm');
+            var visit_content = [];  
+            var t, c;
+        	for(i = 0; i < 8; i ++) {
+        		t = fm.find('input[name="radio_group'+i+'"][type="radio"]:checked');
+        		c = t.val();
+        		visit_content.push(c ? c : '0');
+        	}
+        	
+        	data.visit_content = visit_content.join('');
+        }
+        
+        function onLoadDetailForm(data) {
+            $('#busi-binding-dg').datagrid('clearSelections').datagrid('loadData', data.term_busi);
+            
+            var termData = data.term;
+            for(var i = 0; i < data.term_expen.length; i++) {
+           		termData['money' + data.term_expen[i].type] = data.term_expen[i].money;
+            }
+            
+            xTool.transformStatus($('#term-detail-fm')[0], 'view');
+            $('#term-detail-fm').form('load', termData);
+            
+            $('#province').combobox('clear').combobox('setValue', termData.province);
+            $('#city').combobox('clear').combobox('setValue', termData.city);
+            $('#district').combobox('clear').combobox('setValue', termData.district);
+        }
+
+        function formatDate(value) {
+            return value.substr(0, 10);
+        }
+
+        function formatWorkFlag(value) {
+            var flag = ['送纸', '调单', '移机', '培训', '其它', '换机'];
+            var work_flag = [],
+                i;
+
+            for (i = 0; i < value.length; i++) {
+                if (value.charAt(i) == '1') {
+                    work_flag.push(flag[i]);
+                }
+            }
+
+            return work_flag.join(',');
+        }
+        
+        function formatOperIn(value, rowData, rowIndex) {
+	    	return xTool.formatField(xConfig['oper_in']['D'], value);
+	    }
+
+        function formatProcSt(value, rowData, rowIndex) {
+            return xTool.formatField(xConfig['proc_st']['D'], value);
+        }
+        
+        function formatWorkOrderType(value, rowData, rowIndex) {
+            return xTool.formatField(xConfig['work_order_type'], value);
+        }
+        
+        function formatWorkId(value, rowData, rowIndex) {
+            return xTool.formatField(xConfig['work_id'], value) || value;
+        }
+        
+        function onSubmitSuccess(request, response) {
+        	xTool.showInfo('操作成功');
+			$('.search-div').show();
+			$('.detail-div').hide();
+        }
+        
+        function onSearchSuccess(data) {
+			if(data.total == 0) {
+				xTool.showInfo('没有查到数据');
+			}
+		}
+		
+		function formatApptype(value) {
+            return xTool.formatField(xConfig['apptype'], value);
+        }
+        
+        function formatLcFeePre(value, row, index) {
+        	var s = '';
+        	
+        	if($.inArray(row.fee_chan,['3','4']) >= 0) {
+        		if(row.lc_fee_pre) {
+	            	s += row.lc_fee_pre+'%';
+	            	if(row.lc_fee_top) {
+	            		s += '-' + row.lc_fee_top;
+	            	}
+	        	}
+        	} else if($.inArray(row.fee_chan,['6','8']) >= 0) {
+        		if(row.contract_fee) {
+	            	s += row.contract_fee+'%';
+	            	if(row.base) {
+	            		s += ',保底' + row.base;
+	            	}
+	            	if(row.top) {
+	            		s += ',封顶' + row.top;
+	            	}
+	        	}
+        	} else {
+        		s = xTool.formatField(xConfig['fee_algo'], row.fee_rule2, 'fee_algo', 'fee_algo_name');
+        	}
+        	
+        	return s;
+        }
+        
+        function formatAppSt(value, row, index) {
+            return xTool.formatField(xConfig['oper_in']['A'], row.oper_in) + xTool.formatField(xConfig['proc_st']['A'], row.proc_st);
+        }
+        
+        function initCombobox() {
+            xTool.send('/action/ms/parameter/list', {
+                fee_algo: '1',
+                 work_id: '1',
+                 e_id: '1'
+            }, function (data) {
+                if (data.code == 0) {
+                	$('#maintained_by').combobox('loadData', data.work_id);
+                	$('#e_id').combobox('loadData', data.e_id);
+                	
+                    xConfig['fee_algo'] = data.fee_algo;
+                    xConfig['work_id'] = data.work_id;
+                    xConfig['e_id'] = data.e_id;
+                }
+            });
+        }
+
+        $(function () {
+        	initCombobox();
+        });
+    </script>
+
+
+</body></html>

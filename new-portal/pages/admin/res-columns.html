@@ -1,0 +1,148 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>资源-列名</title>
+    <link rel="stylesheet" type="text/css" href="../../js/themes/default/easyui.css" />
+    <link rel="stylesheet" type="text/css" href="../../js/themes/icon.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/tool.css" />
+    <script type="text/javascript" src="../../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../../js/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../../js/jquery.xtool.js"></script>
+</head>
+
+<body class="search-body">
+	<div class="search-div">
+    <div>
+        <form id="search-fm" class="form search-form" action="/action/admin/res-columns/search" method="post">
+            <table class="table" style="width:800px;">
+                <caption>查询资源-列名</caption>
+                <tr>
+                  <td class="right td20"><label>资源代码：</label></td>
+                  <td class="td30"><input class="easyui-combobox" name="res_code" data-options="valueField:'res_code',textField:'res_name'" id="res-code" /></td>
+                  <td class="right td20"><label>列名：</label></td>
+                  <td class="td30"><input type="text" name="column_name"></td>
+                </tr>
+                <tr>
+                  <td class="right td20"><label>类型：</label></td>
+                  <td class="td30"><input type="text" name="type" class="easyui-combobox" data-options="data:typeData,panelHeight:'auto',editable:false"></td>
+                    <td class="right td20">&nbsp;</td>
+                    <td class="td30">&nbsp;</td>
+                </tr>
+                <tfoot>
+                    <tr>
+                        <td colspan="4" class="center">
+                            <div style="margin:5px;"></div>
+                            <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-search',datagrid:'#search-dg'" style="padding:0 5px;" onclick="xTool.search(this)">查询</a>
+                            &nbsp;&nbsp;
+                            <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-clear',datagrid:'#search-dg'" style="padding:0 5px;" onclick="xTool.reset(this)">重置</a>
+                    </tr>
+                </tfoot>
+            </table>
+        </form>
+    </div>
+    <br>
+    <div id="search-dg-tb">
+        <a href="javascript:void(0)" class="easyui-linkbutton action" onClick="xTool.add(this)" data-options="plain:true,iconCls:'icon-add',form:'#detail-fm',url:'/action/admin/res-columns/create'">新增</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton action" onClick="xTool.view(this)" data-options="disabled:true,plain:true,iconCls:'icon-view',datagrid:'#search-dg',form:'#detail-fm',url:'/action/admin/res-columns/view'">查看详情</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton action" onClick="xTool.edit(this)" data-options="disabled:true,plain:true,iconCls:'icon-edit',datagrid:'#search-dg',form:'#detail-fm',url:'/action/admin/res-columns/update'">编辑</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton action" onClick="xTool.deleteBatchSubmit(this)" data-options="disabled:true,plain:true,iconCls:'icon-remove',datagrid:'#search-dg',url:'/action/admin/res-columns/delete'">删除</a>
+    </div>
+    <table id="search-dg" title="资源-列名" class="easyui-datagrid" style="width:800px;" data-options="[myGridDefaults, {idField:'rec_id',transition:resColumnsTransition}]">
+        <thead>
+            <tr>
+                <!-- <th data-options="field:'chk',checkbox:true"></th> -->
+                <th data-options="field:'res_code',width:100">资源代码</th>
+                <th data-options="field:'res_name',width:120">资源名称</th>
+                <th data-options="field:'column_name',width:120">列名</th>
+                <th data-options="field:'column_desc',width:120">列名描述</th>
+                <th data-options="field:'type',width:120,formatter:formatType">类型</th>
+                
+            </tr>
+        </thead>
+    </table>
+	</div>
+    <div class="detail-div">
+        <form id="detail-fm" class="form" action="/action/admin/res-columns/view" method="post">
+            <table class="table" style="width:800px;">
+                <caption>资源-列名</caption>
+                <tbody>
+                    <tr>
+                      <td class="td20 right"><label>
+                        <input type="hidden" name="rec_id">
+                      资源代码：</label></td>
+                      <td class="td30"><input class="easyui-combobox" name="res_code" data-options="required:true,valueField:'res_code',textField:'res_name'" id="res-code2" style="width:150px;"/>
+                        <label class="required">*</label></td>
+                      <td class="td20 right"><label>列名：</label></td>
+                      <td class="td30"><input type="text" name="column_name" class="easyui-validatebox" data-options="required:true">
+                        <label class="required">*</label></td>
+                    </tr>
+                    <tr>
+                      <td class="td20 right"><label>列名描述：</label></td>
+                      <td class="td30"><input type="text" name="column_desc" class=""></td>
+                      <td class="td20 right"><label>类型：</label></td>
+                      <td class="td30 clear-readonly"><input type="text" name="type" class="easyui-combobox" data-options="required:true,data:typeData,panelHeight:'auto',editable:false" style="width:150px;">
+                        <label class="required">*</label></td>
+                    </tr>
+                    <tr>
+                      <td class="td20 right"><label>URL：</label></td>
+                      <td colspan="3" class="td30"><input type="text" name="url" style="width:500px;"></td>
+                    </tr>
+                    <tr>
+                      <td class="td20 right"><label>数据：</label></td>
+                      <td colspan="3" class="td80"><textarea name="data" style="width:500px; height: 80px;"></textarea></td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="4">
+                            <div style="margin:5px;"></div>
+                            <a href="javascript:void(0)" class="easyui-linkbutton button add" data-options="iconCls:'icon-ok',url:'/action/admin/res-columns/create'" style="padding:0 5px;" onclick="xTool.addSubmit(this)">新增提交</a>
+                            <a href="javascript:void(0)" class="easyui-linkbutton button edit" data-options="iconCls:'icon-ok',url:'/action/admin/res-columns/update'" style="padding:0 5px;" onclick="xTool.editSubmit(this)">编辑提交</a>
+                            <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-return'" style="padding:0 5px;" onclick="xTool.returnSearch(this)">&nbsp;返&nbsp;&nbsp;回</a>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </form>
+    </div>
+    <script>
+        var typeData = [{
+            value: '0',
+            text: '文本框'
+        }, {
+            value: '1',
+            text: '下拉框'
+        }];
+
+        function formatType(value, row, index) {
+            return xTool.formatField(typeData, value);
+        }
+        
+        function initCombobox() {
+        	xTool.send('/action/admin/res-info/list',{},function(data){
+        		if(data.code == 0) {
+        			$('#res-code').combobox('loadData', data.rows);
+        			$('#res-code2').combobox('loadData', data.rows);
+        		}
+        	});	
+        }
+        
+        $(function () {
+			initCombobox();
+		});
+
+        var resColumnsTransition = [{
+            oper_in: '0',
+            proc_st: '0',
+            action: 'update'
+        }, {
+            oper_in: '0',
+            proc_st: '0',
+            action: 'delete'
+        }];
+    </script>
+</body>
+
+</html>

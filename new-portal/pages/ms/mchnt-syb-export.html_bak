@@ -1,0 +1,58 @@
+<!doctype html>
+<html><head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="renderer" content="webkit">
+    <title>收银宝批导</title>
+    <link rel="stylesheet" type="text/css" href="../../js/themes/default/xui.css">
+    <link rel="stylesheet" type="text/css" href="../../js/themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="../../css/tool.css">
+    <script type="text/javascript" src="../../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../../js/jquery.xui.min.js"></script>
+    <script type="text/javascript" src="../../js/My97DatePicker/WdatePicker.js"></script><link href="../../js/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="../../js/jquery.xconfig.js"></script>
+    <script type="text/javascript" src="../../js/jquery.tool.js"></script>
+</head>
+
+<body class="search-body" style="padding:5px;">
+	<div class="search-div">
+    <div>
+        <form id="search-fm" class="form search-form" method="post">
+            <table class="table" style="width:950px;">
+                <caption>收银宝批导</caption>
+                <tbody><tr>
+                    <td class="right td20">
+                        <label>审核日期：</label>
+                    </td>
+                    <td class="td30">
+                        <input id="last_checked_time" type="text" class="Wdate" name="last_checked_time" style="width:100px;" onfocus="WdatePicker({onpicked:function(){$dp.$('last_checked_time2').focus();},maxDate:'#F{$dp.$D(\'last_checked_time2\')}'})">
+                        <input id="last_checked_time2" type="text" class="Wdate" name="last_checked_time2" style="width:100px;" onfocus="WdatePicker({minDate:'#F{$dp.$D(\'last_checked_time\')}'})">
+                    </td>
+                    <td class="right td20">
+                        <label>操作标志：</label>
+                    </td>
+                    <td class="td30">
+                        <input type="radio" name="oper_in" value="I">
+                        <label>新增</label>
+                        <input type="radio" name="oper_in" value="U">
+                        <label>修改</label>
+                    </td>
+                </tr>
+                </tbody><tfoot>
+                    <tr>
+                        <td colspan="4" class="center">
+                            <div style="margin:5px;"></div>
+                            <a href="javascript:void(0)" class="xui-linkbutton l-btn" data-options="iconCls:'icon-export',url:'/action/ms/mchnt-syb-export/export'" style="padding:0 5px;" onclick="xTool.exportData(this)"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">导出收银宝批导</span><span class="l-btn-icon icon-export">&nbsp;</span></span></a>                            
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </form>
+    </div>
+</div>
+    <script>
+    	
+    </script>
+
+
+</body></html>

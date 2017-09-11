@@ -1,0 +1,58 @@
+<!doctype html>
+<html><head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="renderer" content="webkit">
+    <title>渠道分润</title>
+    <link rel="stylesheet" type="text/css" href="../../js/themes/default/xui.css">
+    <link rel="stylesheet" type="text/css" href="../../js/themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="../../css/tool.css">
+    <script type="text/javascript" src="../../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../../js/jquery.xui.min.js"></script>
+    <script type="text/javascript" src="../../js/My97DatePicker/WdatePicker.js"></script><link href="../../js/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="../../js/jquery.xconfig.js"></script>
+    <script type="text/javascript" src="../../js/jquery.tool.js"></script>
+</head>
+
+<body>
+	<div>
+    <div>
+        <form id="search-fm" class="form search-form" action="/action/ms/insit-profit-log-his/search" method="post">
+            <table class="table" style="width:950px;">
+              <caption>查询渠道分润</caption>              
+              <tbody><tr>
+                <td class="right td20"><label>清算日期：</label></td>
+                <td class="td30"><input id="settle_date" type="text" class="Wdate xui-validatebox" name="settle_date" style="width:100px;" onfocus="WdatePicker({onpicked:function(){$dp.$('settle_date2').focus();},maxDate:'#F{$dp.$D(\'settle_date\')}'})" data-options="required:true">
+                  <input id="settle_date2" type="text" class="Wdate xui-validatebox" name="settle_date2" style="width:100px;" onfocus="WdatePicker({minDate:'#F{$dp.$D(\'settle_date\')}'})" data-options="required:true">
+                  <label class="required">*</label>
+                </td>
+                <td class="right td20">&nbsp;</td>
+                <td class="td30">&nbsp;</td>
+              </tr>
+                </tbody><tfoot>
+                    <tr>
+                        <td colspan="4" class="center">
+                            <div style="margin:5px;"></div>
+                            <a href="javascript:void(0)" class="xui-linkbutton l-btn" data-options="iconCls:'icon-search',datagrid:'#search-dg',onBefore:onBeforeSearch" style="padding:0 5px;" onclick="xTool.search(this)"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">查询</span><span class="l-btn-icon icon-search">&nbsp;</span></span></a>
+                            &nbsp;&nbsp;
+                            <a href="javascript:void(0)" class="xui-linkbutton l-btn" data-options="iconCls:'icon-clear',datagrid:'#search-dg'" style="padding:0 5px;" onclick="xTool.reset(this)"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">重置</span><span class="l-btn-icon icon-clear">&nbsp;</span></span></a>
+                            &nbsp;&nbsp;
+              				<a href="javascript:void(0)" class="xui-linkbutton l-btn" data-options="iconCls:'icon-export',url:'/action/ms/insit-profit-log-his/export',onBefore:onBeforeSearch" style="padding:0 5px;" onclick="xTool.exportData(this)"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">导出</span><span class="l-btn-icon icon-export">&nbsp;</span></span></a>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </form>
+    </div>
+    <br>
+    <div class="xui-datagrid datagrid" style="min-width: 800px;" id="search-dg" data-options="pagination:true"><div class="datagrid-header">渠道分润</div><div class="datagrid-body"><div class="datagrid-view"><table class="datagrid-table" border="0" cellspacing="0" cellpadding="0"><thead><tr class="datagrid-header-row"><th class="datagrid-header-rownumber" data-options="field:'rn',rownumber:true"></th><th data-options="field:'ec_name'">拓展机构</th><th data-options="field:'term_inves_name'">产权</th><th data-options="field:'rate'">分润算法</th><th data-options="field:'shop_id'">商户编号</th><th data-options="field:'pos_id'">终端编号</th><th data-options="field:'mcht_name'">商户名称</th><th data-options="field:'district_name'">装机城市</th><th data-options="field:'created_time'">录入时间</th><th data-options="field:'last_modified_time'">审批时间</th><th data-options="field:'installed_date'">归档时间</th><th data-options="field:'installed_status'">终端状态</th><th data-options="field:'removed_date'">撤机时间</th><th data-options="field:'trans_count'">交易笔数</th><th data-options="field:'amount'">交易金额</th><th data-options="field:'fee'">商户手续费</th><th data-options="field:'tl_fee'">中间业务收入</th><th data-options="field:'brand_fee'">银联品牌费</th><th data-options="field:'tl_income'">通联实收</th><th data-options="field:'term_income'">终端成本</th><th data-options="field:'insit_income'">渠道分润</th><th data-options="field:'settle_date'">统计日期</th></tr></thead><tbody></tbody></table></div><div class="datagrid-pager"></div></div></div>
+    </div>
+
+    <script>
+    	function onBeforeSearch() {
+    		return $('#search-fm').form('enableValidation').form('validate');
+    	}
+    </script>
+
+
+</body></html>

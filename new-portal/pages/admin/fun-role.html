@@ -1,0 +1,312 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>功能角色管理</title>
+    <link rel="stylesheet" type="text/css" href="../../js/themes/default/easyui.css" />
+    <link rel="stylesheet" type="text/css" href="../../js/themes/icon.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/tool.css" />
+    <script type="text/javascript" src="../../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../../js/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../../js/jquery.xtool.js"></script>
+</head>
+
+<body class="search-body">
+	<div class="search-div">
+    <div>
+        <form id="query-fm" action="/action/admin/fun-role/search" method="get" class="form">
+            <table class="table" style="width:800px;">
+                <caption>查询功能角色</caption>
+                <tr>
+                    <td class="right td20">
+                        <label>功能角色ID：</label>
+                    </td>
+                    <td class="td30">
+                        <input type="text" name="role_id">
+                    </td>
+                    <td class="right td20">
+                        <label>角色名称：</label>
+                    </td class="td30">
+                    <td>
+                        <input type="text" name="role_name">
+                    </td>
+                </tr>
+                <tfoot>
+                    <tr>
+                        <td colspan="4" class="center">
+                            <div style="margin:5px;"></div>
+                            <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search',datagrid:'#search-dg'" style="padding:0 5px;" onclick="xTool.search(this)">查询</a>
+                            &nbsp;&nbsp;
+                            <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-clear',datagrid:'#search-dg'" style="padding:0 5px;" onclick="xTool.reset(this)">重置</a>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </form>
+    </div>
+    <br>
+    <div>
+        <div id="search-dg-tb">
+            <a href="javascript:void(0)" class="easyui-linkbutton action" data-options="plain:true,iconCls:'icon-add',form:'#detail-fm',url:'/action/admin/fun-role/create'" onclick="xTool.add(this)"> 新增 </a>
+            <a href="javascript:void(0)" class="easyui-linkbutton action" data-options="disabled:true,plain:true,iconCls:'icon-view',datagrid:'#search-dg',form:'#detail-fm',url:'/action/admin/fun-role/view'" onclick="xTool.view(this)"> 查看详情 </a>
+            <a href="javascript:void(0)" class="easyui-linkbutton action" data-options="disabled:true,plain:true,iconCls:'icon-edit',datagrid:'#search-dg',form:'#detail-fm',url:'/action/admin/fun-role/update'" onclick="xTool.edit(this)"> 编辑 </a>
+            <a href="javascript:void(0)" class="easyui-linkbutton action" data-options="disabled:true,plain:true,iconCls:'icon-remove',datagrid:'#search-dg',url:'/action/admin/fun-role/delete'" onclick="xTool.deleteBatchSubmit(this)"> 删除 </a>
+            <a href="javascript:void(0)" class="easyui-linkbutton action" data-options="disabled:true,plain:true,iconCls:'icon-group',url:'/action/admin/fun-role/assign-fun'" onclick="$('#dlg').dialog('center').dialog('open')"> 功能权限分配 </a>
+        </div>
+        <table id="search-dg" class="easyui-datagrid" title="功能角色列表" data-options="[myGridDefaults, {idField:'role_id',transition:funRoleTransition}]" style="width:800px;">
+            <thead>
+                <tr>
+                    <th data-options="field:'chk',checkbox:true"></th>
+                    <th data-options="field:'role_id',width:80">功能角色ID</th>
+                    <th data-options="field:'role_name',width:100">角色名称</th>
+                    <th data-options="field:'role_desc',width:200">角色描述</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+    </div>
+    <div class="detail-div">
+        <form id="detail-fm" action="/action/admin/fun-role/view" method="post" class="form init-view">
+            <table class="table" style="width:800px;">
+                <caption>功能角色</caption>
+                <tr>
+                    <td class="right td15">
+                        <label>功能角色ID：</label>
+                    </td>
+                    <td class="td35">
+                        <input class="add edit" type="text" name="role_id">
+                    </td>
+                    <td class="right td15">
+                        <label>角色名称：</label>
+                    </td>
+                    <td class="td35">
+                        <input type="text" name="role_name" class="easyui-validatebox" data-options="required:true"><label class="required">*</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="right td20">
+                        <label>角色描述：</label>
+                    </td>
+                    <td class="td30">
+                        <input type="text" name="role_desc">
+                    </td>
+                    <td class="right td20">&nbsp;</td>
+                    <td class="td30">&nbsp;</td>
+                </tr>
+                <tfoot>
+                    <tr>
+                        <td colspan="4" class="center">
+                            <div style="margin:5px;"></div>
+                            <a href="#" class="easyui-linkbutton button add" data-options="iconCls:'icon-ok',url:'/action/admin/fun-role/create'" style="padding:0 5px;" onclick="xTool.addSubmit(this)">新增提交</a>
+
+                            <a href="#" class="easyui-linkbutton button edit" data-options="iconCls:'icon-ok',url:'/action/admin/fun-role/update'" style="padding:0 5px;" onclick="xTool.editSubmit(this)">编辑提交</a>
+                            <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-return'" style="padding:0 5px;" onclick="xTool.returnSearch(this)">返回</a>
+                    </tr>
+                </tfoot>
+            </table>
+        </form>
+    </div>
+    <div id="dlg" class="easyui-dialog" title="功能权限分配" data-options="modal:true,closed:true,buttons:'#dlg-btn',onBeforeOpen:onClickAssign" style="width:400px; height:450px;">
+        <div>
+            <span style="font-size:12px;font-weight:bold;padding:5px;linheight:30px;">
+        <label>角色名称：</label>
+        <label id="role_name"></label>
+        </span>
+        </div>
+        <div>
+            <ul id="tree">
+            </ul>
+        </div>
+    </div>
+    <div id="dlg-btn">
+        <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-ok'" style="padding:0 5px;" onclick="onClickAssignSubmit(this)"> 确定 </a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-cancel'" style="padding:0 5px;" onClick="$('#dlg').dialog('close')"> 关闭 </a>
+    </div>
+
+    <script>
+        $(function () {
+            initFunTree();
+        });
+
+        function initFunTree() {
+            //初始化菜单功能树				
+            xTool.send('/action/admin/fun-role/fun-tree', {}, function (data, textStatus, jqXHR) {
+                $('#tree').tree({
+                    data: generateFunTree(data),
+                    checkbox: true,
+                    onClick: function (node) {
+                        if (!$(this).tree('isLeaf', node.target)) {
+                            $(this).tree('toggle', node.target);
+                        }
+                    }
+                });
+            });
+        }
+
+        function generateFunTree(data) {
+            var tree = [];
+
+            if (data.code == 0) {
+                var menu = data.menu;
+                var funSet = data.fun_set;
+                var m = {};
+
+                for (var i = 0; i < menu.length; i++) {
+                    var row = menu[i];
+                    var p = m[row.menu_pid];
+                    var n;
+                    if (!p) { //没有找到parent
+                        n = generateFunTreeNode(row, funSet);
+                        tree.push(n);
+                        m[row.menu_id] = n;
+                    } else { //找到parent
+                        n = generateFunTreeNode(row, funSet);
+                        p.children = p.children || [];
+                        p.children.push(n);
+                        m[row.menu_id] = n;
+                    }
+                }
+            }
+
+            return tree;
+            /*
+            return [{
+                id: 'ROOT',
+                text: '功能权限',
+                children: tree,
+                attributes: {
+                    type: 'R'
+                }
+            }];
+            */
+        }
+
+        function generateFunTreeNode(row, funSet) {
+            var n = {
+                id: 'M' + row.menu_id,
+                text: row.menu_name,
+                attributes: {
+                    type: 'M'
+                }
+            };
+            if (row.icon) {
+                n.iconCls = row.icon;
+            }
+            var c = [];
+            for (var i = 0; i < funSet.length; i++) {
+                var fun = funSet[i];
+                if (row.menu_id == fun.menu_id) {
+                    c.push({
+                        id: fun.menu_fun_set_id,
+                        text: fun.fun_set_name,
+                        iconCls: 'icon-rule',
+                        attributes: {
+                            type: 'F'
+                        }
+                    });
+                }
+            }
+            if (c.length > 0) {
+                n.children = c;
+            }
+            return n;
+        }
+
+        function onClickAssign() {
+            var row = $('#search-dg').datagrid('getSelected');
+            var nodes = $('#tree').tree('getChecked');
+            var roots = $('#tree').tree('getRoots');
+
+            if (row) {
+
+                for (var i = 0; i < roots.length; i++) {
+                    var root = roots[i];
+                    $('#tree').tree('collapseAll', root.target);
+                    //$('#tree').tree('expand', root.target);
+                    $('#tree').tree('uncheck', root.target);
+                }
+
+                $('#role_name').html(row.role_name);
+
+                xTool.send('/action/admin/fun-role/menu-fun-set', row, function (data, textStatus, jqXHR) {
+                    if (data.code == 0) {
+                        var fun = data.fun;
+                        var menu = data.menu;
+                        var i, node;
+                        for (i = 0; i < fun.length; i++) {
+                            node = $('#tree').tree('find', fun[i].menu_fun_set_id);
+                            if (node) {
+                                $('#tree').tree('check', node.target);
+                            }
+                        }
+                        
+                        for (i = 0; i < menu.length; i++) {
+                            node = $('#tree').tree('find', 'M'+menu[i].menu_id);
+                            if (node) {
+                            	if($('#tree').tree('isLeaf', node.target)) {
+                                	$('#tree').tree('check', node.target);
+                            	}
+                            }
+                        }
+                    }
+                });
+
+                return true;
+            }
+            return false;
+        }
+
+        function onClickAssignSubmit() {
+            var nodes = $('#tree').tree('getChecked'); //选中的
+            var nodes2 = $('#tree').tree('getChecked', 'indeterminate'); //模糊的
+
+            var row = $('#search-dg').datagrid('getSelected');
+            var menu = []; //菜单
+            var fun = []; //菜单功能集
+            var node;
+            for (var i = 0; i < nodes.length; i++) {
+                node = nodes[i];
+                if (node.attributes.type == 'F') {
+                    fun.push({
+                        menu_fun_set_id: node.id
+                    });
+                } else if (node.attributes.type == 'M') {
+                    menu.push({
+                        menu_id: parseInt(node.id.substr(1))
+                    });
+                }
+            }
+            for (var i = 0; i < nodes2.length; i++) {
+                node = nodes2[i];
+                if (node.attributes.type == 'M') {
+                    menu.push({
+                        menu_id: parseInt(node.id.substr(1))
+                    });
+                }
+            }
+
+            xTool.send('/action/admin/fun-role/assign-fun', {
+                role_id: row.role_id,
+                menu: menu,
+                fun: fun
+            }, function (data, textStatus, jqXHR) {
+                if (data.code == 0) {
+                    $('#dlg').dialog('close');
+                }
+            });
+        }
+
+        var funRoleTransition = [{
+            oper_in: '0',
+            proc_st: '0',
+            action: 'update'
+        }, {
+            oper_in: '0',
+            proc_st: '0',
+            action: 'delete'
+        }];
+    </script>
+</body>
+
+</html>

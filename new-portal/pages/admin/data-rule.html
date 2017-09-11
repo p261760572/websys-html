@@ -1,0 +1,390 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>数据规则管理</title>
+    <link rel="stylesheet" type="text/css" href="../../js/themes/default/easyui.css" />
+    <link rel="stylesheet" type="text/css" href="../../js/themes/icon.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/tool.css" />
+    <script type="text/javascript" src="../../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../../js/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../../js/jquery.xtool.js"></script>
+</head>
+
+<body class="search-body">  
+	<div class="search-div">
+        <div>
+            <form id="query-fm" action="/action/admin/data-rule/search" method="get" class="form">
+                <table class="table" style="width:800px;">
+                    <caption>
+                        查询数据规则
+                    </caption>
+                    <tbody>
+                        <tr>
+                          <td class="right td20"><label>规则名称：</label></td>
+                          <td class="td30"><input type="text" name="rule_name"></td>
+                            <td class="right td20">&nbsp;</td>
+                            <td class="td30">&nbsp;</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="4" class="center">
+                                <div style="margin:5px;"></div>
+                                <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search',datagrid:'#search-dg'" style="padding:0 5px;" onclick="xTool.search(this)">查询</a>
+                                &nbsp;&nbsp;
+                                <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-clear',datagrid:'#search-dg'" style="padding:0 5px;" onclick="xTool.reset(this)">重置</a>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </form>
+        </div>
+        <br>
+        <div>
+            <div id="search-dg-tb"> 
+            	<a href="javascript:void(0)" class="easyui-linkbutton action" data-options="plain:true,iconCls:'icon-add',form:'#detail-fm',url:'/action/admin/data-rule/create'" onClick="xTool.add(this)"> 新增 </a>  
+            	<a href="javascript:void(0)" class="easyui-linkbutton action" data-options="disabled:true,plain:true,iconCls:'icon-view',datagrid:'#search-dg',form:'#detail-fm',url:'/action/admin/data-rule/view'" onClick="xTool.view(this)"> 查看详情 </a>  
+            	<a href="javascript:void(0)" class="easyui-linkbutton action" data-options="disabled:true,plain:true,iconCls:'icon-edit',datagrid:'#search-dg',form:'#detail-fm',url:'/action/admin/data-rule/update'" onClick="xTool.edit(this)"> 编辑 </a>  
+            	<a href="javascript:void(0)" class="easyui-linkbutton action" data-options="disabled:true,plain:true,iconCls:'icon-remove',datagrid:'#search-dg',url:'/action/admin/data-rule/batch-delete'" onClick="xTool.deleteBatchSubmit(this)"> 删除 </a> 
+            </div>
+            <table id="search-dg" class="easyui-datagrid" title="用户列表" data-options="[myGridDefaults, {idField:'data_rule_id',transition:dataRuleTransition}]" style="width:800px;">
+                <thead>
+                    <tr>
+                        <th data-options="field:'chk',checkbox:true"></th>                       
+                        <th data-options="field:'rule_name',width:100">规则名称</th>
+                        <th data-options="field:'res_name',width:200">资源名称</th>
+                        <th data-options="field:'op_name',width:100">操作名称</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+	</div>                   
+    <div class="detail-div"> 
+            <form id="detail-fm" class="form init-view" action="/action/admin/data-rule/view" method="post">
+                <table class="table" style="width:800px;">
+                    <caption>
+                        数据规则
+                    </caption>
+                    <tbody>
+                        <tr>
+                          <td class="right td20"><label>
+                            <input type="hidden" name="data_rule_id" id="data_rule_id">
+                          规则名称：</label></td>
+                          <td colspan="3" class="td80"><input type="text" name="rule_name" style="width:500px;"></td>
+                        </tr>
+                        <tr>
+                            <td class="right td30">
+                                <label>资源：</label>
+                            </td>
+                            <td class="td30">
+                                <input id="res-code" class="easyui-combobox" name="res_code" data-options="valueField:'res_code',textField:'res_name'" style="width:150px;"/>
+                            </td>
+                            <td class="right td20">
+                                <label>操作：</label>
+                            </td>
+                            <td class="td30">
+                                <input id="op-id" class="easyui-combobox" name="op" data-options="panelHeight:'auto',valueField:'op',textField:'op_name'" style="width:150px;"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="right td20">
+                                <label>数据规则：</label>
+                            </td>
+                            <td colspan="3" class="td80">
+                                <textarea class="edit" name="data_rule" style="width:500px; height:100px;"></textarea>
+                                <input class="button add edit" type="button" value="修改" onClick="$('#dlg').dialog('open')">
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="4" class="center">
+                                <div style="margin:5px;"></div>
+                                <a href="#" class="easyui-linkbutton button add" data-options="iconCls:'icon-ok',url:'/action/admin/data-rule/create'" style="padding:0 5px;" onclick="xTool.addSubmit(this)">新增提交</a>
+                                <a href="#" class="easyui-linkbutton button edit" data-options="iconCls:'icon-ok',url:'/action/admin/data-rule/update'" style="padding:0 5px;" onclick="xTool.editSubmit(this)">编辑提交</a>
+                                <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-return'" style="padding:0 5px;" onclick="xTool.returnSearch(this)">返回</a>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </form>
+        </div>
+        <div id="dlg" class="easyui-dialog" title="数据规则" data-options="modal:true,closed:true,buttons:'#dlg-btn',onBeforeOpen:onEditDataRule,onOpen:onOpenDlg,onResize:onOpenDlg" style="width:800px;height:500px;">
+            <div> <span style="font-size:12px;font-weight:bold;padding:5px;linheight:30px;">
+      <label>规则名称：</label>
+      <label id="rulname"></label>
+      </span> 
+            </div>
+            <div id="rule-detail" style="overflow:auto;"></div>
+            <div style="font-size:14px; padding: 9px; background-color: #EBEBEB;">
+                <a href="#" onClick="onClickCurrent(this)" data-options=":CurrentUserID" style="padding-left: 5px;">用户</a> 
+                <a href="#" onClick="onClickCurrent(this)" data-options=":CurrentInstID" style="padding-left: 5px;">机构</a> 
+                <a href="#" onClick="onClickCurrent(this)" data-options=":CurrentProvince" style="padding-left: 5px;">省</a> 
+                <a href="#" onClick="onClickCurrent(this)" data-options=":CurrentCity" style="padding-left: 5px;">市</a> 
+                <a href="#" onClick="onClickCurrent(this)" data-options=":CurrentDistrict" style="padding-left: 5px;">区</a> 
+                <a href="#" onClick="onClickCurrent(this)" data-options=":CurrentInstAttr1" style="padding-left: 5px;">机构属性1</a> 
+                <a href="#" onClick="onClickCurrent(this)" data-options=":CurrentInstAttr2" style="padding-left: 5px;">机构属性2</a> 
+                <a href="#" onClick="onClickCurrent(this)" data-options=":CurrentInstAttr3" style="padding-left: 5px;">机构属性3</a> 
+                <a href="#" onClick="onClickCurrent(this)" data-options=":CurrentInstAttr4" style="padding-left: 5px;">机构属性4</a> 
+                <a href="#" onClick="onClickCurrent(this)" data-options=":CurrentInstAttr5" style="padding-left: 5px;">机构属性5</a> 
+            </div>
+        </div>
+        <div id="dlg-btn"> <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-ok'" onClick="onEditDataRuleSubmit()"> 确定 </a>  <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-cancel'" onClick="$('#dlg').dialog('close')"> 关闭 </a> 
+        </div>
+        <div id="template" style="display: none;">
+            <form id="rule-template" method="post" action="#" style="border:1px solid #888888;background-color:#EBEBEB;margin:5px;padding:5px;">
+                <table style="border: 0;">
+                    <tr>
+                        <td>
+                            <select name="field" data-options="valueField:'column_name',textField:'column_desc',width:150">
+                            </select>
+                        </td>
+                        <td>
+                            <select name="op" data-options="panelHeight:'auto'">
+                                <option value="=">等于</option>
+                                <option value=">">大于</option>
+                                <option value="<">小于</option>
+                                <option value=">=">大于等于</option>
+                                <option value="<=">小于等于</option>
+                                <option value="<>">不等于</option>
+                                <option value="like">模糊匹配</option>
+                                <option value="in">包括在...</option>
+                                <option value="exists">存在...</option>
+                                <option value="not exists">不存在...</option>
+                            </select>
+                        </td>
+                        <td rowspan="2" style="vertical-align:top;">
+                            <span title="value">
+                            <textarea name="value" data-options="valueField:'id',textField:'text'" style="width:450px; height:50px;"></textarea>
+                            </span> 
+                        </td>
+                        <td><a href="#" title="del-rule">删除</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <select name="lo" data-options="panelHeight:'auto'">
+                                <option value="and">并且</option>
+                                <option value="or">或者</option>
+                            </select>
+                        </td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                </table>
+            </form>
+            <div id="group-template" style="border:1px solid #888888;margin:5px;padding:5px;">
+                <div title="btn">
+                    <select name="lo" data-options="panelHeight:'auto'">
+                        <option value="and">并且</option>
+                        <option value="or">或者</option>
+                    </select>
+                    <input type="button" name="add-rulbtn" value="增加条件">
+                    <input type="button" name="add-group-btn" value="增加分组">
+                    <input type="button" name="del-group-btn" value="删除分组">
+                </div>
+            </div>
+        </div>
+    <script>
+        var g_columns = [];
+        var g_value;
+        
+        function initCombobox() {
+        	xTool.send('/action/admin/res-info/list',{},function(data){
+        		if(data.code == 0) {
+        			$('#res-code').combobox('loadData', data.rows);
+        		}
+        	});	
+        	xTool.send('/action/admin/op-info/list',{},function(data){
+        		if(data.code == 0) {
+        			$('#op-id').combobox('loadData', data.rows);
+        		}
+        	});
+        }
+        
+        $(function () {
+        	
+			initCombobox();
+			
+            //模板事件初始化
+            $('input[name="add-rulbtn"]', '#group-template').click(function (e) {
+                var t = $('#rule-template').clone(true).removeAttr('id');
+                $(this).parent().before(t);
+                $('select[name="field"]', t).combobox({
+                    data: g_columns,
+                    onSelect: onChangeSelectField
+                });
+                $('select[name="op"]', t).combobox({
+                    onSelect: onChangeSelectOp
+                });
+            });
+
+            $('input[name="add-group-btn"]', '#group-template').click(function (e) {
+                var t = $('#group-template').clone(true).removeAttr('id');
+                $(this).parent().before(t);
+                //$('select',t).combobox();			
+            });
+
+            $('input[name="del-group-btn"]', '#group-template').click(function (e) {
+                $(this).parent().parent().remove();
+            });
+
+            $('a[title="del-rule"]', '#rule-template').click(function (e) {
+                $(this).closest('form').remove();
+            });
+
+            $('textarea[name="value"]', '#rule-template').focus(function (e) {
+                g_value = this;
+                console.log(this);
+            });
+        });
+
+
+
+        function deserializeRuleDetail(target, rules) {
+            var rule, template;
+            rules = rules || [];
+            for (var i = 0; i < rules.length; i++) {
+                rule = rules[i];
+                if (rule.tag == 'rule') {
+                    template = $('#rule-template').clone(true).removeAttr('id');
+                    $(target).children('div[title="btn"]').before(template);
+                    $('select[name="field"]', template).combobox({
+                        data: g_columns,
+                        onSelect: onChangeSelectField
+                    });
+                    $('select[name="op"]', template).combobox({
+                        onSelect: onChangeSelectOp
+                    });
+                    $(template).form('load', rule);
+                } else if (rule.tag == 'group') {
+                    template = $('#group-template').clone(true).removeAttr('id');
+                    $(target).children('div[title="btn"]').before(template);
+                    $(template).children('div[title="btn"]').children('select[name="lo"]').val(rule.lo);
+                    deserializeRuleDetail(template, rule.rules);
+                }
+            }
+        }
+
+        function serializeRuleDetail(target) {
+            var group = [];
+            var r, g;
+            $(target).children('form,div[title!="btn"]').each(function (index, element) {
+                if (element.nodeName.toLowerCase() == 'form') {
+                    r = $(element).serializeObject()
+                    r.tag = 'rule';
+                    group.push(r);
+                } else if (element.nodeName.toLowerCase() == 'div') {
+                    g = {};
+                    g.tag = 'group';
+                    g.rules = serializeRuleDetail(element);
+                    g.lo = $(element).children('div[title="btn"]').children('select[name="lo"]').val();
+                    group.push(g);
+                }
+            });
+            return group;
+        }
+
+        function onEditDataRule() {
+            var group = $('textarea[name="data_rule"]', '#detail-fm').val();
+            var rule_name = $('input[name="rule_name"]', '#detail-fm').val();
+            var template = $('#group-template').clone(true).removeAttr("id");
+            var t = $('#rule-detail');
+            $('#rulname').html(rule_name);
+            t.empty().append(template);
+            //t.height(t.parent().height() - t.prev().height() - t.next().height());
+
+            group = group || '[]';
+
+            var data = $('#detail-fm').serializeObject();
+            xTool.send('/action/admin/res-columns/list', {res_code: data.res_code}, function success(data, textStatus, jqXHR) {
+                if (data.code == 0) {
+                    g_columns = data.rows;
+                    deserializeRuleDetail(template, $.evalJSON(group));
+                }
+            });
+        }
+
+        function onOpenDlg() {
+            var t = $('#rule-detail');
+            t._outerHeight(t.parent().height() - t.prev().outerHeight() - t.next().outerHeight());
+        }
+
+        function onEditDataRuleSubmit() {
+            var group = serializeRuleDetail($('#rule-detail').children());
+            $('textarea[name="data_rule"]', '#detail-fm').val($.toJSON(group));
+            $('#dlg').dialog('close');
+        }
+
+        function onChangeSelectField(record) {
+            var t;
+            if (record.type == '0') { //text		
+                t = $('textarea[name="value"]', '#rule-template').clone(true);
+                //$(this).nextAll('span[title="value"]').empty().append(t);
+                $(this).closest('table').find('span[title="value"]').empty().append(t);
+            } else if (record.type == '1') { //combobox
+                t = $('textarea[name="value"]', '#rule-template').clone(true);
+                $(this).closest('table').find('span[title="value"]').empty().append(t);
+
+                if (record.url) {
+                    t.combobox({
+                        url: record.url
+                    });
+                } else {
+                    t.combobox({
+                        data: record.data
+                    });
+                }
+            }
+        }
+
+        function onChangeSelectOp(record) {
+            if (record.value == 'exists' || record.value == 'not exists') {
+                var field = $(this).closest('table').find('input[name="field"]').val();
+                var sql = 'select 1 from t where t.' + field + '=${T}.' + field;
+                $(this).closest('table').find('textarea[name="value"]').val(sql);
+            } else {
+                var jq = $(this).closest('table').find('textarea[name="value"]');
+                var value = jq.val().trim();
+                if (value.substr(0, 6) == 'select') {
+                    jq.val('');
+                }
+            }
+        }
+
+        function onClickCurrent(target) {
+            var value = $(target).attr('data-options');
+            if (g_value) {
+                var t = $(g_value);
+                var v = t.val();
+                t.val(v + value);
+                /*
+                if (v.length > 0) {
+                    if (v.charAt(v.length - 1) == ',') {
+                        t.val(v + value);
+                    } else {
+                        t.val(v + ',' + value);
+                    }
+                } else {
+                    t.val(value);
+                }
+                */
+                t.focus();
+            }
+        }       
+      
+        var dataRuleTransition = [{
+            oper_in: '0',
+            proc_st: '0',
+            action: 'update'
+        }, {
+            oper_in: '0',
+            proc_st: '0',
+            action: 'delete'
+        }];
+    </script>
+</body>
+
+</html>

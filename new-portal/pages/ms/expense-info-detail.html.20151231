@@ -1,0 +1,262 @@
+<!doctype html>
+<html>
+
+<head>
+<meta charset="utf-8">
+<title>费用信息</title>
+<link rel="stylesheet" type="text/css" href="../../js/themes/default/xui.css" />
+<link rel="stylesheet" type="text/css" href="../../js/themes/icon.css" />
+<link rel="stylesheet" type="text/css" href="../../css/tool-v2.css" />
+<script type="text/javascript" src="../../js/jquery.min.js"></script>
+<script type="text/javascript" src="../../js/jquery.xui.min.js"></script>
+<script type="text/javascript" src="../../js/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript" src="../../js/jquery.tool-v2.js"></script>
+<script type="text/javascript" src="../../js/jquery.xconfig.js"></script>
+</head>
+
+<body class="search-body">
+	<div class="detail-div">
+		<form id="detail-fm" class="form" action="/action/ms/expense-info/view" method="post" style="width: 950px;" data-options="onLoad:onLoadForm">
+			<div class="readonly-view readonly-renew" style="padding: 5px;">
+				<table class="table readonly" style="width: 100%;">
+					<tr>
+						<td class="right td20"><label>费用单据号：</label></td>
+						<td class="td30"><input type="text" name="expense_no" class="xui-validatebox optional required-edit"
+							data-options="required:true"><span class="required">*</span><span class="invisible visible-add">(系统生成)</span></td>
+						<td class="right td20"><label>终端标识码：</label></td>
+						<td class="td30"><input type="text" name="term_no" class="xui-validatebox" data-options="required:true"><span
+							class="required">*</span></td>
+					</tr>
+					<tr>
+					  <td class="right td20"><label>门店名称：</label></td>
+					  <td class="td30"><input type="text" name="marchant_name" class="xui-validatebox" data-options=""></td>
+					  <td class="right td20"><label>费用类型：</label></td>
+					  <td class="td30"><input type="text" name="type" class="xui-combobox xui-validatebox"
+							data-options="initDom:true,panelHeight:'auto',required:true,data:xConfig['type']">
+					    <span class="required">*</span></td>
+				  </tr>
+					<tr>
+					  <td height="28" class="right td20"><label>收费周期：</label></td>
+					  <td class="td30"><input type="text" name="cycle" class="xui-combobox xui-validatebox"
+							data-options="initDom:true,panelHeight:'auto',required:true,data:xConfig['cycle']">
+				      <span class="required">*</span></td>
+						<td class="right td20"><label class="invisible visible-renew">续费</label><label>金额：</label></td>
+						<td class="td30"><input type="text" name="money" class="xui-validatebox visible invisible-renew" data-options="required:true">
+							<input type="text" name="money2" class="xui-validatebox invisible visible-renew optional required-renew" data-options="required:true"><span
+							class="required">*</span></td>
+					</tr>
+					<tr class="editable-add">
+						<td class="right td20"><label>备注：</label></td>
+						<td class="td80" colspan="3"><input type="text" name="remark" class="xui-validatebox" style="width:500px;" data-options=""></td>
+					</tr>
+				</table>
+				<div class="invisible visible-view visible-renew visible-receipt" style="margin: 5px;"></div>
+				<table class="table" style="width: 100%;">
+					<tr class="invisible visible-view visible-renew visible-receipt">
+						<td class="right td20"><label>收款方式：</label></td>
+						<td class="td30"><input type="text" name="receipted_type" class="xui-combobox optional required-receipt" data-options="initDom:true,panelHeight:'auto',data:xConfig['receivables_type']"><span class="required">*</span></td>
+						<td class="right td20"><label>收款日期：</label></td>
+						<td class="td30"><input type="text" name="receipted_date" class="xui-datebox optional required-receipt" data-options="datePickerOptions:{onpicked:function(){$dp.$('start_date').value=this.value;}}"><span class="required">*</span></td>
+					</tr>
+					<tr class="invisible visible-view visible-renew visible-receipt">
+					  <td class="right td20"><label>收取开始日期：</label></td>
+					  <td class="td30"><input type="text" id="start_date" name="start_date" class="xui-datebox optional required-receipt" data-options="">
+					    <span class="required">*</span></td>
+					  <td class="right td20"><label>收取结束日期：</label></td>
+					  <td class="td30 readonly"><input type="text" name="end_date"></td>
+				  </tr>
+					<tr class="invisible visible-view visible-renew visible-receipt">
+					  <td class="right td20"><label>发票号：</label></td>
+					  <td colspan="3" class="td30"><input type="text" name="invoice_no" class="xui-validatebox" style="width:300px;" data-options=""></td>
+				  </tr>
+					<tr class="invisible visible-view visible-renew">
+						<td class="right td20"><label>收款人：</label></td>
+						<td class="td30"><input type="text" name="receipted_by" class="xui-validatebox" data-options=""></td>
+						<td class="right td20"><label>收款时间：</label></td>
+						<td class="td30"><input type="text" name="receipted_time" class="xui-validatebox" data-options=""></td>
+					</tr>
+					<tr class="invisible visible-view visible-renew visible-receipt">
+						<td class="right td20"><label>收款备注：</label></td>
+						<td class="td80" colspan="3"><input type="text" name="receipted_remark" class="xui-validatebox"
+							style="width: 500px;" data-options=""></td>
+					</tr>
+				</table>
+				<div class="invisible visible-view visible-renew visible-cancel" style="margin: 5px;"></div>
+				<table class="table" style="width: 100%;">
+					<tr class="invisible visible-view visible-renew">
+						<td class="right td20"><label>作废人：</label></td>
+						<td class="td30"><input type="text" name="cancelled_by" class="xui-validatebox" data-options=""></td>
+						<td class="right td20"><label>作废时间：</label></td>
+						<td class="td30"><input type="text" name="cancelled_time" class="xui-validatebox" data-options=""></td>
+					</tr>
+					<tr class="invisible visible-view visible-renew visible-cancel">
+						<td class="right td20"><label>作废备注：</label></td>
+						<td class="td80" colspan="3"><input type="text" name="cancelled_remark" class="xui-validatebox optional required-cancel"
+							style="width: 500px;" data-options=""><span class="required">*</span></td>
+					</tr>
+				</table>
+				<div style="margin: 5px;"></div>
+				<table class="table invisible visible-view visible-renew readonly" style="width: 100%;">
+					<tr>
+						<td class="right td20"><label>记录编号：</label></td>
+						<td class="td30"><input type="text" name="rec_id" class="xui-validatebox" data-options=""></td>
+						<td class="right td20"><label>记录操作标志：</label></td>
+						<td class="td30"><input type="text" name="oper_in" class="xui-combobox" data-options="initDom:true,data:xConfig['oper_in']['K']"></td>
+					</tr>
+					<tr>
+						<td class="right td20"><label>记录处理状态：</label></td>
+						<td class="td30"><input type="text" name="proc_st" class="xui-combobox" data-options="initDom:true,data:xConfig['proc_st']['K']"></td>
+						<td class="right td20"><label>创建人：</label></td>
+						<td class="td30"><input type="text" name="created_by" class="xui-validatebox" data-options=""></td>
+					</tr>
+					<tr>
+						<td class="right td20"><label>创建时间：</label></td>
+						<td class="td30"><input type="text" name="created_time" class="xui-validatebox" data-options=""></td>
+						<td class="right td20"><label>最后修改人：</label></td>
+						<td class="td30"><input type="text" name="last_modified_by" class="xui-validatebox" data-options=""></td>
+					</tr>
+					<tr>
+						<td class="right td20"><label>最后修改时间：</label></td>
+						<td class="td30"><input type="text" name="last_modified_time" class="xui-validatebox" data-options=""></td>
+						<td class="right td20"><label>打印标志：</label></td>
+						<td class="td30"><input type="text" name="printed_flag" class="xui-validatebox" data-options=""></td>
+					</tr>
+					<tr>
+						<td class="right td20"><label>打印人：</label></td>
+						<td class="td30"><input type="text" name="printed_by" class="xui-validatebox" data-options=""></td>
+						<td class="right td20"><label>打印时间：</label></td>
+						<td class="td30"><input type="text" name="printed_time" class="xui-validatebox" data-options=""></td>
+					</tr>
+				</table>
+			</div>
+			<div style="text-align: center;">
+				<div style="margin: 5px;"></div>
+				<a class="xui-linkbutton invisible visible-add" href="javascript:void(0)" style="padding: 0 5px;"
+					data-options="initDom:true,iconCls:'icon-ok',url:'/action/ms/expense-info/create',onSubmit:onAddSubmit"
+					onClick="xTool.submit(this)">生成提交</a>
+				<a class="xui-linkbutton invisible visible-receipt" href="javascript:void(0)" style="padding: 0 5px;"
+					data-options="initDom:true,iconCls:'icon-ok',url:'/action/ms/expense-info/receipt',onSubmit:onReceiptSubmit"
+					onClick="xTool.submit(this)">收款提交</a>
+				<a class="xui-linkbutton invisible visible-cancel" href="javascript:void(0)" style="padding: 0 5px;"
+					data-options="initDom:true,iconCls:'icon-ok',url:'/action/ms/expense-info/cancel',onSubmit:onCancelSubmit"
+					onClick="xTool.submit(this)">作废提交</a>
+				<a class="xui-linkbutton invisible visible-renew" href="javascript:void(0)" style="padding: 0 5px;"
+					data-options="initDom:true,iconCls:'icon-ok',url:'/action/ms/expense-info/renew',onSubmit:onRenewSubmit"
+					onClick="xTool.submit(this)">续费提交</a>
+				<a class="xui-linkbutton" href="javascript:void(0)" style="padding: 0 5px;"
+					data-options="initDom:true,iconCls:'icon-cancel'" onClick="xTool.close(this)">关闭</a>
+			</div>
+		</form>
+	</div>
+	<script>
+		var query;
+		$(function() {
+			var fm, fmDom;
+			fm = $('#detail-fm');
+			fmDom = fm[0];
+
+			query = xTool.parseQueryString();
+			query.operateType = query.operateType || 'add';
+			xTool.transformStatus(fm, query.operateType);
+			
+			if (query.operateType == 'view') {
+				$('span.required', fm).hide();
+			}
+
+			if (query.operateType == 'add') {
+				xTool.loadDetail(fmDom, query, {
+					url : '/action/ms/term-expen/view'
+				});
+			} else {
+				xTool.loadDetail(fmDom, query);
+			}
+			console.log(window);
+		});
+		
+		function onLoadForm (data) {
+			var end_date, add_month;
+			
+			/*
+			if(query.operateType == 'receipt') {
+				if(data.data.cycle == '0') {
+					$(this).form('load', {
+						end_date: '9999-01-01'
+					});
+				} else {
+					$('#start_date,#end_date').validatebox({
+						required: true,
+						novalidate: false
+					});
+					end_date = new Date(data.data.startdate);
+					if(!isNaN(end_date.getTime())) {
+						add_month = 0;
+						if(data.data.cycle == '1') {
+							add_month = 1;
+						} else if(data.data.cycle == '2') {
+							add_month = 3;
+						} else if(data.data.cycle == '3') {
+							add_month = 12;
+						}
+						end_date.setMonth(end_date.getMonth() + add_month);
+						
+						$(this).form('load', {
+							start_date: data.data.startdate.substr(0, 10),
+							end_date: xTool.dateToString(end_date)
+						});
+					}
+				}
+			} else {
+				$(this).form('load', {
+					start_date: data.data.start_date.substr(0, 10),
+					end_date: data.data.end_date.substr(0, 10),
+					receipted_date: data.data.receipted_date.substr(0, 10)
+				});
+			}
+			*/
+			
+			if(query.operateType != 'add') {
+				data.data.start_date = data.data.start_date.substr(0, 10);
+				data.data.end_date = data.data.end_date.substr(0, 10);
+				data.data.receipted_date = data.data.receipted_date.substr(0, 10);
+			}
+		}
+
+		function onAddSubmit(requestData, responseData) {
+			xTool.showInfo('操作成功', function() {
+				if (window.opener && !window.opener.closed) {
+					window.opener.reloadSearchDatagrid();
+				}
+				xTool.close();
+			});
+		}
+
+		function onReceiptSubmit(requestData, responseData) {
+			xTool.showInfo('操作成功', function() {
+				if (window.opener && !window.opener.closed) {
+					window.opener.reloadSearchDatagrid();
+				}
+				xTool.close();
+			});
+		}
+		
+		function onCancelSubmit(requestData, responseData) {
+			xTool.showInfo('操作成功', function() {
+				if (window.opener && !window.opener.closed) {
+					window.opener.reloadSearchDatagrid();
+				}
+				xTool.close();
+			});
+		}
+		
+		function onRenewSubmit(requestData, responseData) {
+			xTool.showInfo('操作成功', function() {
+				if (window.opener && !window.opener.closed) {
+					window.opener.reloadSearchDatagrid();
+				}
+				xTool.close();
+			});
+		}
+	</script>
+</body>
+
+</html>

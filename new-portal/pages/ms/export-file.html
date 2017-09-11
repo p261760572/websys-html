@@ -1,0 +1,143 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="renderer" content="webkit">
+    <title>导出文件下载</title>
+    <link rel="stylesheet" type="text/css" href="../../js/themes/default/xui.css">
+    <link rel="stylesheet" type="text/css" href="../../js/themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="../../css/tool.css">
+    <script type="text/javascript" src="../../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../../js/jquery.iframe-transport.js"></script>
+    <script type="text/javascript" src="../../js/jquery.xui.min.js"></script>
+    <script type="text/javascript" src="../../js/My97DatePicker/WdatePicker.js"></script>
+    <link href="../../js/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="../../js/jquery.xconfig.js"></script>
+    <script type="text/javascript" src="../../js/jquery.tool.js"></script>
+</head>
+
+<body style="padding:5px;">
+    <div>
+        <form id="search-fm" class="form search" action="/action/ms/export-file/search" method="post">
+            <table class="table" style="width:880px;">
+                <caption>
+                    查询
+                </caption>
+                <tbody>
+                    <tr>
+                        <td class="right td20">
+                            <label>导出类型：</label>
+                        </td>
+                        <td class="td30">
+                            <span class="xui-combobox combobox" id="export_type"><input type="text" class="combobox-text"><input type="hidden" name="export_type" class="combobox-value"><span class="combobox-addon"><i class="combobox-icon combobox-arrow"></i></span></span>
+                        </td>
+                        <td class="right td20">
+                            <label>导出日期：</label>
+                        </td>
+                        <td class="td30">
+                            <input type="text" name="created_date" class="Wdate" onfocus="WdatePicker()" data-options="editable:false,required:true">
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="4" class="center">
+                            <div style="margin:5px;"></div>
+                            <a href="javascript:void(0)" id="search-btn" class="xui-linkbutton l-btn" data-options="iconCls:'icon-search',datagrid:'#search-dg'" style="padding:0 5px;" onclick="xTool.search(this)"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">查询</span><span class="l-btn-icon icon-search">&nbsp;</span></span></a> &nbsp;&nbsp;
+                            <a href="javascript:void(0)" class="xui-linkbutton l-btn" data-options="iconCls:'icon-clear',datagrid:'#search-dg'" style="padding:0 5px;" onclick="xTool.reset(this)"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">重置</span><span class="l-btn-icon icon-clear">&nbsp;</span></span></a>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </form>
+    </div>
+    <br>
+    <div class="xui-datagrid datagrid" style="min-width: 800px;" id="search-dg" data-options="rownumbers:true,pagination:true,toolbar:'#search-dg-tb',idField:'rec_id'">
+    	<div class="datagrid-header">导出文件列表</div>
+        <div class="datagrid-body">
+            <div class="datagrid-toolbar"></div>
+            <div class="datagrid-view">
+                <table class="datagrid-table" border="0" cellspacing="0" cellpadding="0">
+                    <thead>
+                        <tr class="datagrid-header-row">
+                            <th class="datagrid-header-rownumber" data-options="field:'rn',rownumber:true"></th>
+                            <th data-options="field:'created_date',width:120">导出时间</th>
+                            <th data-options="field:'created_by',width:80">导出人</th>
+                            <th data-options="field:'rec_id',width:250,formatter:formatBatchNo">批次号</th>
+                            <th data-options="field:'status',width:60,formatter:formatStatus">状态</th>
+                            <th data-options="field:'export_type_nm',width:100">导出类型</th>
+                            <th data-options="field:'remark',width:100">备注</th>
+                            <th data-options="field:'op',width:80,formatter:formatOp">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <div class="datagrid-pager"></div>
+        </div>
+    </div>
+    <script>
+    var formDefaults = {
+    };
+
+
+    function initCombobox() {
+        xTool.send('/action/ms/parameter/list', {
+            export_type: '1'
+        }, function(data) {
+            if (data.code == 0) {
+                $('#export_type').combobox('loadData', data.export_type);
+
+                xConfig['export_type'] = data.export_type;
+            }
+        });
+    }
+
+
+    function formatOp(value, row, index) {
+        var s = '';
+
+        if (row.export_url) {
+            s += '<a href="' + xTool.getUrl(row.export_url) + '" target="_blank">下载</a>';
+        }
+
+        return s;
+    }
+
+
+    function formatResultUrl(value, row, index) {
+        return value.substr(value.lastIndexOf('/') + 1);
+    }
+
+    function formatStatus(value, row, index) {
+        var statusMap = {
+            '0': '等待中',
+            '1': '处理中',
+            '2': '处理完成'
+        };
+
+        return statusMap[value];
+    }
+
+    // function formatExportType(value, row, index) {
+    //     return xTool.formatField(xConfig['export_type'], value);
+    // }
+
+    function formatBatchNo(value, row, index) {
+        //只有增量导出才显示批次号
+        if(row.export_type == '6' || row.export_type == '7' || (row.export_type >= 'A' && row.export_type <= 'Z')) {
+            return value;
+        }
+        return null;
+    }
+
+    $(function() {
+        initCombobox();
+        $('#search-btn').click();
+    });
+    </script>
+</body>
+
+</html>

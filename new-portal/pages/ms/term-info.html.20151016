@@ -1,0 +1,1003 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="renderer" content="webkit">
+<title>终端信息</title>
+<link rel="stylesheet" type="text/css" href="../../js/themes/default/xui.css">
+<link rel="stylesheet" type="text/css" href="../../js/themes/icon.css">
+<link rel="stylesheet" type="text/css" href="../../css/tool.css">
+<script type="text/javascript" src="../../js/jquery.min.js"></script>
+<script type="text/javascript" src="../../js/jquery.xui.min.js"></script>
+<script type="text/javascript" src="../../js/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript" src="../../js/jquery.xconfig.js"></script>
+<script type="text/javascript" src="../../js/jquery.xdistrict.js"></script>
+<script type="text/javascript" src="../../js/jquery.tool.js"></script>
+</head>
+
+<body class="search-body" style="padding:5px;">
+<div class="search-div">
+  <div class="xui-datagrid datagrid" style="min-width: 800px;" id="search-dg" data-options="[myGridDefaults, {idField:'rec_id',transition:myDefaultTransition}]">
+    <div class="datagrid-header">终端信息列表</div>
+    <div class="datagrid-body">
+      <div class="datagrid-toolbar">
+        <form action="/action/ms/term-info/search" method="post" style="display:inline;" data-options="onSerialize:serializeSearchForm">
+          商户号：
+          <input type="text" name="mchnt_cd" style="width:140px;">
+          终端号：
+          <input type="text" name="term_id" style="width:80px;">
+          终端标识码：
+          <input type="text" name="term_no" style="width:80px;">
+          <a id="search-btn" class="xui-linkbutton l-btn l-btn-plain" href="javascript:void(0)" data-options="plain:true,iconCls:'icon-search',datagrid:'#search-dg'" onclick="xTool.search(this)"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">查询</span><span class="l-btn-icon icon-search">&nbsp;</span></span></a>
+        </form>
+        <a href="javascript:void(0)" class="action xui-linkbutton l-btn l-btn-plain" onclick="xTool.add(this)" data-options="plain:true,iconCls:'icon-add',form:'#detail-fm',url:'/action/ms/term-info/create',onSuccess:onAddSuccess"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">新增</span><span class="l-btn-icon icon-add">&nbsp;</span></span></a><a href="javascript:void(0)" class="action xui-linkbutton l-btn l-btn-plain" style="display:none;" onclick="xTool.view(this)" data-options="disabled:true,plain:true,iconCls:'icon-view',datagrid:'#search-dg',form:'#detail-fm',url:'/action/ms/term-info/view'"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">查看详情</span><span class="l-btn-icon icon-view">&nbsp;</span></span></a><a href="javascript:void(0)" class="action xui-linkbutton l-btn l-btn-plain" style="display:none;" onclick="xTool.edit(this)" data-options="disabled:true,plain:true,iconCls:'icon-edit',datagrid:'#search-dg',form:'#detail-fm',url:'/action/ms/term-info/update'"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">编辑</span><span class="l-btn-icon icon-edit">&nbsp;</span></span></a><a href="javascript:void(0)" class="action xui-linkbutton l-btn l-btn-plain" style="display:none;" onclick="xTool.check1(this)" data-options="disabled:true,plain:true,iconCls:'icon-check1',datagrid:'#search-dg',form:'#detail-fm',url:'/action/ms/term-info/check1-pass',onSuccess:onCheck1Success"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">审核</span><span class="l-btn-icon icon-check1">&nbsp;</span></span></a><a href="javascript:void(0)" class="action xui-linkbutton l-btn l-btn-plain" style="display:none;" onclick="xTool.check2(this)" data-options="disabled:true,plain:true,iconCls:'icon-check2',datagrid:'#search-dg',form:'#detail-fm',url:'/action/ms/term-info/check2-pass',onSuccess:onCheck2Success"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">审核</span><span class="l-btn-icon icon-check2">&nbsp;</span></span></a><a href="javascript:void(0)" class="action xui-linkbutton l-btn l-btn-plain" style="display:none;" onclick="xTool.openModifyInfoWin(this)" data-options="disabled:true,plain:true,iconCls:'icon-history',datagrid:'#search-dg',url:'/action/ms/term-info/modify-info'"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">历史变更信息</span><span class="l-btn-icon icon-history">&nbsp;</span></span></a><a href="javascript:void(0)" class="action xui-linkbutton l-btn l-btn-plain" style="display:none;" onclick="xTool.check1BatchSubmit(this)" data-options="disabled:true,plain:true,iconCls:'icon-check1',datagrid:'#search-dg',url:'/action/ms/term-info/batch-check1-pass'"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">批量审核通过</span><span class="l-btn-icon icon-check1">&nbsp;</span></span></a><a href="javascript:void(0)" class="action xui-linkbutton l-btn l-btn-plain" style="display:none;" onclick="xTool.check1BatchSubmit(this)" data-options="disabled:true,plain:true,iconCls:'icon-check1',datagrid:'#search-dg',url:'/action/ms/term-info/batch-check1-nopass'"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">批量审核不通过</span><span class="l-btn-icon icon-check1">&nbsp;</span></span></a><a href="javascript:void(0)" class="action xui-linkbutton l-btn l-btn-plain" style="display:none;" onclick="xTool.check2BatchSubmit(this)" data-options="disabled:true,plain:true,iconCls:'icon-check2',datagrid:'#search-dg',url:'/action/ms/term-info/batch-check2-pass'"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">批量审核通过</span><span class="l-btn-icon icon-check2">&nbsp;</span></span></a><a href="javascript:void(0)" class="action xui-linkbutton l-btn l-btn-plain" style="display:none;" onclick="xTool.check2BatchSubmit(this)" data-options="disabled:true,plain:true,iconCls:'icon-check2',datagrid:'#search-dg',url:'/action/ms/term-info/batch-check2-nopass'"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">批量审核不通过</span><span class="l-btn-icon icon-check2">&nbsp;</span></span></a><a href="javascript:void(0)" class="action xui-linkbutton l-btn l-btn-plain" style="display:none;" onclick="xTool.deleteBatchSubmit(this)" data-options="disabled:true,plain:true,iconCls:'icon-remove',datagrid:'#search-dg',url:'/action/ms/term-info/batch-delete'"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">批量删除</span><span class="l-btn-icon icon-remove">&nbsp;</span></span></a><a href="javascript:void(0)" class="action xui-linkbutton l-btn l-btn-plain" style="display:none;" onclick="xTool.cancelCheck1BatchSubmit(this)" data-options="disabled:true,plain:true,iconCls:'icon-check1',datagrid:'#search-dg',url:'/action/ms/term-info/batch-cancel-check1'"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">批量取消待审</span><span class="l-btn-icon icon-check1">&nbsp;</span></span></a> </div>
+      <div class="datagrid-view">
+        <table class="datagrid-table" border="0" cellspacing="0" cellpadding="0">
+          <thead>
+            <tr class="datagrid-header-row">
+              <th class="datagrid-header-rownumber" data-options="field:'rn',rownumber:true"></th>
+              <th class="datagrid-td-check" data-options="field:'chk',checkbox:true"><div class="datagrid-header-check">
+                  <input type="checkbox">
+                </div></th>
+              <th data-options="field:'term_no',width:80">终端标识码</th>
+              <th data-options="field:'equi_type',width:80,formatter:formatEquiType">机具类型</th>
+              <th data-options="field:'man',width:120">客户装机联系人</th>
+              <th data-options="field:'tel_no',width:120">客户装机联系电话</th>
+              <th data-options="field:'marchant_name',width:120">门店名称</th>
+              <th data-options="field:'installed_addr',width:120">客户装机地址</th>
+              <th data-options="field:'installed_status',width:80,formatter:formatInstalledStatus">安装状态</th>
+              <th data-options="field:'oper_in',width:80,formatter:formatOperIn">操作标志</th>
+              <th data-options="field:'proc_st',width:90,formatter:formatProcSt">记录处理状态</th>
+              <th data-options="field:'last_modified_by',width:80">最后修改人</th>
+              <th data-options="field:'last_modified_time',width:140">最后修改时间</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+      <div class="datagrid-pager"></div>
+    </div>
+  </div>
+</div>
+<div class="detail-div" style="display: none;">
+  <form id="detail-fm" class="form view" action="/action/ms/term-info/view" method="post" data-options="onSerialize:serializeDetailForm,onLoad:onLoadDetailForm" style="width:100%;">
+    <div id="aa" class="xui-accordion accordion" data-options="multiple:true">
+      <div class="accordion-panel">
+        <div class="accordion-header">终端信息
+          <div class="accordion-icon accordion-collapse"></div>
+        </div>
+        <div data-options="selected:true" style="padding:5px;" class="accordion-body">
+          <table class="table" style="width:950px;">
+            <tbody>
+              <tr>
+                <td class="right td20"><label>客户装机联系人：</label></td>
+                <td class="td30"><input type="hidden" name="mcht_id">
+                  <input type="hidden" name="term_no">
+                  <input type="text" name="man" class="xui-validatebox" data-options="required:true">
+                  <label class="required">*</label></td>
+                <td class="right td20"><label>客户装机联系电话：</label></td>
+                <td class="td30"><input type="text" name="tel_no" class="xui-validatebox" data-options="required:true">
+                  <label class="required">*</label></td>
+              </tr>
+              <tr>
+                <td class="right td20"><label>装机城市：</label></td>
+                <td class="td30 clear-readonly"><span class="xui-combobox combobox" id="province" data-options="required:true,data:provinceData,onChange:onChangeProvince">
+                  <input type="text" class="combobox-text" style="width: 55px;">
+                  <input type="hidden" name="province" class="combobox-value">
+                  <span class="combobox-addon"><i class="combobox-icon combobox-arrow"></i></span></span> <span class="xui-combobox combobox" id="city" data-options="required:true,data:cityData,onChange:onChangeCity">
+                  <input type="text" class="combobox-text" style="width: 55px;">
+                  <input type="hidden" name="city" class="combobox-value">
+                  <span class="combobox-addon"><i class="combobox-icon combobox-arrow"></i></span></span> <span class="xui-combobox combobox" id="district" data-options="required:true">
+                  <input type="text" class="combobox-text" style="width: 55px;">
+                  <input type="hidden" name="district" class="combobox-value">
+                  <span class="combobox-addon"><i class="combobox-icon combobox-arrow"></i></span></span>
+                  <label class="required">*</label></td>
+                <td class="right td20"><label>客户装机地址：</label></td>
+                <td class="td30"><input type="text" name="installed_addr" class="xui-validatebox" data-options="required:true">
+                  <label class="required">*</label></td>
+              </tr>
+              <tr>
+                <td class="right td20"><label>终端投资方：</label></td>
+                <td class="td30 clear-readonly"><span class="xui-combobox combobox" id="teminal_product" data-options="panelHeight:'auto',required:true">
+                  <input type="text" class="combobox-text">
+                  <input type="hidden" name="teminal_product" class="combobox-value">
+                  <span class="combobox-addon"><i class="combobox-icon combobox-arrow"></i></span></span>
+                  <label class="required">*</label></td>
+                <td class="right td20"><label>机具类型：</label></td>
+                <td class="td30 clear-readonly"><span class="xui-combobox combobox" id="equi_type" data-options="panelHeight:'auto',required:true,data:xConfig['equi_type'],onChange:changeEquiType">
+                  <input type="text" class="combobox-text">
+                  <input type="hidden" name="equi_type" class="combobox-value">
+                  <span class="combobox-addon"><i class="combobox-icon combobox-arrow"></i></span></span>
+                  <label class="required">*</label></td>
+              </tr>
+              <tr>
+                <td class="right td20"><label>是否加急：</label></td>
+                <td class="td30 clear-readonly"><span class="xui-combobox combobox" data-options="panelHeight:'auto',data:xConfig['is_hurry']">
+                  <input type="text" class="combobox-text">
+                  <input type="hidden" name="is_hurry" class="combobox-value">
+                  <span class="combobox-addon"><i class="combobox-icon combobox-arrow"></i></span></span></td>
+                <td class="right td20"><label>MPOS序号：</label></td>
+                <td class="td30 clear-readonly"><input type="text" id="mpos_no" name="mpos_no" class="xui-validatebox"></td>
+              </tr>
+              <tr>
+                <td class="right td20"><label>连接模式：</label></td>
+                <td class="td30 clear-readonly"><span class="xui-combobox combobox" data-options="panelHeight:'auto',data:xConfig['comm_type']">
+                  <input type="text" class="combobox-text">
+                  <input type="hidden" name="comm_type" class="combobox-value">
+                  <span class="combobox-addon"><i class="combobox-icon combobox-arrow"></i></span></span></td>
+                <td class="right td20"><label>拓展人：</label></td>
+                <td class="td30"><span class="xui-combobox combobox" id="e_id" data-options="required:true,validType:['combobox']">
+                  <input type="text" class="combobox-text">
+                  <input type="hidden" name="e_id" class="combobox-value">
+                  <span class="combobox-addon"><i class="combobox-icon combobox-arrow"></i></span></span>
+                  <label class="required">*</label></td>
+              </tr>
+              <tr>
+                <td class="right td20"><label>是否叠加便民：</label></td>
+                <td class="td30 clear-readonly"><span class="xui-combobox combobox" id="is_overlay" data-options="panelHeight:'auto',onChange:onChangeIsOverlay,data:xConfig['is_overlay']">
+                  <input type="text" class="combobox-text">
+                  <input type="hidden" name="is_overlay" class="combobox-value">
+                  <span class="combobox-addon"><i class="combobox-icon combobox-arrow"></i></span></span></td>
+                <td class="right td20"><label>PSAM卡号：</label></td>
+                <td class="td30 clear-readonly"><input type="text" name="psam_no" class="xui-validatebox" data-options="" id="psam_no" onchange="onChangePsamNo()"></td>
+              </tr>
+              <tr>
+                <td class="right td20"><label>菜单版本：</label></td>
+                <td class="td30"><span class="xui-combobox combobox" id="term_version" data-options="">
+                  <input type="text" class="combobox-text">
+                  <input type="hidden" name="term_version" class="combobox-value">
+                  <span class="combobox-addon"><i class="combobox-icon combobox-arrow"></i></span></span></td>
+                <td class="right td20"><label>终端状态：</label></td>
+                <td class="td30 clear-readonly"><span class="xui-combobox combobox" data-options="panelHeight:'auto',required:true,data:xConfig['status']">
+                  <input type="text" class="combobox-text">
+                  <input type="hidden" name="status" class="combobox-value">
+                  <span class="combobox-addon"><i class="combobox-icon combobox-arrow"></i></span></span>
+                  <label class="required">*</label></td>
+              </tr>
+              <tr>
+                  <td class="right td20">
+                      <label>绑定电话号码：</label>
+                  </td>
+                  <td class="td30 clear-readonly">
+                      <input type="text" name="bind_tel" class="xui-validatebox">
+                  </td>
+                  <td class="right td20"><label>拓展方：</label></td>
+                      <td class="td30 clear-readonly"><span class="xui-combobox combobox" id="ec_id" data-options="required:true,validType:['combobox']">
+                        <input type="text" class="combobox-text">
+                        <input type="hidden" name="ec_id" class="combobox-value">
+                        <span class="combobox-addon"><i class="combobox-icon combobox-arrow"></i></span></span>
+                        <label class="required">*</label></td>
+
+              </tr>
+              <tr>
+                <td class="right td20"><label>门店名称：</label></td>
+                <td colspan="3" class="td80"><input type="text" name="marchant_name" class="xui-validatebox" data-options="" id="marchant_name" style="width:600px;"></td>
+              </tr>
+              <tr>
+                <td class="right td20"><label>备注：</label></td>
+                <td colspan="3" class="td80"><input type="text" name="remark" class="xui-validatebox" data-options="" style="width:600px;"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="accordion-panel">
+        <div class="accordion-header">费用信息
+          <div class="accordion-icon accordion-collapse"></div>
+        </div>
+        <div style="padding:5px;" class="accordion-body">
+          <table class="table" style="width:950px;">
+            <thead>
+              <tr>
+                <th class="td10">费用类别</th>
+                <th>费用金额 </th>
+                <th>收费周期</th>
+                <th>开始日期</th>
+                <th>终止日期</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="right">押金:</td>
+                <td><input type="hidden" name="rec_id0">
+                  <input type="text" name="money0" class="xui-validatebox" data-options="required:true">
+                  <label class="required">*</label></td>
+                <td><input type="hidden" name="cycle0" value="0">
+                  一次性收费</td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="right">服务费:</td>
+                <td><input type="hidden" name="rec_id1">
+                  <input type="text" name="money1" class="xui-validatebox"></td>
+                <td class="clear-readonly"><span class="xui-combobox combobox" data-options="panelHeight:'auto',data:xConfig['cycle']">
+                  <input type="text" class="combobox-text">
+                  <input type="hidden" name="cycle1" class="combobox-value">
+                  <span class="combobox-addon"><i class="combobox-icon combobox-arrow"></i></span></span></td>
+                <td><input type="text" name="startdate1" class="Wdate" onfocus="WdatePicker()"></td>
+                <td><input type="text" name="finaldate1" class="Wdate" onfocus="WdatePicker()"></td>
+              </tr>
+              <tr>
+                <td class="right">通讯费:</td>
+                <td><input type="hidden" name="rec_id2">
+                  <input type="text" name="money2" class="xui-validatebox"></td>
+                <td class="clear-readonly"><span class="xui-combobox combobox" data-options="panelHeight:'auto',data:xConfig['cycle']">
+                  <input type="text" class="combobox-text">
+                  <input type="hidden" name="cycle2" class="combobox-value">
+                  <span class="combobox-addon"><i class="combobox-icon combobox-arrow"></i></span></span></td>
+                <td><input type="text" name="startdate2" class="Wdate" onfocus="WdatePicker()"></td>
+                <td><input type="text" name="finaldate2" class="Wdate" onfocus="WdatePicker()"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="accordion-panel">
+        <div class="accordion-header">终端业务绑定
+          <div class="accordion-icon accordion-collapse"></div>
+        </div>
+        <div style="padding:5px;" class="accordion-body">
+          <div class="xui-datagrid datagrid" style="min-width: 800px;" id="busi-binding-dg" data-options="pagination:false,idField:'rec_id',onLoadSuccess:onLoadSuccess">
+            <div class="datagrid-body">
+              <div class="datagrid-toolbar"><a class="xui-linkbutton l-btn l-btn-plain button add edit" onclick="$('#search-busi-dlg').dialog('open').dialog('center')" href="javascript:void(0)" data-options="plain:true,iconCls:'icon-search'"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">选择</span><span class="l-btn-icon icon-search">&nbsp;</span></span></a></div>
+              <div class="datagrid-view">
+                <table class="datagrid-table" border="0" cellspacing="0" cellpadding="0">
+                  <thead>
+                    <tr class="datagrid-header-row">
+                      <th class="datagrid-header-rownumber" data-options="field:'rn',rownumber:true"></th>
+                      <th data-options="field:'status',width:60,align:'center',formatter:formatStatus">绑定</th>
+                      <th data-options="field:'apptype',width:100,formatter:formatApptype">业务类型</th>
+                      <th data-options="field:'fee_chan',width:80,formatter:formatFeeChan">交易渠道</th>
+                      <th data-options="field:'psam_no',width:140">PSAM卡号</th>
+                      <th data-options="field:'mchnt_cd',width:140">商户号</th>
+                      <th data-options="field:'term_id',width:80,formatter:formatTermId">终端号</th>
+                      <th data-options="field:'account_name',width:100">账户户名</th>
+                      <th data-options="field:'lc_fee_pre',width:150,formatter:formatLcFeePre">扣率</th>
+                      <th data-options="field:'e_id',width:100,formatter:formatEId">拓展人</th>
+                      <th data-options="field:'app_st',width:100,formatter:formatAppSt">业务状态</th>
+                      <th data-options="field:'last_checked_time',width:140">审批日期</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="accordion-panel">
+        <div class="accordion-header">系统使用
+          <div class="accordion-icon accordion-collapse"></div>
+        </div>
+        <div style="padding:5px;" class="accordion-body">
+          <table class="table" style="width:950px;">
+            <tbody>
+              <tr>
+                <td class="right td20"><label>记录编号：</label></td>
+                <td class="td30"><input type="text" name="rec_id" class="add edit"></td>
+                <td class="right td20"><label>记录操作标志：</label></td>
+                <td class="td30"><input type="text" name="oper_in" class="add edit"></td>
+              </tr>
+              <tr>
+                <td class="right td20"><label>记录处理状态：</label></td>
+                <td class="td30"><input type="text" name="proc_st" class="add edit"></td>
+                <td class="right td20"><label>创建人：</label></td>
+                <td class="td30"><input type="text" name="created_by" class="add edit"></td>
+              </tr>
+              <tr>
+                <td class="right td20"><label>创建时间：</label></td>
+                <td class="td30"><input type="text" name="created_time" class="add edit"></td>
+                <td class="right td20"><label>最后修改人：</label></td>
+                <td class="td30"><input type="text" name="last_modified_by" class="add edit"></td>
+              </tr>
+              <tr>
+                <td class="right td20"><label>最后修改时间：</label></td>
+                <td class="td30"><input type="text" name="last_modified_time" class="add edit"></td>
+                <td class="right td20"><label>审核人：</label></td>
+                <td class="td30"><input type="text" name="last_checked_by" class="add edit"></td>
+              </tr>
+              <tr>
+                <td class="right td20"><label>审核时间：</label></td>
+                <td class="td30"><input type="text" name="last_checked_time" class="add edit"></td>
+                <td class="right td20"><label>审核通过或不通过原因：</label></td>
+                <td class="td30"><input type="text" name="checked_reason" class="add edit" id="checked_reason"></td>
+              </tr>
+              <tr>
+                <td class="right td20"><label>终端维护人：</label></td>
+                <td class="td30"><span class="xui-combobox combobox" id="maintained_by">
+                  <input type="text" class="combobox-text">
+                  <input type="hidden" name="maintained_by" class="combobox-value">
+                  <span class="combobox-addon"><i class="combobox-icon combobox-arrow"></i></span></span></td>
+                <td class="right td20">&nbsp;</td>
+                <td class="td30">&nbsp;</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div style="display:block; height:50px;"> </div>
+    <div id="detail-tb" style="position:fixed; bottom:0px; z-index:9999; width:100%; height:40px; background:url(../../images/toolbar_bg.jpg) repeat-x top left;">
+      <div style="margin:7px;"></div>
+      <div style="text-align:center; width:100%;"> <a href="javascript:void(0)" class="button add xui-linkbutton l-btn" data-options="iconCls:'icon-save',url:'/action/ms/term-info/create-save',onSuccess:onSaveSubmitSuccess" style="padding:0 5px;" onclick="promptSubmit(this,'add')"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">保存</span><span class="l-btn-icon icon-save">&nbsp;</span></span></a> <a href="javascript:void(0)" class="button add xui-linkbutton l-btn" data-options="iconCls:'icon-ok',url:'/action/ms/term-info/create',onSuccess:onCreateSubmitSuccess" style="padding:0 5px;" onclick="promptSubmit(this,'add')"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">提交</span><span class="l-btn-icon icon-ok">&nbsp;</span></span></a> <a href="javascript:void(0)" class="button edit xui-linkbutton l-btn" data-options="iconCls:'icon-ok',url:'/action/ms/term-info/update-save',onSuccess:onSaveSubmitSuccess" style="padding:0 5px;" onclick="promptSubmit(this,'edit')"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">保存</span><span class="l-btn-icon icon-ok">&nbsp;</span></span></a> <a href="javascript:void(0)" class="button edit xui-linkbutton l-btn" data-options="iconCls:'icon-ok',url:'/action/ms/term-info/update',onSuccess:onCreateSubmitSuccess" style="padding:0 5px;" onclick="promptSubmit(this,'edit')"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">提交</span><span class="l-btn-icon icon-ok">&nbsp;</span></span></a> <a href="javascript:void(0)" class="button check1 xui-linkbutton l-btn" data-options="iconCls:'icon-ok',url:'/action/ms/term-info/check1-pass',onSuccess:onCheck1SubmitSuccess" style="padding:0 5px;" onclick="xTool.check1Submit(this)"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">审核通过</span><span class="l-btn-icon icon-ok">&nbsp;</span></span></a> <a href="javascript:void(0)" class="button check1 xui-linkbutton l-btn" data-options="iconCls:'icon-no',url:'/action/ms/term-info/check1-nopass',onSuccess:onCheck1SubmitSuccess" style="padding:0 5px;" onclick="onClickCheckNopass(this)"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">审核不通过</span><span class="l-btn-icon icon-no">&nbsp;</span></span></a> <a href="javascript:void(0)" class="button check2 xui-linkbutton l-btn" data-options="iconCls:'icon-ok',url:'/action/ms/term-info/check2-pass',onSuccess:onCheck2SubmitSuccess" style="padding:0 5px;" onclick="xTool.check2Submit(this)"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">审核通过</span><span class="l-btn-icon icon-ok">&nbsp;</span></span></a> <a href="javascript:void(0)" class="button check2 xui-linkbutton l-btn" data-options="iconCls:'icon-no',url:'/action/ms/term-info/check2-nopass',onSuccess:onCheck2SubmitSuccess" style="padding:0 5px;" onclick="onClickCheckNopass(this)"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">审核不通过</span><span class="l-btn-icon icon-no">&nbsp;</span></span></a> <a href="javascript:void(0)" id="return-btn" class="xui-linkbutton l-btn" data-options="iconCls:'icon-return',onSuccess:onReturnSearchSuccess" style="padding:0 5px;" onclick="xTool.returnSearch(this)"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">返回</span><span class="l-btn-icon icon-return">&nbsp;</span></span></a> </div>
+      <a style="position:fixed; right: 5px;  bottom:6px; z-index:1000;" href="javascript:void(0)" class="xui-linkbutton l-btn" onclick="xTool.openModifyInfoWin(this)" data-options="iconCls:'icon-history',url:'/action/ms/term-info/modify-info'"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">历史变更信息</span><span class="l-btn-icon icon-history">&nbsp;</span></span></a> </div>
+  </form>
+</div>
+<div class="xui-dialog dialog" id="check-nopass-dlg" data-options="iconCls:'icon-search',modal:true,closed:true">
+  <div class="dialog-header">审核商户业务<a class="dialog-close" href="javascript:void(0)"></a></div>
+  <div class="dialog-view">
+    <div class="easyui-dialog dialog-body" title="审核商户业务" data-options="iconCls:'icon-search',modal:true,closed:true" style="padding:5px;">
+      <form id="check-nopass-fm" class="form" method="post" data-options="">
+        <table class="table" style="table-layout:fixed; width:800px;">
+          <tbody>
+            <tr>
+              <td class="right td20"><label>审核不通过原因：</label></td>
+              <td class="td80"><input type="text" style="display:none;">
+                <input type="hidden" name="rec_id">
+                <input type="text" name="checked_reason" class="xui-validatebox" data-options="required:true" style="width:600px;">
+                <label class="required">*</label></td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="2" class="center"><div style="margin:5px;"></div>
+                <a href="javascript:void(0)" class="button edit xui-linkbutton l-btn" data-options="onSuccess:onCheckNopassSuccess" style="padding:0 5px;" onclick="xTool.submitForm(this)"><span class="l-btn-left"><span class="l-btn-text">提交</span></span></a></td>
+            </tr>
+          </tfoot>
+        </table>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="xui-dialog dialog" id="search-busi-dlg" data-options="buttons:'#bb',modal:true,closed:true">
+  <div class="dialog-header">查询业务<a class="dialog-close" href="javascript:void(0)"></a></div>
+  <div class="dialog-view">
+    <div title="查询业务" class="dialog-body" style="padding: 10px; width: 850px; height: 300px;" data-options="buttons:'#bb',modal:true,closed:true">
+      <div>
+        <form class="form search-form" id="search-busi-fm" action="/action/ms/term-info/list-busi" method="post" data-options="onSerialize:serializeSearchBusiForm">
+          <table class="table" style="width: 800px;">
+            <tbody>
+              <tr>
+                <td class="right td20"><label>商户号：</label></td>
+                <td class="td30"><input name="mchnt_cd" type="text"></td>
+                <td class="right td20"></td>
+                <td class="td30"></td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td class="center" colspan="4"><div style="margin: 5px;"></div>
+                  <a class="xui-linkbutton l-btn" style="padding: 0px 5px;" onclick="xTool.search(this)" href="javascript:void(0)" data-options="iconCls:'icon-search',datagrid:'#search-busi-dg'"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">查询</span><span class="l-btn-icon icon-search">&nbsp;</span></span></a> &nbsp;&nbsp; <a class="xui-linkbutton l-btn" style="padding: 0px 5px;" onclick="xTool.reset(this)" href="javascript:void(0)" data-options="iconCls:'icon-clear',datagrid:'#search-busi-dg'"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">重置</span><span class="l-btn-icon icon-clear">&nbsp;</span></span></a></td>
+              </tr>
+            </tfoot>
+          </table>
+        </form>
+      </div>
+      <br>
+      <div class="xui-datagrid datagrid" id="search-busi-dg" style="min-width: 800px;" data-options="pagination:true">
+        <div class="datagrid-header">业务列表</div>
+        <div class="datagrid-body">
+          <div class="datagrid-view">
+            <table class="datagrid-table" border="0" cellspacing="0" cellpadding="0">
+              <thead>
+                <tr class="datagrid-header-row">
+                  <th class="datagrid-header-rownumber" data-options="field:'rn',rownumber:true"></th>
+                  <th data-options="field:'apptype',width:100,formatter:formatApptype2">业务类型</th>
+                  <th data-options="field:'fee_chan',width:80,formatter:formatFeeChan">交易渠道</th>
+                  <th data-options="field:'mchnt_cd',width:140">商户号</th>
+                  <th data-options="field:'account_name',width:100">账户户名</th>
+                  <th data-options="field:'lc_fee_pre',width:150,formatter:formatLcFeePre">扣率</th>
+                  <th data-options="field:'e_id',width:100,formatter:formatEId">拓展人</th>
+                  <th data-options="field:'app_st',width:100,formatter:formatAppSt">业务状态</th>
+                  <th data-options="field:'last_checked_time',width:140">审批日期</th>
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+          </div>
+          <div class="datagrid-pager pagination">
+            <table border="0" cellspacing="0" cellpadding="0">
+              <tbody>
+                <tr>
+                  <td><select class="pagination-page-list">
+                      <option selected="">10</option>
+                      <option>20</option>
+                      <option>50</option>
+                      <option>100</option>
+                    </select></td>
+                  <td><div class="pagination-btn-separator"></div></td>
+                  <td><a class="l-btn l-btn-plain pagination-btn-first l-btn-disabled l-btn-plain-disabled" href="javascript:void(0)"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text l-btn-empty">&nbsp;</span><span class="l-btn-icon pagination-first">&nbsp;</span></span></a></td>
+                  <td><a class="l-btn l-btn-plain pagination-btn-prev l-btn-disabled l-btn-plain-disabled" href="javascript:void(0)"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text l-btn-empty">&nbsp;</span><span class="l-btn-icon pagination-prev">&nbsp;</span></span></a></td>
+                  <td><div class="pagination-btn-separator"></div></td>
+                  <td><span style="padding-left: 6px;">第</span></td>
+                  <td><input class="pagination-num" type="text" size="2" value="1"></td>
+                  <td><span class="pagination-after-page" style="padding-right: 6px;">共1页</span></td>
+                  <td><div class="pagination-btn-separator"></div></td>
+                  <td><a class="l-btn l-btn-plain pagination-btn-next l-btn-disabled l-btn-plain-disabled" href="javascript:void(0)"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text l-btn-empty">&nbsp;</span><span class="l-btn-icon pagination-next">&nbsp;</span></span></a></td>
+                  <td><a class="l-btn l-btn-plain pagination-btn-last l-btn-disabled l-btn-plain-disabled" href="javascript:void(0)"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text l-btn-empty">&nbsp;</span><span class="l-btn-icon pagination-last">&nbsp;</span></span></a></td>
+                  <td><div class="pagination-btn-separator"></div></td>
+                  <td><a class="l-btn l-btn-plain pagination-btn-reload" href="javascript:void(0)"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text l-btn-empty">&nbsp;</span><span class="l-btn-icon pagination-load">&nbsp;</span></span></a></td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="pagination-info">共0条记录</div>
+            <div style="clear: both;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="dialog-button"> <a class="xui-linkbutton l-btn" onclick="onSelectBusiSubmit()" href="javascript:void(0)"><span class="l-btn-left"><span class="l-btn-text">确认</span></span></a> <a class="xui-linkbutton l-btn" onclick="$('#search-busi-dlg').dialog('close')" href="javascript:void(0)"><span class="l-btn-left"><span class="l-btn-text">关闭</span></span></a> </div>
+  </div>
+</div>
+<script>
+        var formDefaults = {
+            'province': '43',
+            'teminal_product': '0',
+            'equi_type': '1',
+            'is_hurry': '0',
+            'comm_type': '0',
+            'is_bind': '0',
+            'is_overlay': '0',
+            'status': '1'
+        };
+        
+        var termExpenDefault = {
+            '1': [{
+                'type': '0',
+                'money': '500',
+                'cycle': '0'
+        }, {
+                'type': '1',
+                'money': '',
+                'cycle': '0'
+        }, {
+                'type': '2',
+                'money': '',
+                'cycle': '3'
+        }],
+            '2': [{
+                'type': '0',
+                'money': '1000',
+                'cycle': '0'
+        }, {
+                'type': '1',
+                'money': '',
+                'cycle': '0'
+        }, {
+                'type': '2',
+                'money': '1200',
+                'cycle': '3'
+        }],
+            '3': [{
+                'type': '0',
+                'money': '500',
+                'cycle': '0'
+        }, {
+                'type': '1',
+                'money': '',
+                'cycle': '0'
+        }, {
+                'type': '2',
+                'money': '',
+                'cycle': '3'
+        }],
+            '4': [{
+                'type': '0',
+                'money': '500',
+                'cycle': '0'
+        }, {
+                'type': '1',
+                'money': '',
+                'cycle': '0'
+        }, {
+                'type': '2',
+                'money': '',
+                'cycle': '3'
+        }],
+        '5': [{
+                'type': '0',
+                'money': '500',
+                'cycle': '0'
+        }, {
+                'type': '1',
+                'money': '',
+                'cycle': '0'
+        }, {
+                'type': '2',
+                'money': '',
+                'cycle': '3'
+        }],
+		'6': [{
+                'type': '0',
+                'money': '0',
+                'cycle': '0'
+        }, {
+                'type': '1',
+                'money': '300',
+                'cycle': '0'
+        }, {
+                'type': '2',
+                'money': '',
+                'cycle': '3'
+        }]
+        };
+
+        var myDefaultTransition = xConfig['status_transition']['A'];
+        var provinceData = xProvinceCityDistrict['province'];
+        var cityData = xProvinceCityDistrict['city']['43'];
+
+        function onChangeProvince(newValue, oldValue) {
+            $('#city').combobox('clear').combobox('loadData', xProvinceCityDistrict['city'][newValue]);
+            $('#district').combobox('clear');
+        }
+
+        function onChangeCity(newValue, oldValue) {
+            var province = $('#province').combobox('getValue');
+            $('#district').combobox('clear').combobox('loadData', xProvinceCityDistrict['district'][province + newValue]);
+        }
+        
+        function onAddSuccess(clear) {
+			xTool.addSuccess.call(this, clear);
+			
+			$('#province').combobox('clear').combobox('setValue', formDefaults.province);
+            $('#city').combobox('clear').combobox('setValue', formDefaults.city);
+            $('#district').combobox('clear').combobox('setValue', formDefaults.district);
+			$('#equi_type').combobox('clear').combobox('setValue', formDefaults.equi_type);
+			
+			xTool.send('/action/ms/term-info/list-busi', {
+				page: 1,
+				rows: 4,
+				mcht_id: g_query.mcht_id
+			}, function (data) {
+				var i;
+                if (data.code == 0) {
+                	for(i = 0; i < data.rows.length; i++) {
+                		
+                		//if(!data.rows[i].settle_mchnt_cd) {
+                		//	data.rows[i].settle_mchnt_cd = data.rows[i].mchnt_cd2;
+                		//	//data.rows[i].settle_term_id = data.rows[i].term_id2;
+                		//}
+                		
+                		if(data.rows[i].apptype == '105') {
+                			formDefaults.e_id = data.rows[i].e_id;
+                		}
+                		data.rows[i].rec_id = '';
+                		data.rows[i].status = '';
+                	}
+                    $('#busi-binding-dg').datagrid('loadData', data.rows);
+                    $('#detail-fm').form('load', formDefaults);
+                }
+            });
+            
+            $('#aa').accordion('expandAll');
+		}
+        
+        function onLoadSuccess(data) {
+        	var dg = $('#busi-binding-dg');
+        	var rows = dg.datagrid('getRows');
+			var i;
+			
+			//绑定事件
+			$('td.datagrid-cell[field=status] input:checkbox', dg).change(function() {
+				var t1 = $(this);
+				var tr = t1.closest('tr');
+				var rowIndex = tr.attr('datagrid-row-index');
+				var t2 = $('td.datagrid-cell[field=term_id] input', tr);
+				
+				if(t1.is(':checked')) {
+					t2.validatebox({
+						novalidate: false,    
+					    required: true,    
+					    validType: 'fixLength[8]'
+					});
+					if(t2.val().length == 0) {
+						xTool.send('/action/ms/term-info/generate-term-id', {
+							'mchnt_cd': rows[rowIndex].mchnt_cd
+						}, function (data) {
+			                if (data.code == 0) {
+			                	t2.val(data.data.term_id)
+			                }
+			        	});
+					}
+				} else {
+					t2.validatebox({
+						novalidate: true
+					});
+				}
+			});
+			
+			if(!$('#detail-fm').hasClass('add-form') &&
+				!$('#detail-fm').hasClass('edit-form')) {
+				$('input[type!=checkbox]', dg).attr('readonly', 'readonly');
+				$('input[type=checkbox]', dg).attr('disabled', 'disabled');
+			}
+        }
+
+        function serializeSearchForm(data) {
+            $.extend(data, g_search);
+        }
+
+        function serializeDetailForm(data) {
+            var i, j, t;
+
+			data.abarb_flag = g_abarb_flag;
+			
+            //装机城市
+            //data.city = data.province + data.city + data.district;
+
+            //费用
+            var a = ['rec_id', 'money', 'cycle', 'startdate', 'finaldate'];
+            var expen = [];
+            for (i = 0; i < 3; i++) {
+                t = {
+                    type: i.toString()
+                };
+                for (j = 0; j < a.length; j++) {
+                    t[a[j]] = data[a[j] + i];
+                }
+                expen.push(t);
+            }
+            data.term_expen = expen;
+
+            //业务绑定
+            var dg = $('#busi-binding-dg').datagrid('acceptChanges');
+        	var rows = dg.datagrid('getRows');
+            data.busi_binding = [];
+            for(i = 0; i < rows.length; i ++) {
+            	if(rows[i].rec_id || rows[i].status == '1') {
+            		data.busi_binding.push(rows[i]);
+            	}
+            }
+        }
+        
+        function serializeSearchBusiForm(data) {
+        	data.mcht_id = g_query.mcht_id;
+        }
+
+        function onLoadDetailForm(data) {
+            var i, j, t;
+        	
+            //装机城市
+            //data.data.province = data.data.city.substr(0, 2);
+            //data.data.district = data.data.city.substr(4, 2);
+            //data.data.city = data.data.city.substr(2, 2);
+            
+            $('#province').combobox('clear').combobox('setValue', data.data.province);
+            $('#city').combobox('clear').combobox('setValue', data.data.city);
+            $('#district').combobox('clear').combobox('setValue', data.data.district);
+
+            //费用
+            var a = ['rec_id', 'money', 'cycle', 'startdate', 'finaldate'];
+            var expen = data.term_expen;
+            for (i = 0; i < expen.length; i++) {
+                var t = expen[i];
+                for (j = 0; j < a.length; j++) {
+                    data.data[a[j] + t.type] = t[a[j]];
+                }
+            }
+			
+			var rows = data.busi_binding;
+			
+			for(i = 0; i < rows.length; i ++) {
+				if($.inArray(rows[i].fee_chan,['4','5']) >= 0) {
+					rows[i].psam_no = data.data.psam_no;
+				}
+    		}
+
+            $('#busi-binding-dg').datagrid('clearSelections').datagrid('loadData', data.busi_binding);
+        }
+        
+        function onSaveSubmitSuccess(request, response) {
+        	var fm = $('#detail-fm');
+        	xTool.loadDetail(fm[0], response.data);
+			xTool.transformStatus(fm[0], 'edit');
+        }
+        
+        function onCreateSubmitSuccess(request, response) {
+        	$('#return-btn').trigger('click');
+        }
+
+		function onCheck1Success() {
+        	$('#checked_reason').removeAttr('readonly');
+        }
+        
+        function onCheck2Success() {
+        	$('#checked_reason').removeAttr('readonly');
+        }
+        
+		function onCheck1SubmitSuccess() {
+        	$('#return-btn').trigger('click');
+        }
+        
+        function onCheck2SubmitSuccess() {
+        	$('#return-btn').trigger('click');
+        }
+
+        function formatInstalledStatus(value) {
+            return xTool.formatField(xConfig['installed_status'], value);
+        }
+
+        function formatApptype(value, rowData, rowIndex) {
+        	var apptype = xTool.formatField(xConfig['apptype'], value);
+        	var s = '<a href="javascript:void(0)" onclick="onClickApptype('+rowIndex+')">'+apptype+'</a>';
+            return s;
+        }
+        
+        function formatApptype2(value, rowData, rowIndex) {
+        	var apptype = xTool.formatField(xConfig['apptype'], value);
+            return apptype;
+        }
+        
+        function formatFeeChan(value, rowData, rowIndex) {
+        	return xTool.formatField(xConfig['fee_chan'], value);
+        }
+        
+        function onClickApptype(rowIndex) {
+	    	if(window.parent != window.self) {
+	    		var rows = $('#busi-binding-dg').datagrid('getRows', rowIndex);
+	    		var query = {};
+	    		$.extend(query, g_query);
+	    		query.apppay_id = rows[rowIndex].apppay_id;
+	    		var queryString = $.param(query).replace(/\+/g, '%20');
+	    		window.parent.g_select_tab = true;
+	    		$('#mchnt-busi-iframe', window.parent.document).attr('src', 'mchnt-busi.html?' + queryString);
+				$('#tt>div.tabs-header li:contains(商户业务)', window.parent.document).trigger('click');
+			}
+	    }
+        
+        function formatAppSt(value, row, index) {
+            return xTool.formatField(xConfig['oper_in']['A'], row.oper_in) + xTool.formatField(xConfig['proc_st']['A'], row.proc_st);
+        }
+        
+        function formatLcFeePre(value, row, index) {
+        	var s = '';
+        	
+        	if($.inArray(row.fee_chan,['3','4']) >= 0) {
+        		if(row.lc_fee_pre) {
+	            	s += row.lc_fee_pre+'%';
+	            	if(row.lc_fee_top) {
+	            		s += '-' + row.lc_fee_top;
+	            	}
+	        	}
+        	} else {
+        		s = xTool.formatField(xConfig['fee_algo'], row.fee_rule2, 'fee_algo', 'fee_algo_name');
+        	}
+        	
+        	return s;
+        }
+        
+        function formatStatus(value) {
+            return '<input type="checkbox" '+(value=='1' ? 'checked' : '')+' data-options="on:\'1\',off:\'2\'" />';
+        }
+        
+        function formatTermId(value) {
+        	value = value || '';
+            return '<input type="text" value="'+value+'" style="width:80px;"/>';
+        }
+        
+        function formatEId(value, rowData, rowIndex) {
+	    	return xTool.formatField(xConfig['e_id'], value);
+	    }
+        
+        function formatEquiType(value) {
+            return xTool.formatField(xConfig['equi_type'], value);
+        }
+        
+        function formatOperIn(value, rowData, rowIndex) {
+	    	return xTool.formatField(xConfig['oper_in']['A'], value);
+	    }
+        
+        function formatProcSt(value, rowData, rowIndex) {
+	    	return xTool.formatField(xConfig['proc_st']['A'], value);
+	    }
+
+        function changeEquiType(newValue, oldValue) {
+			 $('#mpos_no').validatebox({
+					required: false
+			 });           			
+			if(newValue == '6') {
+				$('#mpos_no').validatebox({
+					required: true
+				});
+			}
+			
+            if ($('#detail-fm').hasClass('add-form')) {
+				 var data = {};
+                //费用
+                var a = ['money', 'cycle'];
+                var expen = termExpenDefault[newValue];
+                for (i = 0; i < expen.length; i++) {
+                    var t = expen[i];
+                    for (j = 0; j < a.length; j++) {
+                        data[a[j] + t.type] = t[a[j]];
+                    }
+                }
+            
+                $('#detail-fm').form('load', data);
+            }
+        }
+        
+        function onChangeIsOverlay(newValue, oldValue) {
+        	$('#term_version').combobox({    
+				required: false
+			});  
+        	if(newValue == '1') {
+        		$('#term_version').combobox({    
+					required: true
+				});
+        		xTool.send('/action/ms/term-info/generate-psam-no', {}, function (data) {
+	                if (data.code == 0) {
+	                    $('#psam_no').val(data.data.psam_no).change();
+                	}
+	            });
+        	}
+        }
+        
+        function onChangePsamNo() {
+        	//生成业务psam_no
+            var dg = $('#busi-binding-dg');
+			var i, t;
+			
+			dg.datagrid('acceptChanges');
+			
+			var data = dg.datagrid('getData');
+			var rows = data.rows;
+			
+			for(i = 0; i < rows.length; i ++) {
+				if($.inArray(rows[i].fee_chan,['4','5']) >= 0) {
+					rows[i].psam_no = $('#psam_no').val();
+				}
+    		}
+    		
+    		dg.datagrid('loadData', data);
+        }
+
+		function onReturnSearchSuccess() {
+            $('#search-dg').datagrid('reload');
+        }
+        
+        function onClickCheckNopass(target) {
+			var opts = $.parser.parseOptions(target);
+			var data = $('#detail-fm').serializeObject();
+			var f = $('#check-nopass-fm');
+			xTool.transformStatus(f[0], 'edit');
+			f.form('clear').form('load',{
+				rec_id: data.rec_id
+			}).attr('action',opts.url);
+			$('#check-nopass-dlg').dialog('open').dialog('center');
+		}
+		
+		function onCheckNopassSuccess() {
+        	$('#check-nopass-dlg').dialog('close');
+        	$('#return-btn').trigger('click');
+        }
+        function onSelectBusiSubmit() {
+        	var row = $('#search-busi-dg').datagrid('getSelected');
+        	if(row) {
+				var data = $('#busi-binding-dg').datagrid('getData');
+        		var rows = data.rows;
+        		var i;
+        		if(xTool.inObjectArray(row.apppay_id, rows, 'apppay_id') != null) {
+        			xTool.showInfo('业务已存在,无需重复选择');
+        		} else {
+        			row.rec_id = ''; //清空rec_id
+        			row.status = ''; //清空status
+        			data.rows.push(row);
+        			$('#busi-binding-dg').datagrid('loadData', data);
+        			$('#search-busi-dlg').dialog('close');
+        		}
+        	} else {
+        		xTool.showInfo('请选择记录');
+        	}
+        }
+        
+        function promptSubmit(target, op) {
+			var dg = $('#busi-binding-dg');
+			dg.datagrid('acceptChanges');
+			var rows = dg.datagrid('getRows');
+			var i, hasBusi = false;
+            for(i = 0; i < rows.length; i ++) {
+            	if(rows[i].status == '1') {
+            		hasBusi = true;
+            		break;
+            	}
+            }
+            
+            if(!hasBusi) {
+				xTool.showConfirm('没有绑定业务,是否继续提交', callback);
+			} else {
+				callback(true);
+			}
+			
+			function callback(r) {
+				if(r) {
+					if(op == 'add') {
+						xTool.addSubmit(target);
+					} else {
+						xTool.editSubmit(target);
+					}
+				}
+			}
+		}
+
+        function initCombobox() {
+            xTool.send('/action/ms/parameter/list', {
+                term_inves: '1',
+                term_version: '1',
+                e_id: '1',
+                fee_algo: '1',
+				work_id: '1',
+				ec_id: '1'
+            }, function (data) {
+                if (data.code == 0) {
+                    $('#teminal_product').combobox('loadData', data.term_inves);
+                    $('#term_version').combobox('loadData', data.term_version);
+                    $('#e_id').combobox('loadData', data.e_id);
+                    $('#maintained_by').combobox('loadData', data.work_id);
+                    $('#ec_id').combobox('loadData', data.ec_id);
+                    //更新数据
+                    
+                    xConfig['term_inves'] = data.term_inves;
+                    xConfig['term_version'] = data.term_version;
+                    xConfig['e_id'] = data.e_id;
+                    xConfig['fee_algo'] = data.fee_algo;
+                    xConfig['ec_id'] = data.ec_id;
+                }
+            });
+        }
+
+        var g_query;
+        var g_search = {};
+        var g_abarb_flag = '0';
+        $(function () {
+            //当前模式
+            g_query = xTool.parseQueryString();
+
+            if (g_query.displayType == 'search') {
+                xTool.displayType(['search', 'view', 'modify-info']);
+            } else if (g_query.displayType == 'update') {
+                xTool.displayType(['search', 'view', 'modify-info', 'create', 'update', 'batch-delete','batch-cancel-check1']);
+            } else if(g_query.displayType == 'abarbeitung') {
+				g_abarb_flag = '1';
+				xTool.displayType(['search','view','modify-info','update']);
+			} else if (g_query.displayType == 'check1') {
+                xTool.displayType(['search', 'view', 'modify-info', 'check1-pass', 'batch-check1-pass', 'batch-check1-nopass']);
+                g_search.proc_st = '1';
+            } else if (g_query.displayType == 'check2') {
+                xTool.displayType(['search', 'view', 'modify-info', 'check2-pass', 'batch-check2-pass', 'batch-check2-nopass']);
+                g_search.proc_st = '2';
+            }
+
+            formDefaults.mcht_id = g_query.mcht_id;
+            g_search.mcht_id = g_query.mcht_id;
+
+			xTool.send('/action/ms/mchnt-base-info/view', {
+                mcht_id: g_query.mcht_id
+            }, function (data) {
+                if (data.code == 0) {
+                    formDefaults.province = data.data.province;
+		            formDefaults.district = data.data.district;
+		            formDefaults.city = data.data.city;
+		            formDefaults.man = data.data.contact_man;
+		            formDefaults.tel_no = data.data.mobile;
+		            formDefaults.installed_addr = data.data.addr;
+		            formDefaults.marchant_name = data.data.mcht_name;
+		            formDefaults.ec_id = data.data.ec_id;
+                }
+            });
+
+            initCombobox();
+
+            //查询
+            setTimeout(function () {
+                $('#search-btn').click();
+            }, 0);
+        });
+    </script>
+</body>
+</html>

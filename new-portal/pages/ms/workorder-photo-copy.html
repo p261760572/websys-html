@@ -1,0 +1,337 @@
+<!doctype html>
+<html><head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="renderer" content="webkit">
+    <title>工作单影印件</title>
+    <link rel="stylesheet" type="text/css" href="../../js/themes/default/xui.css">
+    <link rel="stylesheet" type="text/css" href="../../js/themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="../../css/uploadify.css">
+    <link rel="stylesheet" type="text/css" href="../../css/tool.css">
+	<style>
+		.uploadify-button {
+			background-color: #eeeeee;
+			background-image: linear-gradient(bottom, #eeeeee 0%, #ffffff 100%);
+			background-image: -o-linear-gradient(bottom, #eeeeee 0%, #ffffff 100%);
+			background-image: -moz-linear-gradient(bottom, #eeeeee 0%, #ffffff 100%);
+			background-image: -webkit-linear-gradient(bottom, #eeeeee 0%, #ffffff 100%);
+			background-image: -ms-linear-gradient(bottom, #eeeeee 0%, #ffffff 100%);
+			background-repeat: no-repeat;
+			-webkit-border-radius: 5px;
+			-moz-border-radius: 5px;
+			border-radius: 5px;
+			border: 1px solid #bbb;
+			color: #444;
+			font: normal 12px Verdana, Geneva, sans-serif;;
+			text-align: center;
+			text-shadow: 0 -1px 0 rgba(0,0,0,0.25);
+			width: 100%;
+		}
+		.uploadify:hover .uploadify-button {
+			background: #eaf2ff;
+			color: #000000;
+			border: 1px solid #b7d2ff;
+			filter: none;
+		}
+	</style>
+    <script type="text/javascript" src="../../js/js.cookie.js"></script>
+    <script type="text/javascript" src="../../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../../js/jquery.xui.min.js"></script>
+    <script type="text/javascript" src="../../js/jquery.uploadify.min.js"></script>
+    <script type="text/javascript" src="../../js/jquery.xconfig.js"></script>
+    <script type="text/javascript" src="../../js/jquery.tool.js"></script>
+</head>
+
+<body style="padding:5px;">
+	<div id="upload-div">
+		<div class="xui-tabs tabs"><div class="tabs-header"><ul class="tabs-nav"><li class="tabs-selected">上传影印件</li><li>自动上传影印件</li></ul></div><div class="tabs-panels" style="width:950px;">  
+			<div style="Padding:5px;" class="tabs-panel">   
+		        <form id="detail-fm" class="form add-form" action="/action/ms/workorder-photo-copy/view" method="post" style="width:938px;">
+		                <table class="table" style="width:100%;">
+		                	<tbody><tr>
+		                	  <td class="right td20"><label>工作单号：</label></td>
+                			  <td class="td30"><input type="text" class="xui-validatebox" name="work_order_no" data-options="required:true">
+		                	    <label class="required">*</label></td>
+		                	  <td class="right td20">&nbsp;</td>
+		                	  <td class="td30">&nbsp;</td>
+		                    </tr>
+		                    <tr>
+		                	  <td class="right td20"> 
+		                	  <label>上传文件：</label>
+		                	  </td>
+		                	  <td colspan="2">
+		                	  <div id="file_upload" class="uploadify" style="height: 30px; width: 120px;"><div id="file_upload-button" class="uploadify-button " style="height: 30px; line-height: 30px; width: 120px;"><span class="uploadify-button-text">浏览...</span></div></div><div id="file_upload-queue" class="uploadify-queue"></div>
+		                	  </td>
+		                	  <td>
+		                	  	<a href="javascript:void(0)" class="xui-linkbutton l-btn" data-options="iconCls:'icon-upload'" style="padding:0 5px;" onclick="onClickUpload()"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">上传</span><span class="l-btn-icon icon-upload">&nbsp;</span></span></a>
+		                	  </td>
+		                    </tr>
+		                </tbody></table>      
+		        </form>    
+		    </div>    
+		    <div style="padding: 5px; display: none;" class="tabs-panel">   
+		        <form id="batch-detail-fm" class="form add-form" action="/action/ms/workorder-photo-copy/view" method="post" style="width:938px;">
+		                <table class="table" style="table-layout:auto; width:100%;">
+		                    <tbody><tr>
+		                      <td class="right td20"><label>说明：</label></td>
+		                      <td colspan="2" class="td80"><label>自动上传工作单影印件根据上传文件名确定工作单，具体文件命名规则见文件</label>
+	                          <a href="workorder_file_name_rules.txt" target="_blank">文件命名规则</a></td>
+	                        </tr>
+		                    <tr>
+		                	  <td class="right td20"> 
+		                	  <label>上传文件：</label>
+		                	  </td>
+		                	  <td class="td50">
+		                	  <div id="batch_file_upload" class="uploadify" style="height: 30px; width: 120px;"><div id="batch_file_upload-button" class="uploadify-button " style="height: 30px; line-height: 30px; width: 120px;"><span class="uploadify-button-text">浏览</span></div></div><div id="batch_file_upload-queue" class="uploadify-queue"></div>
+		                	  </td>
+		                	  <td class="td30">
+		                	  	<a href="javascript:void(0)" class="xui-linkbutton l-btn" data-options="iconCls:'icon-upload'" style="padding:0 5px;" onclick="onClickBatchUpload()"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">上传</span><span class="l-btn-icon icon-upload">&nbsp;</span></span></a>
+		                	  </td>
+		                    </tr>
+		                </tbody></table>      
+		        </form>
+		    </div>  
+		</div></div>
+		<br>
+		<br>
+	</div>
+	<div>
+    <div>
+        <form id="search-fm" class="form search-form" action="/action/ms/workorder-photo-copy/search" method="post">
+            <table class="table" style="width:950px;">
+              <caption>查询影印件</caption>
+              <tbody><tr>
+                <td class="right td20"><label>工作单号：</label></td>
+                <td class="td30"><input type="text" name="work_order_no"></td>
+                <td class="right td20"><label>工作单类型：</label></td>
+                <td class="td30"><span class="xui-combobox combobox" data-options="required:true,data:xConfig['work_order_type']"><input type="text" class="combobox-text"><input type="hidden" name="work_order_type" class="combobox-value"><span class="combobox-addon"><i class="combobox-icon combobox-arrow"></i></span></span></td>
+              </tr>
+              <tr>
+                <td class="right td20"><label>商户号：</label></td>
+                <td class="td30"><input type="text" name="mchnt_cd"></td>
+                <td class="right td20"><label>终端号：</label></td>
+                <td class="td30"><input type="text" name="term_id"></td>
+              </tr>
+              <tr>
+                <td class="right td20"><label>工商营业执照名称：</label></td>
+                <td class="td30"><input type="text" name="mcht_name"></td>
+                <td class="right td20"><label>派单日期：</label></td>
+                <td class="td30"><input id="created_time" type="text" class="Wdate" name="created_time2" style="width:100px;" onfocus="WdatePicker({onpicked:function(){$dp.$('created_time2').focus();},maxDate:'#F{$dp.$D(\'created_time2\')}'})">
+                  <input id="created_time2" type="text" class="Wdate" name="created_time2" style="width:100px;" onfocus="WdatePicker({minDate:'#F{$dp.$D(\'created_time\')}'})"></td>
+              </tr>
+              <tr>
+                <td class="right td20"><label>执行人：</label></td>
+                <td class="td30"><input type="text" name="work_id2"></td>
+                <td class="right td20"><label>执行日期：</label></td>
+                <td class="td30"><input type="text" class="Wdate" onfocus="WdatePicker()" name="work_date" style="width:100px;"></td>
+              </tr>
+              <tr>
+	              	<td class="right td20"><label>终端标识码：</label></td>
+	                <td class="td30"><input type="text" name="term_no"></td>
+	                <td class="right td20"></td>
+	                <td class="td30"></td>
+	              </tr> 
+                </tbody><tfoot>
+                    <tr>
+                        <td colspan="4" class="center">
+                            <div style="margin:5px;"></div>
+                            <a href="javascript:void(0)" id="search-btn" class="xui-linkbutton l-btn" data-options="iconCls:'icon-search',datagrid:'#search-dg'" style="padding:0 5px;" onclick="xTool.search(this)"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">查询</span><span class="l-btn-icon icon-search">&nbsp;</span></span></a>
+                            &nbsp;&nbsp;
+                            <a href="javascript:void(0)" class="xui-linkbutton l-btn" data-options="iconCls:'icon-clear',datagrid:'#search-dg'" style="padding:0 5px;" onclick="xTool.reset(this)"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">重置</span><span class="l-btn-icon icon-clear">&nbsp;</span></span></a>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </form>
+    </div>
+    <br>
+    
+    <div class="xui-datagrid datagrid" style="min-width: 800px;" id="search-dg" data-options="[myGridDefaults, {idField:'rec_id',transition:myDefaultTransition}]"><div class="datagrid-header">影印件列表</div><div class="datagrid-body"><div class="datagrid-toolbar"><a href="javascript:void(0)" class="action xui-linkbutton l-btn l-btn-plain" style="display:none;" onclick="xTool.check1BatchSubmit(this)" data-options="disabled:true,plain:true,iconCls:'icon-check1',datagrid:'#search-dg',url:'/action/ms/workorder-photo-copy/batch-check1-pass',msg:'确认'"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">批量确认</span><span class="l-btn-icon icon-check1">&nbsp;</span></span></a><a href="javascript:void(0)" class="action xui-linkbutton l-btn l-btn-plain" style="display:none;" onclick="xTool.deleteBatchSubmit(this)" data-options="disabled:true,plain:true,iconCls:'icon-remove',datagrid:'#search-dg',url:'/action/ms/workorder-photo-copy/batch-delete',msg:'作废'"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">批量作废</span><span class="l-btn-icon icon-remove">&nbsp;</span></span></a></div><div class="datagrid-view"><table class="datagrid-table" border="0" cellspacing="0" cellpadding="0"><thead><tr class="datagrid-header-row"><th class="datagrid-header-rownumber" data-options="field:'rn',rownumber:true"></th><th class="datagrid-td-check" data-options="field:'chk',checkbox:true"><div class="datagrid-header-check"><input type="checkbox"></div></th><th data-options="field:'work_order_no',width:120">工作单号</th><th data-options="field:'work_order_type',width:120,formatter:formatWorkOrderType">工作单类型</th><th data-options="field:'file_name',width:120,formatter:formatFileName">文件名</th><th data-options="field:'created_by',width:80">上传人</th><th data-options="field:'created_time',width:140">上传日期</th><th data-options="field:'op',width:100,formatter:formatOp">操作</th></tr></thead><tbody></tbody></table></div><div class="datagrid-pager"></div></div></div>
+    </div>
+    <script>
+    	
+    var myDefaultTransition = xConfig['status_transition']['C'];
+    	
+  	
+    function formatFileName(value, rowData, rowIndex) {
+    	var queryString = $.param({url:rowData.file_url}).replace(/\+/g, '%20');
+    	return '<a href="preview-photo.html?'+queryString+'" target="_blank">'+value+'</a>';
+    }
+    
+    function formatProcSt(value, rowData, rowIndex) {
+    	return xTool.formatField(xConfig['proc_st']['C'], value);
+    }
+    
+    function onClickCheck1(rowIndex) {
+    	var rows = $('#search-dg').datagrid('getRows');
+    	xTool.send('/action/ms/workorder-photo-copy/check1-pass', rows[rowIndex], function (data) {
+            if(data.code == 0) {
+            	$('#search-dg').datagrid('reload');
+            }
+        });
+    }
+    
+    function onClickDelete(rowIndex) {
+    	var rows = $('#search-dg').datagrid('getRows');
+    	console.log(rowIndex);
+    	console.log(rows);
+    	xTool.send('/action/ms/workorder-photo-copy/delete', rows[rowIndex], function (data) {
+            if(data.code == 0) {
+            	$('#search-dg').datagrid('reload');
+            }
+        });
+    }
+    
+    function formatOp(value, rowData, rowIndex) {
+    	var s = '<a href="'+rowData.file_url+'?'+encodeURIComponent(rowData.file_name)+'" target="_blank">下载</a>';
+		
+    	//if(rowData.proc_st == '1') {
+	    //	s += '<a href="javascript:void(0)" onClick="onClickCheck1('+rowIndex+')" style="padding-left:5px;">提交</a>' +
+	    //		'<a href="javascript:void(0)" onClick="onClickDelete('+rowIndex+')" style="padding-left:5px;">删除</a>'
+    	//}
+    	return s;
+    }
+    
+    function formatWorkOrderType(value, rowData, rowIndex) {
+        return xTool.formatField(xConfig['work_order_type'], value);
+    }
+    
+    function onClickUpload() {
+    	if ($('#detail-fm').form('enableValidation').form('validate') != true) {
+            return false;
+        }
+    	$('#file_upload').uploadify('upload', '*');
+    }
+	
+	function onClickBatchUpload() {    	
+    	$('#batch_file_upload').uploadify('upload', '*');
+    }
+    
+    function createPhotoCopy(name, url, data) {
+		$.extend(data, {
+			file_name: name,
+			file_url: url
+		});
+		
+		xTool.send('/action/ms/workorder-photo-copy/create', data, function (data) {
+            if(data.code == 0) {
+            	$('#search-dg').datagrid('appendRow', data.data);
+            }
+        });
+    }
+    	
+    function batchCreatePhotoCopy(name, url) {
+    	//var data = $('#detail-fm').serializeObject();
+		var data = {};    	
+		$.extend(data, parseFileName(name),  {
+			file_name: name,
+			file_url: url
+		});
+		
+		xTool.send('/action/ms/workorder-photo-copy/create', data, function (data) {
+            if(data.code == 0) {
+            	$('#search-dg').datagrid('appendRow', data.data);
+            }
+        });
+    }
+    
+	function parseFileName(name) {
+		var data = {};
+		var a = name.split('-');
+		if(a.length == 2) {
+			data.work_order_no = a[0];	
+			return data;			
+		} else if(a.length == 1) {
+			data.work_order_no = a[0].split('.')[0];		
+			return data;
+		}
+		return null;
+	}
+			
+			
+    function checkWorkOrderNo(params, file, upload) {
+    	
+    	xTool.send('/action/ms/workorder/view', params, function (data) {
+            if(data.code == 0) {
+            	if(!data.data.work_order_no) {
+            		$(upload).uploadify('cancel', file.id);
+            		xTool.showInfo('工作单号'+params.work_order_no+'不存在');
+            	}
+            } else {
+            	$(upload).uploadify('cancel', file.id);
+        	}
+        }, false);
+    }
+	
+	function initUpload() {
+ 				
+		$('#file_upload').uploadify({
+        	'auto' : false,
+        	'buttonText' : '浏览...',
+        	'fileSizeLimit' : '1MB',
+        	'fileTypeDesc' : '图片文件',
+        	'fileTypeExts' : '*.gif; *.jpg; *.png',
+        	//'buttonImage' : '../../images/browse-btn.png',
+            'swf' : '../../js/uploadify.swf',
+            'uploader' : '/action/ms/upload?suid=' + Cookies.get('suid') + ';si=' + Cookies.get('si') + ';2',
+            'onUploadSuccess' : function(file, data, response) {
+            	data = $.evalJSON(data);
+            	if(data.code == 0) {
+            		createPhotoCopy(file.name, data.url, $('#file_upload').data(file.id));
+            	} else {
+            		xTool.showError(data.msg);
+            	}
+        	},'onSelect' : function(file) {
+		        var data = $('#detail-fm').serializeObject();
+	        	$('#file_upload').data(file.id, data);
+		        if ($('#detail-fm').form('enableValidation').form('validate') != true) {
+		            $('#file_upload').uploadify('cancel', file.id);
+		        }
+		        //检查工作单号
+		        checkWorkOrderNo(data, file, '#file_upload');
+	        },'onQueueComplete' : function(queueData) {
+	            xTool.showInfo('成功上传'+ queueData.uploadsSuccessful + '个文件');
+	        }
+        });
+ 		
+ 
+        
+        $('#batch_file_upload').uploadify({
+        	'auto' : false,
+        	'buttonText' : '浏览',
+        	'fileSizeLimit' : '1MB',
+        	'fileTypeDesc' : '图片文件',
+        	'fileTypeExts' : '*.gif; *.jpg; *.png',
+        	//'buttonImage' : '../../images/browse-btn.png',
+            'swf' : '../../js/uploadify.swf',
+            'uploader' : '/action/ms/upload?suid=' + Cookies.get('suid') + ';si=' + Cookies.get('si') + ';2',
+            'onUploadSuccess' : function(file, data, response) {
+            	data = $.evalJSON(data);
+            	if(data.code == 0) {
+            		batchCreatePhotoCopy(file.name, data.url);
+            	} else {
+            		xTool.showError(data.msg);
+            	}
+        	},'onSelect' : function(file) {
+        		var data = parseFileName(file.name);
+		        //命名规则检查
+		        if(data) {
+		        	//检查工作单号
+		        	checkWorkOrderNo(data, file, '#batch_file_upload');
+		        } else {
+		        	$('#batch_file_upload').uploadify('cancel', file.id);
+		        	xTool.showInfo(file.name+'不符合命名规则');
+		        }
+	        },'onQueueComplete' : function(queueData) {
+	            xTool.showInfo('成功上传'+ queueData.uploadsSuccessful + '个文件');
+	        }
+        });
+	}
+    	
+    $(function() {
+		initUpload();
+    });
+    </script>
+
+
+</body></html>

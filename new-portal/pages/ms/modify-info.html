@@ -1,0 +1,306 @@
+<!doctype html>
+<html><head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="renderer" content="webkit">
+    <title>变更信息</title>
+    <style>
+        .table {
+            border-collapse: collapse;
+            font-size: 13px;
+            table-layout: fixed;
+        }
+        .table tr.header {
+            background-color: #D0ECFF;
+        }
+        .table tr.odd {
+            background-color: #E4EFFF;
+        }
+        .table tr.even {
+            background-color: #F4F4F4;
+        }
+        .table td {
+            border: 1px solid #95C8E7;
+            /*background-color: #E0ECFF;*/
+            margin: 0;
+            padding-top: 4px;
+            padding-bottom: 4px;
+        }
+        .red {
+        	/*background-color: #FFEFEF;*/
+        	/*F9CC9D FDDD9B C2CFBA 8BB5C0*/
+        	/*color: red;*/
+        	background-color: #FFE48D;
+        }
+        .tip {
+        	/*background-color: #FDDD9B;*/
+        }
+    </style>
+    <link rel="stylesheet" type="text/css" href="../../js/themes/default/xui.css">
+    <script type="text/javascript" src="../../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../../js/jquery.xui.min.js"></script>
+</head>
+
+<body>
+    <div id="diff">
+    </div>
+    <script>
+    	
+    	var query;
+        $(function () {
+            query = $.evalJSON(decodeURIComponent(window.location.search.substr(1)));
+            queryData(query);
+        });
+        
+        function getUrl(url) {
+			//绝对地址
+			if(url.substr(0, 1) == '/') {
+				if(window.location.pathname.substr(0, 4) == '/bm/') {
+		        	return '/bm' + url;
+		        }		
+			}
+	        return url;
+		}
+        
+        function send(url, data, success) {
+	        $.ajax(getUrl(url), {
+	            type: 'POST',
+	            contentType: 'application/json',
+	            dataType: 'json',
+	            data: $.toJSON(data),
+	            success: success
+	        });
+	    }
+	    
+	    function initTip() {
+	    	$('#diff').find('td.tip').tooltip({
+	    		content: '加载提示中...',
+	    		onShow:	function() {
+	    			var t = $(this);
+	    			var text = t.text();
+	    			console.log(t.text().length);
+	    			console.log(t.text().charCodeAt(0));
+	    			if(text && text != String.fromCharCode(160)) {
+		    			send('/action/ms/parameter/tip',{
+		    				table_name: query.table_name,
+		    				name: t.attr('field'),
+		    				value: t.text(),
+		    			}, function(data) {
+		    				//更新提示
+		    				if(data.code == 0) {
+		    					t.tooltip('update', data.text);
+		    				} else {
+		    					t.tooltip('update', data.msg);
+		    				}
+		    			});
+	    			} else {
+	    				t.tooltip('hide');
+	    			}
+	    		}
+	    	});
+	    }
+
+        function queryData(param) {
+            var url = '/action/ms/' + param.res_name + '/modify-info';
+            param.table_name = param.res_name.replace(/-/g, '_');
+            delete param.res_name;
+            send(url, param, function (data) {
+                if (data.code == 0) {
+                    generateDiff(data);
+                    initTip();
+                } else {
+                	alert(data.msg);
+                }
+            });
+        }
+
+        function getColumnName(columns, flag) {
+            var len = columns.length;
+            for (var i = 0; i < len; i++) {
+                if (columns[i].flag == flag) {
+                    return columns[i].name;
+                }
+            }
+
+            return null;
+        }
+
+        function getModifiedByName(columns) {
+            return getColumnName(columns, '2');
+        }
+
+        function getModifiedTimeName(columns) {
+            return getColumnName(columns, '3');
+        }
+
+        function convertToMap(columns, flag) {
+            var columnsMap = {};
+            var len = columns.length;
+            for (var i = 0; i < len; i++) {
+            	if($.inArray(columns[i].flag, flag) >= 0) {
+                    columnsMap[columns[i].name] = columns[i];
+                }
+            }
+
+            return columnsMap;
+        }
+
+        function generateDiff(data) {
+            var rows = data.rows;
+            var columns = data.columns;
+            var modifiedBy = getModifiedByName(columns);
+            var modifiedTime = getModifiedTimeName(columns);
+            var columnsMap = convertToMap(columns, ['1','4']);
+            
+            if(data.data.proc_st != '8') {
+            	//特殊处理
+            	if(query.table_name == 'mchnt_busi') {
+            		data.data.product = data.product;
+            	} else if(query.table_name == 'term_info') {
+            		data.data.term_expen = data.term_expen;
+            		data.data.busi_binding = data.busi_binding;
+            	}
+            	
+                rows.push(data.data);
+            } else if(query.table_name == 'term_info' && data.data.proc_st != '0' && data.data.proc_st != '8') {
+        		data.data.term_expen = data.term_expen;
+        		data.data.busi_binding = data.busi_binding;
+        		
+            	rows.push(data.data);
+            }
+            
+            var len = rows.length;
+            for (var i = 1; i < len; i++) {
+                var row1 = rows[i - 1];
+                var row2 = rows[i];
+
+                var table = '<table class="table" style="width:100%;">';
+                table += '<tr class="header"><td style="width:30%;">修改人标识:</td><td>' + row2[modifiedBy] + '</td>' +
+                    '<td style="width:10%;">修改时间:</td><td>' + row2[modifiedTime] + '</td></tr>';
+
+                var num = 0;
+                for (var name in row1) {
+                	var column = columnsMap[name];
+                	if(column) {
+	                    var comments = column.comments;
+	                    var tip = (column.flag == '4') ? 'tip' : '';
+	                    if (comments && row1[name] != row2[name]) {
+	
+	                        table += '<tr class="' + (num % 2 == 0 ? 'even' : 'odd') + '"><td>' + comments + '</td><td class="'+tip+'" field="'+name+'">' + row1[name] + '</td>'
+	                        table += '<td>-&gt;</td><td class="red '+tip+'" field="'+name+'">' + row2[name] + '</td></tr>'
+	                        num++;
+	                    }
+	                }
+                }
+
+                table += '</table>';
+
+                $('#diff').append(table);
+                
+                if(query.table_name == 'mchnt_busi') {
+                	if($.isArray(row1.product) && $.isArray(row2.product)) {
+            			$('#diff').append(diffArray(row1.product, row2.product, data.product_columns));
+            		}
+            	} else if(query.table_name == 'term_info') {
+            		$('#diff').append(diffArray(row1.term_expen, row2.term_expen, data.expen_columns));
+            		$('#diff').append(diffArray(row1.busi_binding, row2.busi_binding, data.busi_columns));
+            	}
+                
+                $('#diff').append('<div style="height:20px;"></div>');
+            }
+
+        }
+        
+        function compareObject(obj1, obj2, attrs) {
+			var nameField = 'name', name;
+			var i;
+			for(i = 0; i < attrs.length; i++) {
+				if($.inArray(attrs[i].flag,['1','4']) >= 0) {
+					name = attrs[i][nameField]; 
+					if(obj1[name] != obj2[name]) {
+						return 1;
+					}
+				}
+			}
+			return 0;
+		}
+        
+        function generateObjectDiff(obj1, obj2, attrs) {
+			var nameField = 'name', name, v1, v2;
+			var dd1 = ['<tr class="odd">'], dd2 = ['<tr class="even">'];
+			var i, tip;
+			for(i = 0; i < attrs.length; i++) {
+				tip = (attrs[i].flag == '4') ? 'tip' : '';
+				if($.inArray(attrs[i].flag,['1','4']) >= 0) {
+					name = attrs[i][nameField];
+					v1 = obj1[name] || '&nbsp;';
+					v2 = obj2[name] || '&nbsp;';
+					dd1.push('<td class="'+tip+'" field="'+name+'">'+v1+'</td>');
+					if(v1 == v2) {
+						dd2.push('<td class="'+tip+'" field="'+name+'">'+v2+'</td>');
+					} else {
+						dd2.push('<td class="red '+tip+'" field="'+name+'">'+v2+'</td>');
+					}
+				}
+			}
+			dd1.push('</tr>');
+			dd2.push('</tr>');
+			
+			return dd1.concat(dd2).join('');
+		}
+        
+        function diffArray(arr1, arr2, attrs) {
+        	var textField = 'comments';
+			var dd = ['<div style="height:5px;"></div><table class="table" style="width:auto;">'];
+			var count = 0;
+			var i, j, d;
+			
+			//header
+			dd.push('<tr class="header">');
+			for(i = 0; i < attrs.length; i++) {
+				if($.inArray(attrs[i].flag, ['1','4']) >= 0) {
+					dd.push('<td>'+attrs[i][textField]+'</td>');
+				}
+			}
+			dd.push('</tr>');
+			
+			i = 0, j = 0;
+			while(i < arr1.length && j < arr2.length) {
+				d = arr1[i].rec_id - arr2[j].rec_id;
+				if(d == 0) {
+					if(compareObject(arr1[i], arr2[j], attrs) != 0) {
+						dd.push(generateObjectDiff(arr1[i], arr2[j], attrs));
+						count++;
+					}
+					i++, j++;
+				} else if(d > 0) {
+					dd.push(generateObjectDiff({}, arr2[j], attrs));
+					j++, count++;
+				} else if(d < 0) {
+					dd.push(generateObjectDiff(arr1[i], {}, attrs));
+					i++, count++;
+				}
+			}
+			
+			while(i < arr1.length) {
+				dd.push(generateObjectDiff(arr1[i], {}, attrs));
+				i++, count++;
+			}
+			
+			while(j < arr2.length) {
+				dd.push(generateObjectDiff({}, arr2[j], attrs));
+				j++, count++;
+			}
+			
+			dd.push('</table>');
+			
+			if(count > 0) {
+				return dd.join('');
+			}
+			
+			return null;
+		}
+    </script>
+
+
+</body></html>

@@ -1,0 +1,351 @@
+<!doctype html>
+<html><head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="renderer" content="webkit">
+    <title>工作单</title>
+    <link rel="stylesheet" type="text/css" href="../../js/themes/default/xui.css">
+    <link rel="stylesheet" type="text/css" href="../../js/themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="../../css/tool.css">
+    <style>
+@media print {
+.no_print {
+	display: none;
+}
+}
+
+html,body {
+	margin:0;
+	padding:0;
+	font-size: 16px;
+	line-height: 20px;
+}
+
+#dd {
+	background: url('zjd.png') no-repeat 0 0;
+}
+
+
+#year {
+	position: absolute;
+	left: 270px;
+	top: 100px;
+}
+
+#month {
+	position: absolute;
+	left: 360px;
+	top: 100px;
+}
+
+#day {
+	position: absolute;
+	left: 430px;
+	top: 100px;
+}
+
+#work_order_no {
+	position: absolute;
+	left: 620px;
+	top: 70px;
+}
+
+#mcht_name {
+	position: absolute;
+	left: 170px;
+	top: 130px;
+}
+
+#marchant_name {
+	position: absolute;
+	left: 550px;
+	top: 130px;
+}
+
+#mchnt_cd {
+	position: absolute;
+	left: 170px;
+	top: 160px;
+}
+
+#term_id {
+	position: absolute;
+	left: 540px;
+	top: 160px;
+}
+
+#note {
+	position: absolute;
+	left: 170px;
+	top: 190px;
+}
+
+#linkman {
+	position: absolute;
+	left: 170px;
+	top: 220px;
+}
+
+#mobile {
+	position: absolute;
+	left: 360px;
+	top: 220px;
+}
+
+#telno {
+	position: absolute;
+	left: 650px;
+	top: 220px;
+}
+
+#installed_addr {
+	position: absolute;
+	left: 170px;
+	top: 250px;
+}
+
+#account_name {
+	position: absolute;
+	left: 170px;
+	top: 280px;
+}
+
+
+#account_bank {
+	position: absolute;
+	left: 555px;
+	top: 280px;
+}
+
+#account_no {
+	position: absolute;
+	left: 170px;
+	top: 305px;
+}
+
+#equi_type {
+	position: absolute;
+	left: 170px;
+	top: 335px;
+}
+
+#zj_device_no {
+	position: absolute;
+	left: 420px;
+	top: 335px;
+}
+
+#jp_device_no {
+	position: absolute;
+	left: 620px;
+	top: 335px;
+}
+
+#term_count {
+	position: absolute;
+	left: 475px;
+	top: 805px;
+}
+
+#deposit_no {
+	position: absolute;
+	left: 625px;
+	top: 805px;
+}
+
+#deposit_amount {
+	position: absolute;
+	left: 205px;
+	top: 830px;
+}
+
+#money2 {
+	position: absolute;
+	left: 490px;
+	top: 830px;
+}
+
+#e_name {
+	position: absolute;
+	left: 140px;
+	top: 1040px;
+}
+</style>
+    <script type="text/javascript" src="../../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../../js/jquery.xui.min.js"></script>
+    <script type="text/javascript" src="../../js/jquery-barcode.min.js"></script>
+    <script type="text/javascript" src="../../js/jquery.xconfig.js"></script>
+    <script type="text/javascript" src="../../js/jquery.tool.js"></script>
+    </head>
+
+<body>
+<div id="dd" style="margin:auto; width: 794px; height: 1123px; display: block; overflow: hidden;">
+  <div id="detail-div" style="position: relative;">
+  	<span id="year"></span>
+  	<span id="month"></span>
+  	<span id="day"></span>
+  	<div id="work_order_no"></div>
+  	<span id="mcht_name"></span>
+  	<span id="marchant_name"></span>
+  	<span id="mchnt_cd"></span>
+  	<span id="term_id"></span>
+  	<span id="note"></span>
+  	<span id="linkman"></span>
+  	<span id="mobile"></span>
+  	<span id="telno"></span>
+  	<span id="installed_addr"></span>
+  	<span id="account_name"></span>
+  	<span id="account_bank"></span>
+  	<span id="account_no"></span>
+  	<span id="equi_type"></span>
+  	<span id="zj_device_no"></span>
+  	<span id="jp_device_no"></span>
+  	<span id="term_count">1</span>
+  	<span id="deposit_no"></span>
+  	<span id="deposit_amount"></span>
+  	<span id="money2"></span>
+	<span id="e_name"></span>
+  </div>
+  <div class="no_print" style="text-align:center; width: 680px; margin:10px;">
+      <div style="margin:5px;"></div>
+      <input type="button" value="打印" onclick="window.print()">
+      <input type="button" value="关闭" onclick="window.close()">
+    </div>
+</div>
+<script>
+        var myDefaultTransition = xConfig['status_transition']['D'];
+
+        function serializeDetailForm(data) {
+            /*
+                  var i;
+                  var work_flag = [];
+                  for(i = 0; i < 9; i++) {
+                  	work_flag.push($('#work_flag'+i).is( ":checked" ) ? '1' : '0');
+                  }
+                  data.work_flag = work_flag.join('');
+                  */
+        }
+
+        function onLoadDetailForm(data) {
+            var i;
+
+            for (i = 0; i < data.data.work_flag.length; i++) {
+                if (data.data.work_flag.charAt(i) == '1') {
+                    $('#work_flag' + i).prop("checked", true);
+                }
+            }
+
+            data.data.plan_date = data.data.plan_date.substr(0, 10);
+        }
+
+        function formatPlanDate(value) {
+            return value.substr(0, 10);
+        }
+ 
+		function formatOperIn(value, rowData, rowIndex) {
+	    	return xTool.formatField(xConfig['oper_in']['D'], value);
+	    }
+
+        function formatProcSt(value, rowData, rowIndex) {
+            return xTool.formatField(xConfig['proc_st']['D'], value);
+        }
+        
+        function formatWorkOrderType(value, rowData, rowIndex) {
+            return xTool.formatField(xConfig['work_order_no'], value);
+        }
+        
+        function formatEquitype(value, rowData, rowIndex) {
+            return xTool.formatField(xConfig['equi_type'], value);
+        }
+        
+        function loadData(data){
+			var form = $('#detail-div');
+			var i;
+			
+			var mchnt_cd= [], term_id=[], account_name = [], account_no = [], account_bank = [];
+			for(i = 0; i < data.term_busi.length; i++) {
+				mchnt_cd.push(data.term_busi[i].mchnt_cd);
+			    term_id.push(data.term_busi[i].term_id);
+			    
+			    if($.inArray(data.term_busi[i].account_name, account_name) < 0) {
+			    	account_name.push(data.term_busi[i].account_name);
+				}
+				
+				if($.inArray(data.term_busi[i].account_no, account_no) < 0) {
+			    	account_no.push(data.term_busi[i].account_no);
+				}
+				
+				if($.inArray(data.term_busi[i].bank_name, account_bank) < 0) {
+			    	account_bank.push(data.term_busi[i].bank_name);
+				}
+			    
+	    		//if(data.term_busi[i].apptype == '105') {
+	    		//	data.data.mchnt_cd = data.term_busi[i].mchnt_cd;
+	    		//	data.data.term_id = data.term_busi[i].term_id;
+	    		//	data.data.account_name = data.term_busi[i].account_name;
+	    		//	data.data.account_no = data.term_busi[i].account_no;
+	    		//	data.data.account_bank = data.term_busi[i].bank_name;
+	    		//}
+	    	}
+	    	
+	    	data.data.mchnt_cd = mchnt_cd.join('/');
+    		data.data.term_id = term_id.join('/');
+    		data.data.account_name = account_name.join('/');
+    		data.data.account_no = account_no.join('/');
+    		data.data.account_bank = account_bank.join('/');
+	    	
+	    	for(i = 0; i < data.term_expen.length; i++) {
+	    		if(data.term_expen[i].type == '2') {
+	    			data.data.money2 = data.term_expen[i].money;
+	    		}
+	    	}
+	    	
+	    	data.data.zj_device_no = [];
+	    	data.data.jp_device_no = [];
+	    	for(i = 0; i < data.device.length; i++) {
+	    		if(data.device[i].device_flag == '1') {
+	    			data.data.zj_device_no.push(data.device[i].device_no);
+	    		} else if(data.device[i].device_flag == '2') {
+	    			data.data.jp_device_no.push(data.device[i].device_no);
+	    		}
+	    	}
+	    	
+	    	data.data.zj_device_no = data.data.zj_device_no.join(',');
+	    	data.data.jp_device_no = data.data.jp_device_no.join(',');
+			
+			
+			data.data.equi_type = formatEquitype(data.data.equi_type);
+			
+			data.data.deposit_no = data.deposit.deposit_no;
+			data.data.deposit_amount = data.deposit.deposit_amount;
+			
+			data.data.year = data.data.sysdate.substr(0,4);
+			data.data.month = data.data.sysdate.substr(5,2);
+			data.data.day = data.data.sysdate.substr(8,2);
+			
+			for(var name in data.data){
+				var val = data.data[name];
+				form.find('#'+name).text(val);
+			}
+		}
+        
+        var g_query;
+		$(function() {
+			g_query  = xTool.parseQueryString();
+			
+			xTool.send('/action/ms/workorder/view', {
+                rec_id: g_query.rec_id
+            }, function (data) {
+                if (data.code == 0) { 
+                	loadData(data);
+                	$('#work_order_no').barcode(data.data.work_order_no, 'code128', {
+                		barWidth: 1,
+                		barHeight: 30
+                	});
+                }
+            });
+		});
+ 
+    </script>
+
+</body></html>

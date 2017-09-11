@@ -1,0 +1,228 @@
+<!doctype html>
+<html><head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="renderer" content="webkit">
+    <title>押金条收款</title>
+    <link rel="stylesheet" type="text/css" href="../../js/themes/default/xui.css">
+    <link rel="stylesheet" type="text/css" href="../../js/themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="../../css/tool.css">
+    <script type="text/javascript" src="../../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../../js/jquery.xui.min.js"></script>
+    <script type="text/javascript" src="../../js/My97DatePicker/WdatePicker.js"></script><link href="../../js/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="../../js/jquery.xconfig.js"></script>
+    <script type="text/javascript" src="../../js/jquery.tool.js"></script>
+</head>
+
+<body class="search-body">
+	<div class="search-div">
+    <div>
+        <form id="search-fm" class="form search-form" action="/action/ms/deposit-translog/search" method="post" data-options="onSerialize:serializeSearchForm">
+            <table class="table" style="width:950px;">
+              <caption>查询押金收款流水</caption>
+              <tbody><tr>
+                <td class="right td20"><label>PSAM卡号：</label></td>
+                <td class="td30"><input type="text" name="psam_no"></td>
+                <td class="right td20"><label>门店名称：</label></td>
+                <td class="td30"><input type="text" name="marchant_name"></td>
+              </tr>
+              <tr>
+                <td class="right td20"><label>交易日期：</label></td>
+                <td class="td30"><input id="sys_date" type="text" class="Wdate" name="sys_date" style="width:100px;" onfocus="WdatePicker({onpicked:function(){$dp.$('sys_date2').focus();},maxDate:'#F{$dp.$D(\'sys_date2\')}'})">
+                  <input id="sys_date2" type="text" class="Wdate" name="sys_date2" style="width:100px;" onfocus="WdatePicker({minDate:'#F{$dp.$D(\'sys_date\')}'})"></td>
+                <td class="right td20"><label>是否核对：</label></td>
+                <td class="td30">
+                	<span class="xui-combobox combobox" data-options="panelHeight:'auto'"><input type="text" class="combobox-text" style="width: 25px;"><input type="hidden" name="check_flag" class="combobox-value" value="0"><span class="combobox-addon"><i class="combobox-icon combobox-arrow"></i></span></span> 
+                </td>
+              </tr>
+                </tbody><tfoot>
+                    <tr>
+                        <td colspan="4" class="center">
+                            <div style="margin:5px;"></div>
+                            <a href="javascript:void(0)" class="xui-linkbutton l-btn" data-options="iconCls:'icon-search',datagrid:'#search-dg',onSuccess:onSearchSuccess" style="padding:0 5px;" onclick="xTool.search(this)"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">查询</span><span class="l-btn-icon icon-search">&nbsp;</span></span></a>
+                            &nbsp;&nbsp;
+                            <a href="javascript:void(0)" class="xui-linkbutton l-btn" data-options="iconCls:'icon-clear',datagrid:'#search-dg'" style="padding:0 5px;" onclick="xTool.reset(this)"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">重置</span><span class="l-btn-icon icon-clear">&nbsp;</span></span></a>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </form>
+    </div>
+    <br>
+    
+    <div class="xui-datagrid datagrid" style="min-width: 800px;" id="search-dg" data-options="toolbar:'#search-dg-tb',pagination:true"><div class="datagrid-header">押金列表</div><div class="datagrid-body"><div class="datagrid-toolbar"><a href="javascript:void(0)" class="action xui-linkbutton l-btn l-btn-plain" onclick="batchSubmit(this)" data-options="plain:true,iconCls:'icon-edit',datagrid:'#search-dg',form:'#detail-fm',url:'/action/ms/deposit-translog/batch-check1'"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">批量收款核对</span><span class="l-btn-icon icon-edit">&nbsp;</span></span></a></div><div class="datagrid-view"><table class="datagrid-table" border="0" cellspacing="0" cellpadding="0"><thead><tr class="datagrid-header-row"><th class="datagrid-header-rownumber" data-options="field:'rn',rownumber:true"></th><th class="datagrid-td-check" data-options="field:'chk',checkbox:true"><div class="datagrid-header-check"><input type="checkbox"></div></th><th data-options="field:'sys_date',width:80">交易日期</th><th data-options="field:'psam_no',width:120">PSAM卡号</th><th data-options="field:'amount_pay',width:80,formatter:formatAmountPay">交易金额</th><th data-options="field:'marchant_name',width:120">门店名称</th><th data-options="field:'deposit_no',width:180,formatter:formatDepositNo">押金条号</th><th data-options="field:'deposit_amount',width:80">押金金额</th><th data-options="field:'recipients_id',width:80,formatter:formatWorkId">单据领用人</th><th data-options="field:'op',width:120,formatter:formatOp">操作</th></tr></thead><tbody></tbody></table></div><div class="datagrid-pager"></div></div></div>
+    </div>
+        
+    <div class="xui-dialog dialog" id="search-deposit-dlg" data-options="buttons:'#bb',modal:true,closed:true"><div class="dialog-header">查询押金条<a class="dialog-close" href="javascript:void(0)"></a></div><div class="dialog-view"><div class="easyui-dialog dialog-body" title="查询押金条" style="width:850px;height:400px;padding:10px;" data-options="buttons:'#bb',modal:true,closed:true">   
+    <div>
+        <form id="search-deposit-fm" class="form search-form" action="/action/ms/deposit-info/search" method="post" data-options="onSerialize:serializeSearchDepositForm">
+            <table class="table" style="width:800px;">
+              <tbody><tr>
+                <td class="right td20"><label>押金条号：</label></td>
+                <td class="td30"><input type="text" name="deposit_no"></td>
+                <td class="right td20"><label>押金领用人：</label></td>
+                <td class="td30"><input type="text" name="recipients_id"></td>
+              </tr>
+              <tr>
+                <td class="right td20"><label>商户号：</label></td>
+                <td class="td30"><input type="text" name="mchnt_cd"></td>
+                <td class="right td20"><label>终端号：</label></td>
+                <td class="td30"><input type="text" name="term_id"></td>
+              </tr>
+              <tr>
+                <td class="right td20"><label>生成日期：</label></td>
+                <td class="td30"><input id="created_time" type="text" class="Wdate" name="created_time" style="width:100px;" onfocus="WdatePicker({onpicked:function(){$dp.$('created_time2').focus();},maxDate:'#F{$dp.$D(\'created_time2\')}'})">
+                  <input id="created_time2" type="text" class="Wdate" name="created_time2" style="width:100px;" onfocus="WdatePicker({minDate:'#F{$dp.$D(\'created_time\')}'})"></td>
+                <td class="right td20">&nbsp;</td>
+                <td class="td30">&nbsp;</td>
+              </tr>
+                </tbody><tfoot>
+                    <tr>
+                        <td colspan="4" class="center">
+                            <div style="margin:5px;"></div>
+                            <a href="javascript:void(0)" class="xui-linkbutton l-btn" data-options="iconCls:'icon-search',datagrid:'#search-deposit-dg'" style="padding:0 5px;" onclick="xTool.search(this)"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">查询</span><span class="l-btn-icon icon-search">&nbsp;</span></span></a>
+                            &nbsp;&nbsp;
+                            <a href="javascript:void(0)" class="xui-linkbutton l-btn" data-options="iconCls:'icon-clear',datagrid:'#search-deposit-dg'" style="padding:0 5px;" onclick="xTool.reset(this)"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">重置</span><span class="l-btn-icon icon-clear">&nbsp;</span></span></a>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </form>
+    </div>
+    <br>
+    <div class="xui-datagrid datagrid" style="min-width: 800px;" id="search-deposit-dg" data-options=""><div class="datagrid-header">押金列表</div><div class="datagrid-body"><div class="datagrid-view"><table class="datagrid-table" border="0" cellspacing="0" cellpadding="0"><thead><tr class="datagrid-header-row"><th class="datagrid-header-rownumber" data-options="field:'rn',rownumber:true"></th><th data-options="field:'deposit_no',width:120">押金条号</th><th data-options="field:'mcht_name',width:120">工商营业执照名称</th><th data-options="field:'equi_type',width:120,formatter:formatEquiType">机具类型</th><th data-options="field:'deposit_amount',width:120">押金金额</th><th data-options="field:'recipients_id',width:120,formatter:formatWorkId">押金领用人</th><th data-options="field:'created_time',width:140">生成时间</th></tr></thead><tbody></tbody></table></div></div></div>
+    </div><div class="dialog-button">
+	<a href="javascript:void(0)" class="xui-linkbutton l-btn" onclick="onSelectDepositNo(this)"><span class="l-btn-left"><span class="l-btn-text">确认</span></span></a>
+	<a href="javascript:void(0)" class="xui-linkbutton l-btn" onclick="$('#search-deposit-dlg').dialog('close')"><span class="l-btn-left"><span class="l-btn-text">关闭</span></span></a>
+	</div></div></div>
+	
+    <script>
+    	var formDefaults = {
+    		check_flag: '0'
+    	};
+    	var myDefaultTransition = xConfig['status_transition']['G'];
+    	
+    	function formatEquiType(value, rowData, rowIndex) {
+    		return xTool.formatField(xConfig['equi_type'], value);
+    	}
+    	
+    	function serializeSearchForm(data) {
+        	//data.check_flag = '1';
+        }
+        
+        function serializeSearchDepositForm(data) {
+        	data.proc_st = '1';
+        }
+        
+        function onSubmitSuccess(request, response) {
+        	$('#return-btn').click();
+        }
+        
+        function onSearchSuccess(data) {
+			if(data.total == 0) {
+				xTool.showInfo('没有查到数据');
+			}
+		}
+		
+		function formatDepositNo(value, rowData, rowIndex) {
+			//return '<input type="text" value="'+value+'" data-index="'+rowIndex+'" data-field="deposit_no">';
+			return value;
+		}
+		
+		function formatAmountPay(value, rowData, rowIndex) {
+			return value/100;
+		}
+		
+		function formatWorkId(value, rowData, rowIndex) {
+            return xTool.formatField(xConfig['work_id'], value);
+        }
+		
+		
+		function formatOp(value, rowData, rowIndex) {
+			
+	    	var s = '<a href="javascript:void(0)" onclick="$(\'#search-deposit-dlg\').dialog(\'open\')">选择押金</a>';
+	    	
+	    	return s;
+	    }
+		
+     function batchSubmit(target) {
+        var opts = $.parser.parseOptions(target);
+        var dgOpts = $(opts.datagrid).datagrid('options');
+        var dg = $(opts.datagrid);
+        var rows = dg.datagrid('getChecked');
+        if (rows.length) {   
+        	var keyRows = [];
+        	var i;
+        	for(i = 0; i < rows.length; i ++) {
+        		keyRows.push({
+        			rec_id: rows[i].rec_id,
+        			deposit_no: rows[i].deposit_no
+        		});
+        	} 
+        	
+        	//dg.datagrid('getPanel').find('input[data-field="deposit_no"]').each(function(i, element) {
+        	//	var t = $(this);
+        	//	var index = parseInt(t.attr('data-index'));
+        	//	keyRows[index].deposit_no = t.val();
+        	//});
+        	
+            var sendData = {rows: keyRows};            
+            
+            if (confirm('确认要收款核对选中的记录？')) {
+                
+                xTool.send(opts.url, sendData, function (data, textStatus, jqXHR) {
+                    if (data.code == 0) {
+                        dg.datagrid('reload');
+                        xTool.showInfo('操作成功');
+                    }
+                });
+            }
+        } else {
+            xTool.showInfo('请选择记录！');
+            return false;
+        }
+    }
+    
+    function onSelectDepositNo(target) {
+    	var selected = $('#search-deposit-dg').datagrid('getSelected');
+    	if(selected) {
+    		var row = $('#search-dg').datagrid('getSelected');
+    		var index = $('#search-dg').datagrid('getRowIndex', row);
+    		
+    		//更新
+    		$('#search-dg').datagrid('updateRow',{
+				index: index,
+				row: $.extend(row, {
+					deposit_no: selected.deposit_no,
+					deposit_amount: selected.deposit_amount,
+					recipients_id: selected.recipients_id
+				})
+			});
+
+    		$('#search-deposit-dlg').dialog('close');
+    	} else {
+    		xTool.showInfo('请选择记录！');    		
+    	}
+    }
+    
+    function initCombobox() {
+        xTool.send('/action/ms/parameter/list', {
+            work_id: '1'
+        }, function (data) {
+            if (data.code == 0) {
+                
+                xConfig['work_id'] = data.work_id;
+            }
+        });
+    }
+    
+    $(function() {
+    	initCombobox();
+    	
+    	$('#search-fm').form('load', formDefaults);
+    	
+    });
+    </script>
+
+
+</body></html>

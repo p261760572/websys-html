@@ -1,0 +1,280 @@
+<!doctype html>
+<html><head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="renderer" content="webkit">
+    <title>设备信息</title>
+    <link rel="stylesheet" type="text/css" href="../../js/themes/default/xui.css">
+    <link rel="stylesheet" type="text/css" href="../../js/themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="../../css/tool.css">
+    <script type="text/javascript" src="../../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../../js/jquery.xui.min.js"></script>
+    <script type="text/javascript" src="../../js/My97DatePicker/WdatePicker.js"></script><link href="../../js/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="../../js/jquery.xconfig.js"></script>
+    <script type="text/javascript" src="../../js/jquery.tool.js"></script>
+</head>
+
+<body class="search-body">
+    <div class="detail-div1">
+        <form id="add-fm" class="form view" action="" method="post" style="width:950px;">
+            <div style="padding:5px;">
+                <table class="table" style="width:100%;">
+                    <tbody><tr>
+                        <td class="right td20">
+                            <label>生产厂家：</label>
+                        </td>
+                        <td class="td30">
+                            <span class="xui-combobox combobox" data-options="required:true,data:xConfig['manufacturer'],onChange:onChangeManufacturer"><input type="text" class="combobox-text"><input type="hidden" name="manufacturer" class="combobox-value"><span class="combobox-addon"><i class="combobox-icon combobox-arrow"></i></span></span>
+                            <label class="required">*</label>
+                        </td>
+                        <td class="right td20">
+                            <label>设备型号：</label>
+                        </td>
+                        <td class="td30">
+                            <span class="xui-combobox combobox" id="device_type" data-options="required:true,valueField:'device_type',textField:'device_name',url:'/action/ms/device-type/list',onBeforeLoad:onBeforeLoadDeviceType"><input type="text" class="combobox-text"><input type="hidden" name="device_type" class="combobox-value"><span class="combobox-addon"><i class="combobox-icon combobox-arrow"></i></span></span>
+                            <label class="required">*</label>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="right td20">
+                            <label>采购日期：</label>
+                        </td>
+                        <td class="td30">
+                            <input type="text" name="purchase_date" class="Wdate" onfocus="WdatePicker()" data-options="">
+                        </td>
+                        <td class="right td20">
+                            <label>生产日期：</label>
+                        </td>
+                        <td class="td30">
+                            <input type="text" name="production_date" class="Wdate" onfocus="WdatePicker()" data-options="">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="right td20">
+                            <label>保修日期：</label>
+                        </td>
+                        <td class="td30">
+                            <input type="text" name="warranty_date" class="Wdate" onfocus="WdatePicker()" data-options="">
+                        </td>
+                        <td class="right td20">
+                            <label>终端投资方：</label>
+                        </td>
+                        <td class="td30">
+                            <span class="xui-combobox combobox" id="term_inves" data-options="required:true"><input type="text" class="combobox-text"><input type="hidden" name="term_inves" class="combobox-value" value="0"><span class="combobox-addon"><i class="combobox-icon combobox-arrow"></i></span></span>
+                            <label class="required">*</label>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="right td20">
+                            <label>开始设备编号：</label>
+                        </td>
+                        <td colspan="2" class="td30">
+                            <input type="text" id="device_no" name="device_no" class="xui-validatebox" style="text-transform:uppercase;" data-options="required:true">
+                            <label class="required">*</label>
+                            <label style="padding-left:10px;">间隔：</label>
+                            <input name="inc" type="text" class="xui-validatebox" style="width:40px;" value="1" data-options="required:true">
+                            <label class="required">*</label>
+                            <label style="padding-left:10px;">数量：</label>
+                            <input type="text" id="count" name="count" class="xui-validatebox" style="width:50px;" value="1" data-options="required:true">
+                            <label class="required">*</label>
+                        </td>
+                        <td class="td30"><a href="javascript:void(0)" id="batch-add-btn" class="button xui-linkbutton l-btn" data-options="url:'/action/ms/device-info/purch',datagrid:'#add-dg'" style="padding:0 5px;" onclick="onClickBatchAdd(this)"><span class="l-btn-left"><span class="l-btn-text">批量增加</span></span></a>
+                            <a href="javascript:void(0)" class="xui-linkbutton l-btn" style="padding:0 5px;" onclick="xTool.reset(this)"><span class="l-btn-left"><span class="l-btn-text">重置</span></span></a>
+                        </td>
+                    </tr>
+                </tbody></table>
+            </div>
+        </form>
+        <form id="detail-fm" class="form view" action="" method="post" style="width:950px;">
+            <div style="padding:5px;">
+                <table class="table" style="width:100%;">
+                    <tbody><tr>
+                        <td class="right td20">
+                            <label>仓库：</label>
+                        </td>
+                        <td class="td30">
+                            <span class="xui-combobox combobox" data-options="required:true,valueField:'depot_id',textField:'depot_name',url:'/action/ms/depot-info/list'"><input type="text" class="combobox-text"><input type="hidden" name="depot_id" class="combobox-value"><span class="combobox-addon"><i class="combobox-icon combobox-arrow"></i></span></span>
+                            <label class="required">*</label>
+                        </td>
+                        <td class="right td20">
+                            <label>经手人：</label>
+                        </td>
+                        <td class="td30">
+                            <input type="text" name="hand_id" class="xui-validatebox" data-options="required:true">
+                            <label class="required">*</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="right td20">
+                            <label>注释：</label>
+                        </td>
+                        <td class="td30">
+                            <input type="text" name="note" class="xui-validatebox" data-options="">
+                        </td>
+                        <td class="right td20">&nbsp;</td>
+                        <td class="td30">&nbsp;</td>
+                    </tr>
+                </tbody></table>
+            </div>
+
+            <div style="text-align:center;">
+                <div style="margin:5px;"></div>
+                <a href="javascript:void(0)" id="add-submit-btn" class="button add xui-linkbutton l-btn" data-options="disabled:true,iconCls:'icon-ok',url:'/action/ms/device-info/purch',datagrid:'#add-dg'" style="padding:0 5px;" onclick="onClickAddSubmit(this)"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">提交</span><span class="l-btn-icon icon-ok">&nbsp;</span></span></a>
+            </div>
+        </form>
+    </div>
+
+    <div id="add-dg-tb">
+        <a href="javascript:void(0)" class="action xui-linkbutton l-btn l-btn-plain" onclick="deleteAddDg(this)" data-options="plain:true,iconCls:'icon-remove',datagrid:'#add-dg'"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">批量删除</span><span class="l-btn-icon icon-remove">&nbsp;</span></span></a>
+    </div>
+    <div class="xui-datagrid datagrid" style="min-width: 800px;" id="add-dg" data-options="rownumbers:true"><div class="datagrid-body"><div class="datagrid-view"><table class="datagrid-table" border="0" cellspacing="0" cellpadding="0"><thead><tr class="datagrid-header-row"><th class="datagrid-header-rownumber" data-options="field:'rn',rownumber:true"></th><th class="datagrid-td-check" data-options="field:'chk',checkbox:true"><div class="datagrid-header-check"><input type="checkbox"></div></th><th data-options="field:'device_no',width:120">设备编号</th><th data-options="field:'manufacturer',width:120">生产厂家</th><th data-options="field:'device_type',width:120">设备型号</th><th data-options="field:'term_inves',width:120,formatter:formatTermInves">终端投资方</th></tr></thead><tbody></tbody></table></div></div></div>
+    <script>
+    	var formDefaults = {
+            'term_inves': '0'
+        };
+        var myDefaultTransition = [];
+
+        function string_add_num(str, n) {
+            var str_add = "";
+            for (var i = str.length - 1; i >= 0; i--) {
+                if (str.charAt(i) < '0' || str.charAt(i) > '9') {
+                    str_add = str.charAt(i) + str_add;
+                    continue;
+                }
+                n = parseInt(str.charAt(i)) + n;
+                if (n > 9) {
+                    str_add = String(n - 10) + str_add;
+                    n = 1;
+                } else if (n < 0) {
+                    str_add = String(n + 10) + str_add;
+                    n = -1;
+                } else {
+                    str_add = String(n) + str_add;
+                    n = 0;
+                }
+            }
+            return {
+                str: str_add,
+                carry: n
+            };
+        }
+
+        function onClickBatchAdd(target) {
+            var opts = $.parser.parseOptions(target);
+            var f = $(target).closest('form');
+            var data = f.serializeObject();
+            data.device_no=data.device_no.toUpperCase();
+			
+            if (f.form('enableValidation').form('validate') != true) {
+                return false;
+            }
+            f.form('disableValidation');
+
+            //$(target).linkbutton('disable');
+            var rows = $('#add-dg').datagrid('getRows');
+
+            var count = parseInt(data.count);
+            var inc = parseInt(data.inc);
+            var i, t;
+            
+            var tmp = $.extend({}, data);
+            for (i = 0; i < count; i++) {
+				if (xTool.inObjectArray(tmp.device_no, rows, 'device_no')) {
+	                xTool.showError('设备不能重复添加');
+	                return;
+	            }                
+	            
+                $(opts.datagrid).datagrid('appendRow', tmp);
+                
+                t = string_add_num(tmp.device_no, inc);
+                tmp = $.extend({}, data, {
+                	device_no: t.str
+                });                
+            }
+
+            $(target).linkbutton('enable');
+            $('#add-submit-btn').linkbutton('enable');
+        }
+
+        function onClickAddSubmit(target) {
+            var opts = $.parser.parseOptions(target);
+            var f = $(target).closest('form');
+            var data = f.serializeObject();
+
+            if (f.form('enableValidation').form('validate') != true) {
+                return false;
+            }
+            f.form('disableValidation');
+
+            console.log(data);
+
+            var rows = $('#add-dg').datagrid('getRows');
+            data.rows = rows;
+
+            $(target).linkbutton('disable');
+            xTool.send(opts.url, data, function (data) {
+                if (data.code == 0) {
+                    xTool.showInfo('操作成功');
+                    $(opts.datagrid).datagrid('loadData',[]);
+                } else {
+                	$(target).linkbutton('enable');
+                }
+            });
+        }
+        
+        function onChangeManufacturer() {
+        	$('#device_type').combobox('clear').combobox('reload');
+        }
+        
+        function onBeforeLoadDeviceType(param) {
+        	var data = $('#add-fm').serializeObject();
+        	param.manufacturer = data.manufacturer;
+        }
+        
+        function formatTermInves(value, rowData, rowIndex) {
+            return xTool.formatField(xConfig['term_inves'], value);
+        }
+        
+        function deleteAddDg(target) {
+       		 var opts = $.parser.parseOptions(target);
+       		 var dg = $(opts.datagrid);
+			 var rows = dg.datagrid('getChecked');
+			 var i, index;
+			 for(i = 0; i < rows.length; i ++) {
+			 	index = dg.datagrid('getRowIndex', rows[i]);
+			 	dg.datagrid('deleteRow', index);
+			 }
+        }
+        
+        function initCombobox() {
+            xTool.send('/action/ms/parameter/list', {
+                term_inves: '1'
+            }, function (data) {
+                if (data.code == 0) {
+                    $('#term_inves').combobox('loadData', data.term_inves);
+                    
+                    xConfig['term_inves'] = data.term_inves;
+                }
+            });
+        }
+        
+        $(function() {
+        	initCombobox();
+        	
+        	$('#add-fm').form('load', formDefaults);
+        	
+        	//事件
+			$('#device_no,#count').keyup(function(event) {
+				if(event.which == 13) {
+					$('#batch-add-btn').click();
+					$(this).focus().val('');
+				}
+			});
+        });
+    </script>
+
+
+</body></html>

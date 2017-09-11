@@ -1,0 +1,220 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>机构信息管理</title>
+    <link rel="stylesheet" type="text/css" href="../../lib/easyui/themes/default/easyui.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../lib/easyui/themes/icon.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/tool.css" />
+    <style type="text/css">
+        .hide {
+            display: none;
+        }
+        body {
+            padding: 5px 0 0 5px;
+        }
+    </style>
+    <script type="text/javascript" src="../../lib/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="../../lib/easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../../js/My97DatePicker/WdatePicker.js"></script>
+    <script type="text/javascript" src="../../js/jquery.xdistrict.js"></script>
+    <script type="text/javascript" src="../../js/jquery.xtool.js"></script>
+</head>
+
+<body class="search-body">
+    <div class="search-div">
+        <div>
+            <form class="form search-form" method="post" action="/action/ms/inst-info/search">
+                <table class="table" style="width:950px;">
+                    <caption>
+                        查询机构
+                    </caption>
+                    <tr>
+                        <td class="right td20">
+                            <label>机构名称</label>
+                        </td>
+                        <td class="td30">
+                            <input type="text" name="inst_name">
+                        </td>
+                        <td class="right td20">
+                            <label>创建日期</label>
+                        </td>
+                        <td class="td30">
+                            <input id="created_time" type="text" class="Wdate" name="created_time" style="width: 120px;" onfocus="WdatePicker({onpicked:function(){$dp.$('created_time2').focus();},maxDate:'#F{$dp.$D(\'created_time2\')}'})">
+                            <input id="created_time2" type="text" class="Wdate" name="created_time2" style="width: 120px;" onfocus="WdatePicker({minDate:'#F{$dp.$D(\'created_time\')}'})">
+                        </td>
+                    </tr>
+                    <tfoot>
+                        <tr>
+                            <td colspan="4" class="center">
+                                <div style="margin:5px;"></div>
+                                <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-search',datagrid:'#search-dg'" style="padding:0 5px;" onclick="xTool.search(this)">查询</a> &nbsp;&nbsp;
+                                <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-clear',datagrid:'#search-dg'" style="padding:0 5px;" onclick="xTool.reset(this)">重置</a>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </form>
+        </div>
+        <br>
+        <div>
+            <div id="search-dg-tb" style="background-color: #f4f4f4;">
+                <a href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add',form:'#detail-fm',url:'/action/ms/inst-info/create',onSuccess:addSuccess" onClick="xTool.add(this)">新增</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-view',datagrid:'#search-dg',form:'#detail-fm',url:'/action/ms/inst-info/view',onSuccess:viewSuccess" onClick="xTool.view(this)">查看详情</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-edit',datagrid:'#search-dg',form:'#detail-fm',url:'/action/ms/inst-info/update',onSuccess:updateSuccess" onClick="xTool.edit(this)">编辑</a>
+            </div>
+            <table id="search-dg" class="easyui-datagrid" title="机构信息列表" data-options="pagination:true,toolbar:'#search-dg-tb',idField:'inst_id',transition:defaultTransition" style="width:950px;">
+                <thead>
+                    <tr>
+                        <th data-options="field:'inst_id',width:100">机构ID</th>
+                        <th data-options="field:'inst_name',width:100">机构名称</th>
+                        <th data-options="field:'created_by',width:100">创建人</th>
+                        <th data-options="field:'rate',width:100">分润(百分比)</th>
+                        <th data-options="field:'created_by',width:150">创建时间</th>
+                        <th data-options="field:'created_time',width:150">创建时间</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <br>
+    </div>
+    <div class="detail-div">
+        <form id="detail-fm" class="form init-view" action="/action/ms/inst-info/view" method="post" data-options="onLoad:onLoadDetailForm">
+            <table class="table" style="width:950px;">
+                <caption>
+                    机构信息
+                </caption>
+                <tbody>
+                    <tr class="tf tf-create tf-update">
+                        <td class="right td20">
+                            <label>机构ID：</label>
+                            </td>
+                        <td class="td30">
+                            <input type="text" name="inst_id" class="easyui-validatebox" data-options="" disabled>
+                            <span style="color: red;">*</span>
+                        </td>
+                        <td class="right td20">
+                            <label>机构名称：</label>
+                            </td>
+                        <td class="td30">
+                            <input type="text" name="inst_name" class="easyui-validatebox" data-options="required:true">
+                            <span style="color: red;">*</span>
+                        </td>
+                    </tr>
+                    <tr class="tf tf-create tf-update">
+                        <td class="right td20">
+                            <label>分润(百分比)：</label>
+                            </td>
+                        <td class="td30">
+                            <input type="text" name="rate" class="easyui-validatebox" data-options="required:true">
+                            <span style="color: red;">*</span>
+                        </td>
+                        <td class="right td20">
+                             
+                        <td class="td30">
+                             
+                        </td>
+                    </tr>
+                    <tr class="tf">
+                        <td class="right td20">
+                            <label>创建人</label>
+                        </td>
+                        <td class="td30">
+                            <input type="text" name="created_by">
+                        </td>
+                        <td class="right td20">
+                            <label>创建时间</label>
+                        </td>
+                        <td class="td30">
+                            <input type="text" name="created_time">
+                        </td>
+                    </tr>
+                    <tr class="tf">
+                        <td class="right td20">
+                            <label>最后修改人</label>
+                        </td>
+                        <td class="td30">
+                            <input type="text" name="last_modified_by">
+                        </td>
+                        <td class="right td20">
+                            <label>最后修改时间</label>
+                        </td>
+                        <td class="td30">
+                            <input type="text" name="last_modified_time">
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="4" class="center">
+                            <div style="margin:5px;"></div>
+                            <a href="javascript:void(0)" class="easyui-linkbutton button add" data-options="iconCls:'icon-ok',url:'/action/ms/inst-info/create'" style="padding:0 5px;" onclick="xTool.addSubmit(this)">新增提交</a>
+                            <a href="javascript:void(0)" class="easyui-linkbutton button edit" data-options="iconCls:'icon-ok',url:'/action/ms/inst-info/update'" style="padding:0 5px;" onclick="xTool.editSubmit(this)">编辑提交</a>
+                            <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-return'" style="padding:0 5px;" onclick="xTool.returnSearch(this)">返回</a>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </form>
+    </div>
+    <script>
+    var formDefaults = {
+        status: '1'
+    };
+
+    var provinceData = xProvinceCityDistrict['province'];
+    var cityData = xProvinceCityDistrict['city']['43'];
+
+    function onChangeProvince(newValue, oldValue) {
+        if (newValue) {
+            $('#city').combobox('clear').combobox('loadData', xProvinceCityDistrict['city'][newValue]);
+            $('#district').combobox('clear');
+        }
+    }
+
+    function onChangeCity(newValue, oldValue) {
+        if (newValue) {
+            var province = $('#province').combobox('getValue');
+            $('#district').combobox('clear').combobox('loadData', xProvinceCityDistrict['district'][province + newValue]);
+        }
+    }
+
+    function onLoadDetailForm(data) {
+        $('#province').combobox('clear').combobox('setValue', data.data.province);
+        $('#city').combobox('clear').combobox('setValue', data.data.city);
+        $('#district').combobox('clear').combobox('setValue', data.data.district);
+    }
+
+    var defaultTransition = [{
+        oper_in: '0',
+        proc_st: '0',
+        action: 'update'
+    }, {
+        oper_in: '0',
+        proc_st: '0',
+        action: 'delete'
+    }];
+
+
+    function addSuccess() {
+        xTool.addSuccess.call(this);
+        $('#detail-fm').find('input[name=inst_id]').val('');
+        $('#detail-fm').find('input[name=inst_name]').removeAttr('disabled');
+        $('#detail-fm').find('.tf').addClass('hide');
+        $('#detail-fm').find('.tf-create').removeClass('hide');
+    }
+
+    function viewSuccess() {
+        $('#detail-fm').find('.tf').removeClass('hide');
+    }
+
+    function updateSuccess() {
+        $('#detail-fm').find('input[name=inst_name]').attr('disabled', 'disabled');
+        $('#detail-fm').find('.tf').addClass('hide');
+        $('#detail-fm').find('.tf-update').removeClass('hide');
+    }
+    </script>
+</body>
+
+</html>

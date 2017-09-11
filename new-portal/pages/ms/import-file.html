@@ -1,0 +1,232 @@
+<!doctype html>
+<html><head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="renderer" content="webkit">
+    <title>批量装载</title>
+    <link rel="stylesheet" type="text/css" href="../../js/themes/default/xui.css">
+    <link rel="stylesheet" type="text/css" href="../../js/themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="../../css/tool.css">
+    <script type="text/javascript" src="../../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../../js/jquery.iframe-transport.js"></script>
+    <script type="text/javascript" src="../../js/jquery.xui.min.js"></script>
+    <script type="text/javascript" src="../../js/My97DatePicker/WdatePicker.js"></script><link href="../../js/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="../../js/jquery.xconfig.js"></script>
+    <script type="text/javascript" src="../../js/jquery.tool.js"></script>
+</head>
+
+<body style="padding:5px;">
+<div>
+        <form id="load-form" class="form" action="#" method="post">
+            <table class="table" style="width:880px;">
+                <caption>
+                装载
+                </caption>
+                <tbody><tr>
+                  <td class="right td20"><label>装载类型：</label></td>
+                  <td class="td80"><span class="xui-combobox combobox" id="file_type" data-options="required:true"><input type="text" class="combobox-text"><input type="hidden" name="file_type" class="combobox-value" value="1"><span class="combobox-addon"><i class="combobox-icon combobox-arrow"></i></span></span>
+                  <label class="required">*</label>
+                  <a href="template/template.zip" style="margin:20px;">样例下载</a></td>
+                </tr>
+                <tr>
+                  <td class="right td20"><label>上传文件：</label></td>
+                  <td class="td80"><input id="file-url" name="file_url" type="hidden" value="">
+                    <input type="file" name="file_upload" id="file_upload">
+                    <a href="javascript:void(0)" class="xui-linkbutton l-btn" style="margin-left:20px;padding:0 5px;" onclick="onClickUpload(this)"><span class="l-btn-left"><span class="l-btn-text">上传</span></span></a>
+                  </td>
+                </tr>
+                </tbody><tfoot>
+                    <tr>
+                    	<td></td>
+                        <td style="text-align: left;">
+                            <div style="margin:5px;"></div>
+                      		<a id="load-btn" href="javascript:void(0)" class="xui-linkbutton l-btn" style="padding:0 5px;" onclick="onClickLoad(this)"><span class="l-btn-left"><span class="l-btn-text">装载</span></span></a>
+                  		</td>
+                      </tr>
+                </tfoot>
+            </table>
+        </form>
+</div>
+<br>
+    <div>
+        <form id="search-fm" class="form search" action="/action/ms/import-file/search" method="post">
+            <table class="table" style="width:880px;">
+                <caption>
+                查询
+                </caption>
+                <tbody><tr>
+                    <td class="right td20">
+                        <label>装载类型：</label>
+                    </td>
+                    <td class="td30">
+                      <span class="xui-combobox combobox" id="file_type2"><input type="text" class="combobox-text"><input type="hidden" name="file_type" class="combobox-value"><span class="combobox-addon"><i class="combobox-icon combobox-arrow"></i></span></span></td>
+                    <td class="right td20">
+                        <label>装载日期：</label>
+                    </td>
+                    <td class="td30">
+                        <input type="text" name="created_date" class="Wdate" onfocus="WdatePicker()" data-options="editable:false,required:true"></td>
+                </tr>
+                </tbody><tfoot>
+                    <tr>
+                        <td colspan="4" class="center">
+                            <div style="margin:5px;"></div>
+                            <a href="javascript:void(0)" class="xui-linkbutton l-btn" data-options="iconCls:'icon-search',datagrid:'#search-dg'" style="padding:0 5px;" onclick="xTool.search(this)"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">查询</span><span class="l-btn-icon icon-search">&nbsp;</span></span></a>
+                            &nbsp;&nbsp;
+                            <a href="javascript:void(0)" class="xui-linkbutton l-btn" data-options="iconCls:'icon-clear',datagrid:'#search-dg'" style="padding:0 5px;" onclick="xTool.reset(this)"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">重置</span><span class="l-btn-icon icon-clear">&nbsp;</span></span></a>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </form>
+    </div>
+    <br>
+    <div class="xui-datagrid datagrid" style="min-width: 800px;" id="search-dg" data-options="rownumbers:true,pagination:true,toolbar:'#search-dg-tb',idField:'record_id'"><div class="datagrid-body"><div class="datagrid-toolbar"></div><div class="datagrid-view"><table class="datagrid-table" border="0" cellspacing="0" cellpadding="0"><thead><tr class="datagrid-header-row"><th class="datagrid-header-rownumber" data-options="field:'rn',rownumber:true"></th><th data-options="field:'file_name',width:250">文件名</th><th data-options="field:'created_date',width:120">装载时间</th><th data-options="field:'created_by',width:80">装载人</th><th data-options="field:'status',width:60,formatter:formatStatus">状态</th><th data-options="field:'fail',width:60">失败</th><th data-options="field:'success',width:60,formatter:formatSuccess">成功</th><th data-options="field:'file_type',width:100,formatter:formatFileType">装载类型</th><th data-options="field:'op',width:80,formatter:formatOp">操作</th></tr></thead><tbody></tbody></table></div><div class="datagrid-pager"></div></div></div>
+    
+  
+    <script>
+    	var formDefaults = {
+            'file_type': '1'
+        };
+    	
+        
+        function initCombobox() {
+            xTool.send('/action/ms/parameter/list', {
+                file_type: '1'
+            }, function (data) {
+                if (data.code == 0) {
+                    $('#file_type').combobox('loadData', data.file_type);
+                    $('#file_type2').combobox('loadData', data.file_type);
+                    
+                    xConfig['file_type'] =  data.file_type;
+                }
+            });
+        }
+        
+        function onClickExport (url, batchNo) {
+        	$('body').mask();
+        	xTool.send(url, {
+        		batch_no: batchNo
+        	}, function(data, textStatus, jqXHR){
+        		$('body').mask('hide');
+	        	if(data.code == 0) {
+	        		xTool.openWin('download.html', data.url, '下载'+data.url);
+	        	}
+	        });
+        }
+        
+        function formatOp(value, row, index) {
+        	var s = '';
+        	
+            if(row.result_url) {
+                s += '<a href="'+ xTool.getUrl(row.result_url) +'" target="_blank">下载</a>';
+            }
+            
+            if(row.file_type == '10' && row.status == '2') {
+            	s += '<a href="javascript:void(0)" style="margin-left:10px;" onclick="onClickExport(\'/action/ms/import-param/export\','+row.rec_id+')">参数导出</a>';
+            }
+            /*
+            if(row.file_type == '4' && row.status == '2') {
+            	s += '<a href="javascript:void(0)" style="margin-left:10px;" onclick="onClickExport(\'/action/ms/term-busi-reform/export\','+row.rec_id+')">导出整改对照文件</a>';
+            } else if(row.file_type == '5' && row.status == '2') {
+            	s += '<a href="javascript:void(0)" style="margin-left:10px;" onclick="onClickExport(\'/action/ms/yftcs/export\','+row.rec_id+')">导出邮付通参数</a>';
+            }*/
+            
+            
+            return s;
+        }
+        
+        function formatSuccess(value, row, index) {
+            return row.total - row.fail;
+        }
+        
+        function formatResultUrl(value, row, index) {
+            return value.substr(value.lastIndexOf('/')+1);
+        }
+        
+        function formatStatus(value, row, index) {
+            var statusMap = {'0':'等待中','1':'处理中','2':'处理完成'};
+
+            return statusMap[value];
+        }
+        
+        function formatFileType(value, row, index) {            
+            return xTool.formatField(xConfig['file_type'], value);
+        }
+        
+        function onClickUpload(target) {
+        	if(!$('#load-form').find(':file').val()) {
+        		xTool.showError('请选择文件');
+        		return false;
+        	}
+            $.ajax('/action/ms/upload', {
+                //initialIframeSrc: "javascript:void((function(){document.open();document.domain='" + document.domain + "';document.close()})())",
+                dataType: 'json',
+                data: {patch:'iframe'},
+                files: $('#load-form').find(':file'),
+                iframe: true,
+                processData: false
+            }).complete(function (jqXHR) {
+                if (jqXHR.status == 200) {
+                	var data = $.parseJSON(jqXHR.responseText || '{}');
+                    if (data.code == 0) {
+                        $('#file-url').val(data.url);
+                        $('#load-btn').tooltip({
+                        	position: 'right',
+                        	showEvent:'',
+                        	hideEvent:'',
+                        	content: '文件上传完毕，请装载文件'
+                        }).tooltip('show');
+                    } else {
+                        xTool.showError(data.msg);
+                    }
+                }
+            });
+        }
+        
+        var timer = null;
+        function onClickLoad(target) {
+            var fm = $(target).closest('form');
+            var isValid = fm.form('enableValidation').form('validate');
+            
+            if(!isValid) {
+                return false;
+            }
+            
+            var data = fm.serializeObject();
+            
+            if(!data.file_url) {
+                xTool.showError('请先上传文件');
+                return false;
+            }
+            
+            var file_name = $('#file_upload').val();
+            data.file_name = file_name.substr(file_name.lastIndexOf('\\')+1);
+            
+            xTool.send('/action/ms/import-file/create', data, function (data) {
+                if (data.code == 0) {
+                    $('#file-url').val('');
+                    //清空input file
+                    var file = $('#file_upload');
+					file.after(file.clone().val(""));
+					file.remove();
+                    $('#load-btn').tooltip('update', '已提交,请稍后查询处理结果');
+                    
+                    if(timer) {
+                    	clearTimeout(timer);
+                    }
+                    timer = setTimeout(function() {
+                    	$('#load-btn').tooltip('destroy');
+                    }, 2000);
+                }
+            });
+        }
+        
+        $(function() {
+            initCombobox();
+            
+            $('#load-form').form('load', formDefaults);
+        });
+    </script>
+
+
+</body></html>

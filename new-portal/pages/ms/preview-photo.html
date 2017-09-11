@@ -1,0 +1,92 @@
+<!doctype html>
+<html><head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="renderer" content="webkit">
+<title>图片预览</title>
+<script type="text/javascript" src="../../js/jquery.min.js"></script>
+<script type="text/javascript" src="../../js/jQueryRotate-2.3.min.js"></script>
+</head>
+
+<body>
+	<div>
+		<button onclick="onClickLeft()">向左</button>
+		<button onclick="onClickRight()">向右</button>
+	</div>
+	<div id="dd" style="position:absolute;">
+	<img id="img" src="#" style="position:absolute; -ms-interpolation-mode:bicubic;">
+	</div>
+	<script>
+		var degree = 0;
+		function parseQueryString() {
+	        var query = {};
+	        var queryString = window.location.search.substr(1);
+	        if (queryString.length > 0) {
+	            var pairs = queryString.split('&');
+	            for (var i = 0; i < pairs.length; i++) {
+	                var pair = pairs[i].split('=');
+	                if (pair.length < 2) {
+	                    pair[1] = "";
+	                }
+	                query[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1].replace(/\+/g, ' '));
+	            }
+	        }
+	        return query;
+	    }
+        
+		function onClickLeft() {
+			getSize();
+			degree -= 90;
+			degree = degree%360;
+			console.log(degree);
+			$('#img').rotate(degree > 0 ? degree : 360+degree);
+			$('#img').css({
+				'margin-top': Math.abs((degree/90)%2)*(g_width-g_height)/2
+			});
+		}
+		
+		function onClickRight() {
+			getSize();
+			degree += 90;
+			degree = degree%360;
+			console.log(degree);
+			$('#img').rotate(degree > 0 ? degree : 360+degree);
+			$('#img').css({
+				'margin-top': Math.abs((degree/90)%2)*(g_width-g_height)/2
+			});
+		}
+		
+		var g_query;
+		var g_width ;
+		var g_height;
+		
+		function getSize() {
+			if(!g_width || !g_height) {
+				g_width = $('#img').width();
+				g_height = $('#img').height();
+				
+				console.log(g_width);
+				console.log(g_height);
+			}
+		}
+		
+		function getUrl(url) {
+			//绝对地址
+			if(url.substr(0, 1) == '/') {
+				if(window.location.pathname.substr(0, 4) == '/bm/') {
+		        	return '/bm' + url;
+		        }		
+			}
+	        return url;
+		}
+		
+		$(function() {
+			g_query = parseQueryString();
+			
+			$('#img').attr('src', getUrl(g_query.url));		
+		});
+		
+	</script>
+
+
+</body></html>

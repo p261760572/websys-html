@@ -1,0 +1,237 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>终端营销</title>
+<link rel="stylesheet" type="text/css" href="../../js/themes/default/xui.css" />
+<link rel="stylesheet" type="text/css" href="../../js/themes/icon.css" />
+<link rel="stylesheet" type="text/css" href="../../css/tool-v2.css" />
+<style></style>
+<script type="text/javascript" src="../../js/jquery.min.js"></script>
+<script type="text/javascript" src="../../js/jquery.xui.min.js"></script>
+<script type="text/javascript" src="../../js/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript" src="../../js/jquery.tool-v2.js"></script>
+<script type="text/javascript" src="../../js/jquery.xconfig.js"></script>
+<script type="text/javascript" src="../../js/jquery.xdistrict.js"></script>
+</head>
+
+<body class="search-body">
+<div class="search-div">
+  <div>
+    <form id="search-fm" class="form search-form" action="/action/ms/term-info/search-ad" method="post" data-options="onSerialize:onSerializeSearch">
+      <table class="table" style="width: 1000px;">
+        <caption>
+        查询终端营销
+        </caption>
+        <tr>
+          <td class="right td15"><label>工商营业执照名称：</label></td>
+          <td class="td35"><input type="text" name="mcht_name"></td>
+          <td class="right td15"><label>工商营业执照证件号码：</label></td>
+          <td class="td35"><input type="text" name="license_no"></td>
+        </tr>
+        <tr>
+          <td class="right td15"><label>实际营业地址：</label></td>
+          <td class="td35"><input type="text" name="addr"></td>
+          <td class="right td15"><label>法人名称：</label></td>
+          <td class="td35"><input type="text" name="cert_name"></td>
+        </tr>
+        <tr>
+          <td class="right td15"><label>商户号：</label></td>
+          <td class="td35"><input type="text" name="mchnt_cd"></td>
+          <td class="right td15"><label>终端号：</label></td>
+          <td class="td35"><input type="text" name="term_id"></td>
+        </tr>
+        <tr>
+          <td class="right td15"><label>PSAM卡号：</label></td>
+          <td class="td35"><input type="text" name="psam_no"></td>
+          <td class="right td15"><label>终端标识码：</label></td>
+          <td class="td35"><input type="text" name="term_no"></td>
+        </tr>
+        <tr>
+          <td class="right td15"><label>所在地区：</label></td>
+          <td class="td35"><input type="text" id="province" name="province" class="xui-combobox" style="width:50px;" data-options="initDom:true,data:provinceData,onChange:onChangeProvince">
+            <input type="text" id="city" name="city" class="xui-combobox" style="width:50px;" data-options="initDom:true,data:[],onChange:onChangeCity">
+            <input type="text" id="district" name="district" class="xui-combobox" style="width:50px;" data-options="initDom:true"></td>
+          <td class="right td15"><label>营销名称：</label></td>
+          <td class="td35"><input type="text" name="ad_name">
+            <label>
+              <input type="checkbox" name="set_flag">
+              未设置 </label>
+            <label>
+              <input type="checkbox" name="expired_flag">
+              过期 </label></td>
+        </tr>
+        <tfoot>
+          <tr>
+            <td colspan="4" class="center"><div style="margin: 5px;"></div>
+              <a class="xui-linkbutton" href="javascript:void(0)" style="padding: 0 5px;"
+									data-options="initDom:true,iconCls:'icon-search',datagrid:'#search-dg'" onclick="xTool.search(this)">查询</a>
+              &nbsp;&nbsp;
+              <a class="xui-linkbutton" href="javascript:void(0)" style="padding: 0 5px;"
+									data-options="initDom:true,iconCls:'icon-clear'" onclick="xTool.reset(this)">重置</a></td>
+          </tr>
+        </tfoot>
+      </table>
+    </form>
+  </div>
+  <br>
+  <div id="search-dg-tb">
+    <a class="xui-linkbutton" href="javascript:void(0)" data-options="initDom:true,plain:true,iconCls:'icon-view',datagrid:'#search-dg',url:'/action/ms/expense-info/batch-renew'"
+				onClick="onClickad(this)">选择营销</a>
+  </div>
+  <table id="search-dg" title="终端息列表" class="xui-datagrid" style="width: 1000px;"
+			data-options="initDom:true,idField:'expense_no',pagination:true,toolbar:'#search-dg-tb'">
+    <thead>
+      <tr>
+        <th data-options="field:'rn',rownumber:true"></th>
+        <th data-options="field:'chk',checkbox:true"></th>
+        <th data-options="field:'term_no'">终端标识码</th>
+        <th data-options="field:'psam_no'">PSAM卡号</th>
+        <th data-options="field:'mcht_name'">工商营业执照名称</th>
+        <!-- <th data-options="field:'equi_type'">机具类型</th>
+					<th data-options="field:'man'">联系人</th>
+					<th data-options="field:'tel_no'">联系电话</th>  -->
+        <th data-options="field:'district_name'">装机城市</th>
+        <th data-options="field:'installed_addr'">装机地址</th>
+        <!-- <th data-options="field:'oper_in'">操作标志</th>
+					<th data-options="field:'proc_st'">记录处理状态</th> -->
+        <th data-options="field:'ad_name',formatter:formatByUsed">营销名称</th>
+        <th data-options="field:'begin_time',formatter:formatByUsed">开始时间</th>
+        <th data-options="field:'end_time',formatter:formatByUsed">结束时间</th>
+        <th data-options="field:'op',formatter:formatOp">操作</th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+</div>
+<div id="buttons" class="dialog-button">
+  <a href="javascript:void(0)" class="xui-linkbutton" data-options="initDom:true,iconCls:'icon-ok'" style="padding: 0 5px;" onClick="onClickadSubmit(this)">确认</a>
+  <a href="javascript:void(0)" class="xui-linkbutton" data-options="initDom:true,iconCls:'icon-cancel'" style="padding: 0 5px;" onClick="$('#dlg').dialog('close')">关闭</a>
+</div>
+<div id="dlg"  class="xui-dialog" title="选择营销" data-options="initDom:true,buttons:'#buttons',onBeforeOpen:onBeforeOpen">
+  <table id="search-ad-dg" class="xui-datagrid"
+			data-options="initDom:true,idField:'expense_no',pagination:true">
+    <thead>
+      <tr>
+        <th data-options="field:'rn',rownumber:true"></th>
+        <th data-options="field:'ad_name'">营销名称</th>
+        <th data-options="field:'ad_comment'">营销说明</th>
+        <th data-options="field:'begin_time'">开始时间</th>
+        <th data-options="field:'end_time'">结束时间</th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+</div>
+<script>
+		
+		var query;
+		$(function() {
+			query = xTool.parseQueryString();
+		});
+		
+		var provinceData = xProvinceCityDistrict['province'];
+		
+		function onChangeProvince(newValue, oldValue) {
+            //if (newValue) {
+                $('#city').combobox('clear').combobox('loadData', xProvinceCityDistrict['city'][newValue]);
+                $('#district').combobox('clear');
+            //}
+        }
+
+        function onChangeCity(newValue, oldValue) {
+            //if (newValue) {
+                var province = $('#province').combobox('getValue');
+                $('#district').combobox('clear').combobox('loadData', xProvinceCityDistrict['district'][province + newValue]);
+            //}
+        }
+        
+        function formatOp(value, row, index) {
+			var params = jQuery.param({
+				term_no : row.term_no
+			});
+			var url = 'term-ad-his.html?' + params;
+			var s = '<a href="'+url+'" target="_blank" style="margin-right:10px;">历史营销</a>';
+	
+			return s;
+		}
+		
+		function formatByUsed(value, row, index) {
+			if(row.used == '1') {
+				return value;
+			}
+			return '';
+		}
+		
+		function onClickad(target) {
+			var rows = $('#search-dg').datagrid('getChecked');
+			if(rows.length > 0) {
+				var ad_flag = false, i;
+				for (i = 0; i < rows.length; i++) {
+	            	if(rows[i].used == '1') {
+	            		ad_flag = true;
+	            		break;
+	            	}
+	            }
+	            if(ad_flag) {
+	            	xTool.showConfirm('勾选的终端中存在设置了营销的终端，确认要继续吗？', function(r) {
+						if (r) {
+							$('#dlg').dialog('open').dialog('center');
+						}
+					});
+	            } else {
+	            	$('#dlg').dialog('open').dialog('center');
+	            }
+			} else {
+				xTool.showInfo('请勾选记录');
+			}
+		}
+		
+		function onClickadSubmit(target) {
+			var row = $('#search-ad-dg').datagrid('getSelected');
+			if(row) {
+				var rows = $('#search-dg').datagrid('getChecked');
+	           	var keyRows = [], i;
+	            for (i = 0; i < rows.length; i++) {
+	            	keyRows.push({
+	            		psam_no: rows[i]['psam_no'],
+	            		ad_flag: rows[i]['used']
+	            	});
+	            }
+				xTool.send('/action/ms/term-advert/assign', {
+					ad_id: row.ad_id,
+					rows: keyRows
+				}, function(data) {
+					if (data.code == 0) {
+						xTool.showInfo('操作成功');
+						$('#dlg').dialog('close');
+						$('#search-dg').datagrid('reload');
+					}
+				});
+				
+			} else {
+				xTool.showInfo('请选择营销记录');
+			}
+		}
+		
+		function onBeforeOpen() {
+			$('#search-ad-dg').datagrid({
+				url: '/action/ms/term-ad-template/search'
+			});
+		}
+		
+		function onSerializeSearch(data) {
+			if(data.set_flag == 'on') {
+				data.set_flag = '0';
+			}
+			
+			if(data.expired_flag == 'on') {
+				data.expired_flag = '1';
+			}
+		}
+		
+	</script>
+</body>
+</html>

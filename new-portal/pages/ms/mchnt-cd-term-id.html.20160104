@@ -1,0 +1,228 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>商户号/终端号补录</title>
+    <link rel="stylesheet" type="text/css" href="../../js/themes/default/xui.css" />
+    <link rel="stylesheet" type="text/css" href="../../js/themes/icon.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/tool.css" />
+    <script type="text/javascript" src="../../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../../js/jquery.xui.min.js"></script>
+    <script type="text/javascript" src="../../js/My97DatePicker/WdatePicker.js"></script>
+    <script type="text/javascript" src="../../js/jquery.xconfig.js"></script>
+    <script type="text/javascript" src="../../js/jquery.tool.js"></script>
+</head>
+
+<body class="search-body">
+	<div class="search-div" style="padding:5px;">
+    <div>
+        <form id="search-fm" class="form search-form" action="/action/ms/mchnt-busi/search" method="post" data-options="onSerialize:onSerializeSearchForm">
+            <table class="table" style="width:950px;">
+                <caption>查询业务</caption>
+                <tr>
+              <td class="right td20"><label>商户号：</label></td>
+              <td class="td30"><input type="text" name="mchnt_cd"></td>
+              <td class="right td20"><label>门店名称：</label></td>
+              <td class="td30"><input type="text" name="marchant_name"></td>
+            </tr>
+            <tr>
+              <td class="right td20"><label>工商营业执照名称：</label></td>
+              <td class="td30"><input type="text" name="mcht_name"></td>
+              <td class="right td20"><label>工商营业执照证件号码：</label></td>
+              <td class="td30"><input type="text" name="license_no"></td>
+            </tr>
+                <tr>
+                    <td class="right td20">
+                        <label>创建日期：</label>
+                    </td>
+                    <td class="td30">
+                        <input id="created_time" type="text" class="Wdate" name="created_time" style="width:100px;" onfocus="WdatePicker({onpicked:function(){$dp.$('created_time2').focus();},maxDate:'#F{$dp.$D(\'created_time2\')}'})">
+                        <input id="created_time2" type="text" class="Wdate" name="created_time2" style="width:100px;" onfocus="WdatePicker({minDate:'#F{$dp.$D(\'created_time\')}'})">
+                    </td>
+                    <td class="right td20">
+                        <label>修改日期：</label>
+                    </td>
+                    <td class="td30">
+	                    	<input id="last_modified_time" type="text" class="Wdate" name="last_modified_time" style="width:100px;" onfocus="WdatePicker({onpicked:function(){$dp.$('last_modified_time2').focus();},maxDate:'#F{$dp.$D(\'last_modified_time2\')}'})">
+	                      <input id="last_modified_time2" type="text" class="Wdate" name="last_modified_time2" style="width:100px;" onfocus="WdatePicker({minDate:'#F{$dp.$D(\'last_modified_time\')}'})">
+                    </td>
+                </tr>
+                <tfoot>
+                    <tr>
+                        <td colspan="4" class="center">
+                            <div style="margin:5px;"></div>
+                            <a href="javascript:void(0)" class="xui-linkbutton" data-options="initDom:true,iconCls:'icon-search',datagrid:'#search-dg',onSuccess:onSearchSuccess" style="padding:0 5px;" onclick="xTool.search(this)">查询</a>
+                            &nbsp;&nbsp;
+                            <a href="javascript:void(0)" class="xui-linkbutton" data-options="initDom:true,iconCls:'icon-clear'" style="padding:0 5px;" onclick="xTool.reset(this)">重置</a>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </form>
+    </div>
+    <br>
+    <div id="search-dg-tb">
+        <a href="javascript:void(0)" class="xui-linkbutton action" data-options="initDom:true,plain:true,iconCls:'icon-save',datagrid:'#search-dg',form:'#detail-fm',url:'/action/ms/mchnt-busi/update-mchnt-cd'" onClick="saveMchntCd()">保存</a>
+    </div>
+    <table id="search-dg" title="业务列表" class="xui-datagrid" style="width:950px;" data-options="initDom:true,idField:'rec_id',pagination:true,toolbar:'#search-dg-tb',onClickRow:onClickRow">
+        <thead>
+            <tr>
+                <th data-options="field:'rn',rownumber:true"></th>
+    			<!--<th data-options="field:'chk',checkbox:true"></th>-->
+    			<th data-options="field:'apptype',formatter:formatApptype">业务类型</th>
+    			<th data-options="field:'marchant_name'">商户名称</th>
+    			<th data-options="field:'fee_chan',formatter:formatFeeChan">交易渠道</th>
+				<th data-options="field:'mchnt_cd',formatter:formatMchntCd">商户号</th>
+				<th data-options="field:'account_type',formatter:formatAccountType">账户类型</th>
+				<th data-options="field:'account_no'">账户帐号</th>
+				<th data-options="field:'bank_name'">账户银行</th>
+				<!--
+				<th data-options="field:'oper_in',width:80,formatter:formatOperIn">操作标志</th>
+				<th data-options="field:'proc_st',width:90,formatter:formatProcSt">记录处理状态</th>
+				-->
+				<th data-options="field:'last_modified_by'">最后修改人</th>
+				<th data-options="field:'last_modified_time'">最后修改时间</th>
+				<th data-options="field:'op',formatter:formatOp">操作</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <br>
+    <div id="term-dg-tb">
+        <a href="javascript:void(0)" class="xui-linkbutton action" data-options="initDom:true,plain:true,iconCls:'icon-save',datagrid:'#search-dg',form:'#detail-fm',url:'/action/ms/term-busi-binding/update-term-id'" onClick="saveTermId()">保存</a>
+    </div>
+    <table id="term-dg" title="绑定终端列表" class="xui-datagrid" style="width:950px;" data-options="initDom:true,idField:'rec_id',pagination:true,toolbar:'#term-dg-tb',onLoadSuccess:onLoadTermSuccess">
+        <thead>
+            <tr>
+                <th data-options="field:'rn',rownumber:true"></th>
+    			<!--<th data-options="field:'chk',checkbox:true"></th>-->
+				<th data-options="field:'mchnt_cd',width:140">商户号</th>
+				<th data-options="field:'term_id',width:80,formatter:formatTermId">终端号</th>
+				<th data-options="field:'marchant_name',width:100">门店名称</th>
+				<th data-options="field:'installed_addr',width:100">客户装机地址</th>
+				<th data-options="field:'man',width:100">客户装机联系人</th>
+				<th data-options="field:'tel_no',width:100">客户装机联系电话</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    </div>
+    <script>
+    	
+    	function onSerializeSearchForm(data) {
+			data.null_mchnt_cd = '1';			
+		}
+    	
+    	function formatApptype(value, rowData, rowIndex) {
+	    	return xTool.formatField(xConfig['apptype'], value);
+	    }
+	    
+	    function formatAccountType(value, rowData, rowIndex) {
+	    	return xTool.formatField(xConfig['account_type'], value);
+	    }
+	    
+	    function formatFeeChan(value, rowData, rowIndex) {
+        	return xTool.formatField(xConfig['fee_chan'], value);
+        }
+	    
+	    function formatOp(value, rowData, rowIndex) {
+	    	
+	    	return '';
+	    }
+	    
+	    function formatMchntCd(value, rowData, rowIndex) {
+	    	if(value) {
+	    		return '<input type="text" value="'+value+'" readonly>';
+	    	}
+	    	return '<input type="text" value="'+value+'" class="xui-validatebox" data-options="validType:[\'fixLength[15]\']">';
+	    }
+	    
+	    function formatTermId(value, rowData, rowIndex) {
+	    	if(value) {
+	    		return '<input type="text" value="'+value+'" style="width:80px;" readonly>';
+	    	}
+	    	return '<input type="text" value="'+value+'" style="width:80px;" class="xui-validatebox" data-options="validType:[\'fixLength[8]\']">';
+	    }
+	    
+	    function saveMchntCd() {
+	    	if($('#search-dg').form('validate') != true) {
+	    		return false;
+	    	}
+	    	//get changesd
+	    	var rows = $('#search-dg').datagrid('acceptChanges').datagrid('getRows');
+	    	var i;
+	    	var keyRows = [];
+	    	for (i = 0; i < rows.length; i++) {
+                keyRows.push({
+                	rec_id: rows[i]['rec_id'],
+                	mchnt_cd: rows[i]['mchnt_cd']
+                });
+            }
+	    	xTool.send('/action/ms/mchnt-busi/update-mchnt-cd', {
+	    		rows: keyRows
+            }, function (data) {
+                if (data.code == 0) {
+                	xTool.showInfo('操作成功');
+                	$('#search-dg').datagrid('reload');
+                } else {
+                	xTool.showError(data.msg);
+                }
+            });
+	    }
+	    
+	    function saveTermId() {
+	    	if($('#term-dg').form('validate') != true) {
+	    		return false;
+	    	}
+            var rows = $('#term-dg').datagrid('acceptChanges').datagrid('getRows');
+	    	var i;
+	    	var keyRows = [];
+	    	for (i = 0; i < rows.length; i++) {
+                keyRows.push({
+                	rec_id: rows[i]['rec_id'],
+                	term_id: rows[i]['term_id']
+                });
+            }
+	    	xTool.send('/action/ms/term-busi-binding/update-term-id', {
+	    		rows: keyRows
+            }, function (data) {
+                if (data.code == 0) {
+                	xTool.showInfo('操作成功');
+                	$('#term-dg').datagrid('reload')
+                } else {
+                	xTool.showError(data.msg);
+                }
+            });
+	    }
+	    
+	    function onClickRow(rowIndex, rowData) {
+            var param = {
+                apppay_id: rowData.apppay_id,
+                null_term_id: '1'
+            };
+
+            $('#term-dg').datagrid('clearSelections').datagrid({
+                url: '/action/ms/term-busi-binding/search',
+                pageNumber: 1,
+                queryParams: param
+            });
+        }
+        
+        function onSearchSuccess() {
+        	$('#search-dg').find('.xui-validatebox').validatebox({
+        		novalidate: false
+        	});
+        	$('#term-dg').datagrid('loadData', []);
+        }
+        
+        function onLoadTermSuccess() {
+        	$('#term-dg').find('.xui-validatebox').validatebox({
+        		novalidate: false
+        	});
+        }
+        
+    </script>
+</body>
+
+</html>

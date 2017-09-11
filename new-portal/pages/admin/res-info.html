@@ -1,0 +1,103 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>资源</title>
+    <link rel="stylesheet" type="text/css" href="../../js/themes/default/easyui.css" />
+    <link rel="stylesheet" type="text/css" href="../../js/themes/icon.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/tool.css" />
+    <script type="text/javascript" src="../../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../../js/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../../js/jquery.xtool.js"></script>
+</head>
+
+<body class="search-body">
+	<div class="search-div">
+    <div>
+        <form id="search-fm" class="form" action="/action/admin/res-info/search" method="post">
+            <table class="table" style="width:800px;">
+                <caption>查询资源</caption>
+                <tr>
+                  <td class="right td20"><label>资源代码：</label></td>
+                  <td class="td30"><input type="text" name="res_code"></td>
+                  <td class="right td20"><label>资源名称：</label></td>
+                  <td class="td30"><input type="text" name="res_name"></td>
+                </tr>
+                <tfoot>
+                    <tr>
+                        <td colspan="4" class="center">
+                            <div style="margin:5px;"></div>
+                            <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-search',datagrid:'#search-dg'" style="padding:0 5px;" onclick="xTool.search(this)">查询</a>
+                            &nbsp;&nbsp;
+                            <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-clear',datagrid:'#search-dg'" style="padding:0 5px;" onclick="xTool.reset(this)">重置</a>
+                    </tr>
+                </tfoot>
+            </table>
+        </form>
+    </div>
+    <br>
+    <div id="search-dg-tb">
+        <a href="javascript:void(0)" class="easyui-linkbutton action" onClick="xTool.add(this)" data-options="plain:true,iconCls:'icon-add',form:'#detail-fm',url:'/action/admin/res-info/create'">新增</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton action" onClick="xTool.view(this)" data-options="plain:true,iconCls:'icon-view',datagrid:'#search-dg',form:'#detail-fm',url:'/action/admin/res-info/view'">查看详情</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton action" onClick="xTool.edit(this)" data-options="plain:true,iconCls:'icon-edit',datagrid:'#search-dg',form:'#detail-fm',url:'/action/admin/res-info/update'">编辑</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton action" onClick="xTool.deleteBatchSubmit(this)" data-options="plain:true,iconCls:'icon-remove',datagrid:'#search-dg',url:'/action/admin/res-info/delete'">删除</a>
+    </div>
+    <table id="search-dg" title="资源" class="easyui-datagrid" style="width:800px;" data-options="[myGridDefaults, {idField:'res_code',transition:resInfoTransition}]">
+        <thead>
+            <tr>
+                <!-- <th data-options="field:'chk',checkbox:true"></th> -->
+                <th data-options="field:'res_code',width:120">资源代码</th>
+                <th data-options="field:'res_name',width:120">资源名称</th>
+            </tr>
+        </thead>
+    </table>
+    </div>
+    <div class="detail-div">
+        <form id="detail-fm" class="form init-view" action="/action/admin/res-info/view" method="post">
+            <table class="table" style="width:800px;">
+                <caption>资源</caption>
+                <tbody>
+                    <tr>
+                      <td class="td20 right"><label>资源代码：</label></td>
+                      <td class="td30"><input type="text" name="res_code" class="easyui-validatebox edit" data-options="required:true">
+                        <label class="required">*</label></td>
+                      <td class="td20 right"><label>资源名称：</label></td>
+                      <td class="td30"><input type="text" name="res_name" class="easyui-validatebox" data-options="required:true">
+                        <label class="required">*</label></td>
+                    </tr>
+                    <tr>
+                      <td class="td20 right"><label>资源描述：</label></td>
+                      <td class="td30"><input type="text" name="res_desc" class=""></td>
+                        <td class="td20 right">&nbsp;</td>
+                        <td class="td30">&nbsp;</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="4">
+                            <div style="margin:5px;"></div>
+                            <a href="javascript:void(0)" class="easyui-linkbutton button add" data-options="iconCls:'icon-ok',url:'/action/admin/res-info/create'" style="padding:0 5px;" onclick="xTool.addSubmit(this)">新增提交</a>
+                            <a href="javascript:void(0)" class="easyui-linkbutton button edit" data-options="iconCls:'icon-ok',url:'/action/admin/res-info/update'" style="padding:0 5px;" onclick="xTool.editSubmit(this)">编辑提交</a>
+                            <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-return'" style="padding:0 5px;" onclick="xTool.returnSearch(this)">&nbsp;返&nbsp;&nbsp;回</a>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </form>
+    </div>
+    <script>
+
+        var resInfoTransition = [{
+            oper_in: '0',
+            proc_st: '0',
+            action: 'update'
+        }, {
+            oper_in: '0',
+            proc_st: '0',
+            action: 'delete'
+        }];
+    </script>
+</body>
+
+</html>

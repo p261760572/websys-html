@@ -1,0 +1,187 @@
+<!doctype html>
+<html><head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="renderer" content="webkit">
+    <title>撤机工作单退款</title>
+    <link rel="stylesheet" type="text/css" href="../../js/themes/default/xui.css">
+    <link rel="stylesheet" type="text/css" href="../../js/themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="../../css/tool.css">
+    <script type="text/javascript" src="../../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../../js/jquery.xui.min.js"></script>
+    <script type="text/javascript" src="../../js/My97DatePicker/WdatePicker.js"></script><link href="../../js/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="../../js/jquery.xconfig.js"></script>
+    <script type="text/javascript" src="../../js/jquery.tool.js"></script>
+</head>
+
+<body class="search-body" style="padding:5px;">
+	<div class="search-div">
+    <div>
+        <form id="search-fm" class="form search-form" action="/action/ms/cj-workorder/search" method="post" data-options="onSerialize:onSerializeSearchForm">
+            <table class="table" style="width:950px;">
+                <caption>查询撤机工作单</caption>
+                <tbody><tr>
+        <td class="right td20"><label>撤机单号：</label></td>
+        <td class="td30"><input type="text" name="work_order_no"></td>
+        <td class="right td20"><label>联系人：</label></td>
+        <td class="td30"><input type="text" name="linkman"></td>
+      </tr><tr>
+        <td class="right td20"><label>联系电话：</label></td>
+        <td class="td30"><input type="text" name="telno"></td>
+        <td class="right td20"><label>撤机退款方式：</label></td>
+        <td class="td30"><span class="xui-combobox combobox" data-options="panelHeight:'auto',editable:false,data:xConfig['cj_refund_type']"><input type="text" class="combobox-text"><input type="hidden" name="cj_refund_type" class="combobox-value"><span class="combobox-addon"><i class="combobox-icon combobox-arrow"></i></span></span></td>
+        </tr>
+                <tr>
+                  <td class="right td20"><label>申请日期：</label></td>
+                  <td class="td30"><input id="created_time" type="text" class="Wdate" name="created_time" style="width:100px;" onfocus="WdatePicker({onpicked:function(){$dp.$('created_time2').focus();},maxDate:'#F{$dp.$D(\'created_time2\')}'})">
+                    <input id="created_time2" type="text" class="Wdate" name="created_time2" style="width:100px;" onfocus="WdatePicker({minDate:'#F{$dp.$D(\'created_time\')}'})"></td>
+                    <td class="right td20"><label>终端标识码：</label></td>
+                	  <td class="td30"><input type="text" name="term_no"></td>
+                </tr>
+                </tbody><tfoot>
+                    <tr>
+                        <td colspan="4" class="center">
+                            <div style="margin:5px;"></div>
+                            <a href="javascript:void(0)" class="xui-linkbutton l-btn" data-options="iconCls:'icon-search',datagrid:'#search-dg'" style="padding:0 5px;" onclick="xTool.search(this)"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">查询</span><span class="l-btn-icon icon-search">&nbsp;</span></span></a>
+                            &nbsp;&nbsp;
+                            <a href="javascript:void(0)" class="xui-linkbutton l-btn" data-options="iconCls:'icon-clear',datagrid:'#search-dg'" style="padding:0 5px;" onclick="xTool.reset(this)"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">重置</span><span class="l-btn-icon icon-clear">&nbsp;</span></span></a>
+                            &nbsp;&nbsp;
+                            <a href="javascript:void(0)" class="xui-linkbutton l-btn" data-options="iconCls:'icon-export',url:'/action/ms/cj-workorder/export'" style="padding:0 5px;" onclick="xTool.exportData(this)"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">导出</span><span class="l-btn-icon icon-export">&nbsp;</span></span></a>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </form>
+    </div>
+    <br>
+    
+    <div class="xui-datagrid datagrid" style="min-width: 800px;" id="search-dg" data-options="[myGridDefaults, {idField:'rec_id',transition:myDefaultTransition}]"><div class="datagrid-header">撤机工作单列表</div><div class="datagrid-body"><div class="datagrid-toolbar"><a href="javascript:void(0)" class="action xui-linkbutton l-btn l-btn-plain" onclick="xTool.view(this)" style="display:none;" data-options="disabled:true,plain:true,iconCls:'icon-view',datagrid:'#search-dg',form:'#detail-fm',url:'/action/ms/cj-workorder/view'"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">查看详情</span><span class="l-btn-icon icon-view">&nbsp;</span></span></a></div><div class="datagrid-view"><table class="datagrid-table" border="0" cellspacing="0" cellpadding="0"><thead><tr class="datagrid-header-row"><th class="datagrid-header-rownumber" data-options="field:'rn',rownumber:true"></th><th data-options="field:'work_order_no',width:120">撤机单号</th><th data-options="field:'term_no',width:80">终端标识码</th><th data-options="field:'marchant_name',width:120">门店名称</th><th data-options="field:'linkman',width:100">联系人</th><th data-options="field:'telno',width:100">联系电话</th><th data-options="field:'cj_refund_type',width:100,formatter:formatCjRefundType">撤机退款方式</th><th data-options="field:'cj_reason_flag',width:100,formatter:formatCjReasonFlag">退机原因</th><th data-options="field:'refund_date',width:120,formatter:formatDate">可退付日期</th>
+    <th data-options="field:'pan_name',width:120">户名</th>
+    <th data-options="field:'bank_name',width:120">开户行(支行)</th>
+    <th data-options="field:'pan',width:120">押金退付银行账号</th>
+    <th data-options="field:'refund_amount',width:120">退款金额</th>
+    <th data-options="field:'proc_st',width:90,formatter:formatProcSt">记录处理状态</th></tr></thead><tbody></tbody></table></div><div class="datagrid-pager"></div></div></div>
+    </div>
+    <div class="detail-div" style="display: none;">
+        <form id="detail-fm" class="form view" action="/action/ms/cj-workorder/view" method="post" style="width:950px;" data-options="onLoad:onLoadDetailForm">
+                <div style="padding:5px;">
+                  <table class="table" style="width:100%;">
+                    	<tbody><tr>
+          <td class="right td20"><label>撤机单号：</label></td>
+          <td class="td30"><input type="hidden" name="rec_id">
+            <input type="text" name="work_order_no" class="edit xui-validatebox" data-options="required:true"><label class="required">*</label></td>
+          <td class="right td20"><label>终端标识码：</label></td>
+          <td class="td30"><input type="text" name="term_no" class="edit xui-validatebox" data-options=""></td>
+                        </tr>
+                    <tr>
+                      <td class="right td20"><label>门店名称：</label></td>
+                      <td class="td30"><input type="text" name="marchant_name" class="edit xui-validatebox" data-options=""></td>
+                      <td class="right td20"><label>联系人：</label></td>
+                      <td class="td30"><input type="text" name="linkman" class="edit xui-validatebox" data-options=""></td>
+                    </tr>
+                    <tr>
+                      <td class="right td20"><label>联系电话：</label></td>
+                      <td class="td30"><input type="text" name="telno" class="edit xui-validatebox" data-options=""></td>
+                      <td class="right td20"><label>撤机退款方式：</label></td>
+                      <td class="td30"><span class="xui-combobox combobox" data-options="panelHeight:'auto',editable:false,required:true,data:xConfig['cj_refund_type']"><input type="text" class="combobox-text"><input type="hidden" name="cj_refund_type" class="combobox-value"><span class="combobox-addon"><i class="combobox-icon combobox-arrow"></i></span></span>
+                        <label class="required">*</label></td>
+                    </tr>
+                    <tr>
+                      <td class="right td20"><label>开户行(支行)：</label></td>
+                      <td class="td30"><input type="text" name="bank_name" class="edit xui-validatebox" data-options=""></td>
+                      <td class="right td20"><label>户名：</label></td>
+                      <td class="td30"><input type="text" name="pan_name" class="edit xui-validatebox" data-options=""></td>
+                    </tr>
+                    <tr>
+                      <td class="right td20"><label>押金退付银行账号：</label></td>
+                      <td class="td30"><input type="text" name="pan" class="edit xui-validatebox" data-options=""></td>
+                      <td class="right td20"><label>退机原因：</label></td>
+                      <td class="td30"><span class="xui-combobox combobox" data-options="panelHeight:'auto',editable:false,required:true,data:xConfig['cj_reason_flag']"><input type="text" class="combobox-text"><input type="hidden" name="cj_reason_flag" class="combobox-value"><span class="combobox-addon"><i class="combobox-icon combobox-arrow"></i></span></span>
+                        <label class="required">*</label></td>
+                    </tr>
+                    <tr>
+                      <td class="right td20"><label>可退付日期：</label></td>
+                      <td class="td30"><input type="text" name="refund_date" class="Wdate edit xui-validatebox" data-options="required:true" onfocus="WdatePicker()">
+                        <label class="required">*</label></td>
+                      <td class="right td20"><label>赔付金额：</label></td>
+                      <td class="td30"><input type="text" name="payment_amount" class="edit xui-validatebox" data-options=""></td>
+                    </tr>
+                    <tr>
+                      <td class="right td20"><label>备注：</label></td>
+                      <td class="td30"><input type="text" name="note" class="edit xui-validatebox" data-options=""></td>
+                      <td class="right td20">&nbsp;</td>
+                      <td class="td30">&nbsp;</td>
+                    </tr>
+                    </tbody></table>
+                </div>
+	            
+	            <div style="padding:5px;">
+	                <table class="table" style="width:100%;">
+	                  <tbody><tr>
+	                    <td class="right td20"><label>记录编号：</label></td>
+	                    <td class="td30"><input type="text" name="rec_id" class="add edit xui-validatebox" data-options=""></td>
+	                    <td class="right td20"><label>记录操作标志：</label></td>
+	                    <td class="td30"><input type="text" name="oper_in" class="add edit xui-validatebox" data-options=""></td>
+                      </tr>
+	                  <tr>
+	                    <td class="right td20"><label>记录处理状态：</label></td>
+	                    <td class="td30"><input type="text" name="proc_st" class="add edit xui-validatebox" data-options=""></td>
+	                    <td class="right td20"><label>创建人：</label></td>
+	                    <td class="td30"><input type="text" name="created_by" class="add edit xui-validatebox" data-options=""></td>
+                      </tr>
+	                  <tr>
+	                    <td class="right td20"><label>创建时间：</label></td>
+	                    <td class="td30"><input type="text" name="created_time" class="add edit xui-validatebox" data-options=""></td>
+	                    <td class="right td20"><label>最后修改人：</label></td>
+	                    <td class="td30"><input type="text" name="last_modified_by" class="add edit xui-validatebox" data-options=""></td>
+                      </tr>
+	                  <tr>
+	                    <td class="right td20"><label>最后修改时间：</label></td>
+	                    <td class="td30"><input type="text" name="last_modified_time" class="add edit xui-validatebox" data-options=""></td>
+	                    <td class="right td20">&nbsp;</td>
+	                    <td class="td30">&nbsp;</td>
+                      </tr>
+	            	</tbody></table>
+	            </div>
+            <div style="text-align:center;">
+                <div style="margin:5px;"></div>
+                <a href="javascript:void(0)" class="xui-linkbutton l-btn" data-options="iconCls:'icon-return'" style="padding:0 5px;" onclick="xTool.returnSearch(this)"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">返回</span><span class="l-btn-icon icon-return">&nbsp;</span></span></a>
+            </div>
+        </form>
+    </div>
+    <script>
+    	var myDefaultTransition = xConfig['status_transition']['J'];
+    	
+    	function onSerializeSearchForm(data) {
+        }
+        
+        function onLoadDetailForm(data) {
+        	if(isNaN(data.data.payment_amount)) {
+        		data.data.payment_amount = 0;
+        	}
+        	data.data.refund_date = data.data.refund_date.substr(0,10);        	
+        }
+        
+        function formatDate(value) {
+            return value.substr(0, 10);
+        }
+        
+        function formatCjRefundType(value, rowData, rowIndex) {
+            return xTool.formatField(xConfig['cj_refund_type'], value);
+        }
+        
+        function formatCjReasonFlag(value, rowData, rowIndex) {
+            return xTool.formatField(xConfig['cj_reason_flag'], value);
+        }
+        
+        function formatOperIn(value, rowData, rowIndex) {
+            return xTool.formatField(xConfig['oper_in']['J'], value);
+        }
+
+        function formatProcSt(value, rowData, rowIndex) {
+            return xTool.formatField(xConfig['proc_st']['J'], value);
+        }
+    </script>
+
+
+</body></html>

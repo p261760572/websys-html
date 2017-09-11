@@ -1,0 +1,188 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="renderer" content="webkit">
+<title>收银宝台账</title>
+<link rel="stylesheet" type="text/css" href="../../js/themes/default/xui.css">
+<link rel="stylesheet" type="text/css" href="../../js/themes/icon.css">
+<link rel="stylesheet" type="text/css" href="../../css/tool.css">
+<script type="text/javascript" src="../../js/jquery.min.js"></script>
+<script type="text/javascript" src="../../js/jquery.xui.min.js"></script>
+<script type="text/javascript" src="../../js/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript" src="../../js/jquery.xconfig.js"></script>
+<script type="text/javascript" src="../../js/jquery.xdistrict.js"></script>
+<script type="text/javascript" src="../../js/jquery.tool.js"></script>
+</head>
+
+<body>
+<div>
+  <div>
+    <form id="search-fm" class="form search-form" action="/action/ms/sybtz/search" method="post">
+      <table class="table" style="width:950px;">
+        <caption>
+        收银宝商户数据
+        </caption>
+        <tbody>
+          <tr>
+            <td class="right td20"><label>注册日期：</label></td>
+            <td class="td30"><input id="zcrq" type="text" class="Wdate xui-validatebox" name="zcrq" style="width:100px;" onfocus="WdatePicker({onpicked:function(){$dp.$('zcrq2').focus();},maxDate:'#F{$dp.$D(\'zcrq2\')}'})" >
+              <input id="zcrq2" type="text" class="Wdate xui-validatebox" name="zcrq2" style="width:100px;" onfocus="WdatePicker({minDate:'#F{$dp.$D(\'zcrq\')}'})" ></td>
+            <td class="right td20"><label>变更日期：</label></td>
+            <td class="td30"><input id="bgrq" type="text" class="Wdate xui-validatebox" name="bgrq" style="width:100px;" onfocus="WdatePicker({onpicked:function(){$dp.$('bgrq2').focus();},maxDate:'#F{$dp.$D(\'bgrq2\')}'})" >
+              <input id="bgrq2" type="text" class="Wdate xui-validatebox" name="bgrq2" style="width:100px;" onfocus="WdatePicker({minDate:'#F{$dp.$D(\'bgrq\')}'})" ></td>
+          </tr>
+<!--          
+          <tr>
+            <td class="right td20"><label>拓展机构：</label></td>
+            <td class="td30"><input type="text" id="ec_id" name="ec_id" class="xui-combobox" data-options="initDom:true"></td>
+            <td class="right td20"><label>拓展人：</label></td>
+            <td class="td30"><input type="text" id="e_id" name="e_id" class="xui-combobox" data-options="initDom:true"></td>
+          </tr>
+-->          
+          <tr>
+            <td class="right td20"><label>分公司：</label></td>
+            <td class="td30">
+            <select class="xui-select xui-validatebox" name="ssfgs" data-options="data:xConfig['ssfgs']"><option value="">--请选择--</option><option value="湖南分公司">湖南分公司</option><option value="长沙支公司">长沙支公司</option><option value="株洲支公司">株洲支公司</option><option value="湘潭支公司">湘潭支公司</option><option value="衡阳支公司">衡阳支公司</option><option value="邵阳支公司">邵阳支公司</option><option value="岳阳支公司">岳阳支公司</option><option value="常德支公司">常德支公司</option><option value="张家界支公司">张家界支公司</option><option value="益阳支公司">益阳支公司</option><option value="郴州支公司">郴州支公司</option><option value="永州支公司">永州支公司</option><option value="怀化支公司">怀化支公司</option><option value="娄底支公司">娄底支公司</option><option value="湘西支公司">湘西支公司</option></select></td>
+            <td class="right td20"><label>商户状态：</label></td>
+            <td class="td30">
+            <select class="xui-select xui-validatebox" name="shzt" data-options="data:xConfig['shzt']"><option value="">--请选择--</option><option value="正常">正常</option><option value="已冻结">已冻结</option></select></td>
+          </tr>
+<!--        <tr>
+            <td class="right td20"><label>开户支行：</label></td>
+            <td colspan="3" class="td30"><input type="text" id="account_bank_brach" name="account_bank_brach" class="xui-combobox" style="width:600px;" data-options="initDom:true,mode:'remote',valueField:'subbranch_code',textField:'subbranch_name',url:'/action/ms/bank-subbranch/select_list',onBeforeLoad:onBeforeLoadAccountBankBrach"></td>
+          </tr>
+          <tr>
+            <td class="right td20"><label>地区：</label></td>
+            <td class="td30">
+            	<input type="text" id="province" name="province" class="xui-combobox" style="width:60px;" data-options="initDom:true,data:provinceData,onChange:onChangeProvince">
+            	<input type="text" id="city" name="city" class="xui-combobox" style="width:60px;"data-options="initDom:true,onChange:onChangeCity">
+            	<input type="text" id="district" name="district" class="xui-combobox" style="width:60px;"data-options="initDom:true"></td>
+            <td class="right td20"><label>MCC：</label></td>
+            <td class="td30"><input type="text" id="mcc" name="mcc" class="xui-combobox" data-options="initDom:true,valueField:'mcc',textField:'mcc_name'"></td>
+         </tr>
+--> 
+          <tr>
+            <td class="right td20"><label>商户号：</label></td>
+            <td class="td30"><input type="text" name="shh" class="xui-validatebox" ></td>
+            <td class="right td20"><label>商户名称：</label></td>
+            <td class="td30"><input type="text" name="shmc" class="xui-validatebox" ></td>
+          </tr>
+<!--          
+          <tr>
+            <td class="right td20"><label>商户号：</label></td>
+            <td class="td30"><input type="text" name="mchnt_cd" class="xui-validatebox" ></td>
+            <td class="right td20">&nbsp;</td>
+            <td class="td30">&nbsp;</td>
+          </tr>
+-->          
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="4" class="center"><div style="margin:5px;">
+              </div>
+              <a href="javascript:void(0)" class="xui-linkbutton" style="padding:0 5px;" data-options="initDom:true,iconCls:'icon-search',datagrid:'#search-dg',onBefore:onBeforeSearch" onclick="xTool.search(this)">查询</a>
+              &nbsp;&nbsp; 
+              <a href="javascript:void(0)" class="xui-linkbutton" style="padding:0 5px;" data-options="initDom:true,iconCls:'icon-clear',datagrid:'#search-dg'" onclick="xTool.reset(this)">重置</a>
+              &nbsp;&nbsp; 
+              <a href="javascript:void(0)" class="xui-linkbutton" style="padding:0 5px;" data-options="initDom:true,iconCls:'icon-export',url:'/action/ms/sybtz/export',onBefore:onBeforeSearch" onclick="xTool.exportData(this)">导出</a>
+             </td>
+          </tr>
+        </tfoot>
+      </table>
+    </form>
+  </div>
+  <br>
+  <div class="xui-datagrid datagrid" style="min-width: 800px;" id="search-dg" data-options="pagination:true">
+    <div class="datagrid-header">
+      收银宝台账
+    </div>
+    <div class="datagrid-body">
+      <div class="datagrid-view">
+        <table class="datagrid-table" border="0" cellspacing="0" cellpadding="0">
+          <thead>
+            <tr class="datagrid-header-row">
+              <th class="datagrid-header-rownumber" data-options="field:'rn',rownumber:true"></th>
+        			<th data-options="field:'zcrq'">注册日期</th>
+						  <th data-options="field:'bgrq'">变更日期</th>
+						  <th data-options="field:'shh'">商户号</th>
+						  <th data-options="field:'shmc'">商户名称</th>
+						  <th data-options="field:'ssfgs'">分公司</th>
+						  <th data-options="field:'shzt'">商户状态</th>
+			  
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+      <div class="datagrid-pager">
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+	
+//		var provinceData = xProvinceCityDistrict['province'];
+//       var cityData = xProvinceCityDistrict['city']['43'];
+        
+    	function onBeforeSearch() {
+    		return $('#search-fm').form('enableValidation').form('validate');
+    	}
+    	
+//    	function onChangeAccountBank(newValue, oldValue) {
+//        	$('#account_bank_brach').combobox('clear').combobox('reload');
+//        }
+        
+//        function onBeforeLoadAccountBankBrach(param) {
+//        	var data = $('#search-fm').serializeObject();
+//      
+//        	param.bank_code = data.account_bank;
+//        	param.subbranch_name = param.q;
+//        }
+        
+//        function onChangeProvince(newValue, oldValue) {
+//            if (newValue) {
+//                $('#city').combobox('clear').combobox('loadData', xProvinceCityDistrict['city'][newValue]);
+//                $('#district').combobox('clear').combobox('loadData',[]);
+//            }
+//        }
+        
+//        function onChangeCity(newValue, oldValue) {
+//            if (newValue) {
+//                var province = $('#province').combobox('getValue');
+//                $('#district').combobox('clear').combobox('loadData', xProvinceCityDistrict['district'][province + newValue]);
+//            }
+//       }
+        
+   //     function initCombobox() {
+   //         xTool.send('/action/ms/parameter/list', {
+//                ec_id: '1',
+//                e_id: '1',
+   //             ssfgs: '1',
+   //             shzt: '1',
+//                mcc: '1'
+   //         }, function (data) {
+   //             if (data.code == 0) {
+//                    $('#ec_id').combobox('loadData', data.ec_id);
+//                    $('#e_id').combobox('loadData', data.e_id);
+   //                 $('#ssfgs').combobox('loadData', data.ssfgs);
+   //                 $('#shzt').combobox('loadData', data.shzt);
+//                    $('#mcc').combobox('loadData', data.mcc);
+                    
+//                    xConfig['ec_id'] = data.ec_id;
+//                    xConfig['e_id'] = data.e_id;
+   //                 xConfig['ssfgs'] = data.ssfgs;
+   //                 xConfig['shzt'] = data.shzt;
+//                    xConfig['mcc'] = data.mcc;
+   //             }
+   //         });
+   //     }
+        
+   //     $(function() {
+   //     	initCombobox();
+   //     });
+    </script>
+</body>
+</html>

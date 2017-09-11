@@ -1,0 +1,90 @@
+<!doctype html>
+<html>
+
+<head>
+<meta charset="utf-8">
+<title>终端类业务审批参数</title>
+<link rel="stylesheet" type="text/css" href="../../js/themes/default/xui.css" />
+<link rel="stylesheet" type="text/css" href="../../js/themes/icon.css" />
+<link rel="stylesheet" type="text/css" href="../../css/tool-v2.css" />
+<script type="text/javascript" src="../../js/jquery.min.js"></script>
+<script type="text/javascript" src="../../js/jquery.xui.min.js"></script>
+<script type="text/javascript" src="../../js/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript" src="../../js/jquery.tool-v2.js"></script>
+<script type="text/javascript" src="../../js/jquery.xconfig.js"></script>
+</head>
+
+<body class="search-body">
+	<div class="search-div">
+		<div>
+			<form id="search-fm" class="form search-form" action="/action/ms/term-busi-approval-table/search" method="post" data-options="">
+				<table class="table" style="width: 950px;">
+					<caption>查询终端类业务审批参数</caption>
+					<tr>
+						<td class="right td20"><label>录入日期：</label></td>
+						<td class="td30"><input id="created_time" type="text" class="Wdate" name="created_time" style="width: 100px;"
+							onfocus="WdatePicker({onpicked:function(){$dp.$('created_time2').focus();},maxDate:'#F{$dp.$D(\'created_time2\')}'})">
+							<input id="created_time2" type="text" class="Wdate" name="created_time2" style="width: 100px;"
+							onfocus="WdatePicker({minDate:'#F{$dp.$D(\'created_time\')}'})"></td>
+						<td class="right td20"><label>审批日期：</label></td>
+						<td class="td30"><input id="last_checked_time" type="text" class="Wdate" name="last_checked_time"
+							style="width: 100px;"
+							onfocus="WdatePicker({onpicked:function(){$dp.$('last_checked_time2').focus();},maxDate:'#F{$dp.$D(\'last_checked_time2\')}'})">
+							<input id="last_checked_time2" type="text" class="Wdate" name="last_checked_time2" style="width: 100px;"
+							onfocus="WdatePicker({minDate:'#F{$dp.$D(\'last_checked_time\')}'})"></td>
+					</tr>
+					<tfoot>
+						<tr>
+							<td colspan="4" class="center">
+								<div style="margin: 5px;"></div> <a class="xui-linkbutton" href="javascript:void(0)" style="padding: 0 5px;"
+									data-options="initDom:true,iconCls:'icon-search',datagrid:'#search-dg'" onclick="xTool.search(this)">查询</a>
+								&nbsp;&nbsp; <a class="xui-linkbutton" href="javascript:void(0)" style="padding: 0 5px;"
+									data-options="initDom:true,iconCls:'icon-clear'" onclick="xTool.reset(this)">重置</a>
+								&nbsp;&nbsp; <a class="xui-linkbutton" href="javascript:void(0)" style="padding: 0 5px;"
+									data-options="initDom:true,iconCls:'icon-export',url:'/action/ms/term-busi-approval-table/export'" onclick="xTool.exportData(this)">导出</a>
+							</td>
+						</tr>
+					</tfoot>
+				</table>
+			</form>
+		</div>
+		<br>
+		<table id="search-dg" title="终端类业务审批参数列表" class="xui-datagrid" style="width: 950px;"
+			data-options="initDom:true,pagination:true">
+			<thead>
+				<tr>
+					<th data-options="field:'rn',rownumber:true"></th>
+					<!-- <th data-options="field:'chk',checkbox:true"></th> -->
+					<th data-options="field:'mchnt_cd'">商户编号</th>
+					<th data-options="field:'fee_chan'">交易渠道</th>
+					<th data-options="field:'marchant_name'">商户名称</th>
+					<th data-options="field:'district_name'">所在地区</th>
+					<th data-options="field:'term_id'">终端号</th>
+					<th data-options="field:'mcc'">MCC</th>
+					<th data-options="field:'fee_name'">手续费</th>
+					<th data-options="field:'account_bank'">账户银行</th>
+					<th data-options="field:'account_name'">户名</th>
+					<th data-options="field:'account_no'">帐号</th>
+					<th data-options="field:'license_no'">营业执照</th>
+					<th data-options="field:'man'">装机联系人</th>
+					<th data-options="field:'tel_no'">联系电话</th>
+					<th data-options="field:'installed_addr'">装机地址</th>
+					<th data-options="field:'remark_info'">业务备注</th>
+					<th data-options="field:'money0'">押金</th>
+					<th data-options="field:'e_id'">拓展人</th>
+					<th data-options="field:'equi_type'">机型要求</th>
+					<th data-options="field:'money2'">通讯费</th>
+					<th data-options="field:'money1'">服务费</th>
+					<th data-options="field:'account_bank_id'">开户支行名</th>
+					<th data-options="field:'remark'">终端备注</th>
+				</tr>
+			</thead>
+			<tbody></tbody>
+		</table>
+	</div>
+	<script>
+		
+	</script>
+</body>
+
+</html>

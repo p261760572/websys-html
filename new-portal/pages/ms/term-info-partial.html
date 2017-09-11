@@ -1,0 +1,166 @@
+<!doctype html>
+<html>
+
+<head>
+<meta charset="utf-8">
+<title>终端信息部分字段</title>
+<link rel="stylesheet" type="text/css" href="../../js/themes/default/xui.css" />
+<link rel="stylesheet" type="text/css" href="../../js/themes/icon.css" />
+<link rel="stylesheet" type="text/css" href="../../css/tool.css" />
+<script type="text/javascript" src="../../js/jquery.min.js"></script>
+<script type="text/javascript" src="../../js/jquery.xui.min.js"></script>
+<script type="text/javascript" src="../../js/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript" src="../../js/jquery.tool-v2.js"></script>
+<script type="text/javascript" src="../../js/jquery.xconfig.js"></script>
+</head>
+
+<body class="search-body">
+	<div class="search-div">
+		<div>
+			<form id="search-fm" class="form search-form" action="/action/ms/term-info/search" method="post" data-options="onSerialize:serializeSearchForm">
+				<table class="table" style="width: 950px;">
+					<caption>查询终端信息部分字段</caption>
+					<tr>
+        <td class="right td20"><label>终端标识码：</label></td>
+        <td class="td30"><input type="text" name="term_no"></td>
+        <td class="right td20"><label>门店名称：</label></td>
+        <td class="td30"><input type="text" name="marchant_name"></td>
+      </tr><tr>
+        <td class="right td20"><label>客户装机联系人：</label></td>
+        <td class="td30"><input type="text" name="man"></td>
+        <td class="right td20"><label>客户装机联系电话：</label></td>
+        <td class="td30"><input type="text" name="tel_no"></td>
+      </tr>
+					<tr>
+						<td class="right td20">
+							<label>创建日期：</label>
+						</td>
+						<td class="td30">
+							<input id="created_time" type="text" class="Wdate" name="created_time" style="width: 100px;" onfocus="WdatePicker({onpicked:function(){$dp.$('created_time2').focus();},maxDate:'#F{$dp.$D(\'created_time2\')}'})">
+							<input id="created_time2" type="text" class="Wdate" name="created_time2" style="width: 100px;" onfocus="WdatePicker({minDate:'#F{$dp.$D(\'created_time\')}'})">
+						</td>
+						<td class="right td20">
+							<label>修改日期：</label>
+						</td>
+						<td class="td30">
+							<input id="last_modified_time" type="text" class="Wdate" name="last_modified_time" style="width: 100px;" onfocus="WdatePicker({onpicked:function(){$dp.$('last_modified_time2').focus();},maxDate:'#F{$dp.$D(\'last_modified_time2\')}'})">
+							<input id="last_modified_time2" type="text" class="Wdate" name="last_modified_time2" style="width: 100px;" onfocus="WdatePicker({minDate:'#F{$dp.$D(\'last_modified_time\')}'})">
+						</td>
+					</tr>
+					<tfoot>
+						<tr>
+							<td colspan="4" class="center">
+								<div style="margin: 5px;"></div>
+								<a class="xui-linkbutton" href="javascript:void(0)" style="padding: 0 5px;" data-options="initDom:true,iconCls:'icon-search',datagrid:'#search-dg'" onclick="xTool.search(this)">查询</a>
+								&nbsp;&nbsp;
+								<a class="xui-linkbutton" href="javascript:void(0)" style="padding: 0 5px;" data-options="initDom:true,iconCls:'icon-clear'" onclick="xTool.reset(this)">重置</a>
+							</td>
+						</tr>
+					</tfoot>
+				</table>
+			</form>
+		</div>
+		<br>
+		
+		<table id="search-dg" title="终端信息部分字段列表" class="xui-datagrid" style="" data-options="initDom:true,idField:'rec_id',pagination:true">
+			<thead>
+				<tr>
+					<th data-options="field:'rn',rownumber:true"></th>
+					<!--<th data-options="field:'chk',checkbox:true"></th>-->
+					<th data-options="field:'term_no'">终端标识码</th>
+		            <th data-options="field:'equi_type',formatter:formatEquiType">机具类型</th>
+		            <th data-options="field:'man'">客户装机联系人</th>
+		            <th data-options="field:'tel_no'">客户装机联系电话</th>
+		            <th data-options="field:'marchant_name'">门店名称</th>
+		            <!-- <th data-options="field:'installed_addr'">客户装机地址</th> -->
+		            <th data-options="field:'installed_status',formatter:formatInstalledStatus">安装状态</th>
+		            <th data-options="field:'oper_in',formatter:formatOperIn">操作标志</th>
+		            <th data-options="field:'proc_st',formatter:formatProcSt">记录处理状态</th>
+		            <th data-options="field:'proc_st2',formatter:formatProcSt2">部分字段处理状态</th>
+		            <th data-options="field:'last_modified_by'">最后修改人</th>
+		            <th data-options="field:'last_modified_time'">最后修改时间</th>
+		            <th data-options="field:'op',formatter:formatOp">操作</th>
+				</tr>
+			</thead>
+			<tbody></tbody>
+		</table>
+	</div>
+	<script>
+		
+		var myDefaultTransition = xConfig['status_transition']['L'];
+		var myDefaultAction = [{
+			operateType: 'update',
+			name: '编辑',
+			action: 'update'
+		},{
+			operateType: 'check1',
+			name: '审核',
+			action: 'check1-pass'
+		}];
+		
+		var query;
+		$(function() {
+			query = xTool.parseQueryString();
+			query.operateType = query.operateType || 'update';
+		});
+		
+		function serializeSearchForm(data) {
+            if(query.operateType == 'check1') {
+            	data.proc_st2 = '1'	;
+            }
+        }
+		
+		function formatEquiType(value) {
+            return xTool.formatField(xConfig['equi_type'], value);
+        }
+        
+        function formatInstalledStatus(value) {
+            return xTool.formatField(xConfig['installed_status'], value);
+        }
+        
+        function formatOperIn(value, rowData, rowIndex) {
+	    	return xTool.formatField(xConfig['oper_in']['B'], value);
+	    }
+        
+        function formatProcSt(value, rowData, rowIndex) {
+	    	return xTool.formatField(xConfig['proc_st']['B'], value);
+	    }
+        
+        function formatOperIn2(value, rowData, rowIndex) {
+	    	return xTool.formatField(xConfig['oper_in']['L'], value);
+	    }
+        
+        function formatProcSt2(value, rowData, rowIndex) {
+	    	return xTool.formatField(xConfig['proc_st']['L'], value);
+	    }
+	
+		function formatOp(value, row, index) {
+			var url = 'term-info-partial-detail.html?' + jQuery.param({
+				rec_id: row.rec_id
+        	});
+			var s = '<a href="'+url+'&operateType=view" target="_blank">详情</a>';
+			if(row.proc_st == '8') {
+				var i, action;
+					
+				for(i = 0; i < myDefaultAction.length; i++) {
+					action = myDefaultAction[i];
+					if(action.operateType == query.operateType) {
+						if(xTool.hasNextStatus(myDefaultTransition, row.oper_in2, row.proc_st2, action.action)) {
+							s += '&nbsp;<a href="'+url+'&operateType='+action.operateType+'" target="_blank" style="margin-right:10px;">'+action.name+'</a>';
+						}
+						break;
+					}
+				}
+			}
+
+			return s;
+		}				
+		
+		function reloadSearchDatagrid() {
+			$('#search-dg').datagrid('reload');
+		}
+		
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,102 @@
+<!doctype html>
+<html>
+
+<head>
+<meta charset="utf-8">
+<title>出入库记录</title>
+<link rel="stylesheet" type="text/css" href="../../js/themes/default/xui.css" />
+<link rel="stylesheet" type="text/css" href="../../js/themes/icon.css" />
+<link rel="stylesheet" type="text/css" href="../../css/tool-v2.css" />
+<script type="text/javascript" src="../../js/jquery.min.js"></script>
+<script type="text/javascript" src="../../js/jquery.xui.min.js"></script>
+<script type="text/javascript" src="../../js/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript" src="../../js/jquery.tool-v2.js"></script>
+<script type="text/javascript" src="../../js/jquery.xconfig.js"></script>
+<script type="text/javascript" src="../../js/jquery.xdistrict.js"></script>
+</head>
+
+<body class="search-body">
+	<div class="search-div">
+		<div>
+			<form id="search-fm" class="form search-form" action="/action/ms/out-in-depot-his/search" method="post">
+				<table class="table" style="width: 950px;">
+					<caption>查询出入库记录</caption>
+					<tr>
+						<td class="right td20"><label>出入库日期：</label></td>
+						<td class="td30"><input id="created_time" type="text" class="xui-validatebox Wdate" name="created_time" style="width: 100px;"
+							onfocus="WdatePicker({onpicked:function(){$dp.$('created_time2').focus();},maxDate:'#F{$dp.$D(\'created_time2\')}'})" data-options="required:true">
+							<input id="created_time2" type="text" class="xui-validatebox Wdate" name="created_time2" style="width: 100px;"
+							onfocus="WdatePicker({minDate:'#F{$dp.$D(\'created_time\')}'})" data-options="required:true"><span class="required">*</span></td>
+						<td class="right td20"><label>仓库：</label></td>
+						<td class="td30">
+							<select class="xui-select2" name="depot_id" style="width:80px;" data-options="valueField:'depot_id',textField:'depot_name',url:'/action/ms/depot-info/list'"></select>
+							<!--
+							<select class="xui-select2" id="province" name="province" style="width:80px;" onchange="onChangeProvince(this.value)" data-options="data:provinceData"></select>
+							<select class="xui-select2" id="city" name="city" onchange="onChangeCity(this.value)" style="width:80px;" data-options="data:[]"></select>
+							<select class="xui-select2" id="district" name="district" style="width:80px;" data-options="data:[]"></select>
+							-->
+						</td>
+					</tr>
+					<tfoot>
+						<tr>
+							<td colspan="4" class="center">
+								<div style="margin: 5px;"></div> <a class="xui-linkbutton" href="javascript:void(0)" style="padding: 0 5px;"
+									data-options="initDom:true,iconCls:'icon-search',datagrid:'#search-dg',onBefore:onBeforeSearch" onclick="xTool.search(this)">查询</a>
+								&nbsp;&nbsp; <a class="xui-linkbutton" href="javascript:void(0)" style="padding: 0 5px;"
+									data-options="initDom:true,iconCls:'icon-clear'" onclick="xTool.reset(this)">重置</a>
+								&nbsp;&nbsp; <a class="xui-linkbutton" href="javascript:void(0)" style="padding: 0 5px;"
+									data-options="initDom:true,iconCls:'icon-export',url:'/action/ms/out-in-depot-his/export',onBefore:onBeforeSearch" onclick="xTool.exportData(this)">导出</a>
+                                    &nbsp;&nbsp; <a class="xui-linkbutton" href="javascript:void(0)" style="padding: 0 5px;"
+									data-options="initDom:true,iconCls:'icon-export',url:'/action/ms/out-in-depot-his/export-erp',onBefore:onBeforeSearch" onclick="xTool.exportData(this)">导出ERP</a>
+							</td>
+						</tr>
+					</tfoot>
+				</table>
+			</form>
+		</div>
+		<br>
+		<table id="search-dg" title="出入库记录列表" class="xui-datagrid" style="width: 950px;"
+			data-options="initDom:true,pagination:true">
+			<thead>
+				<tr>
+					<th data-options="field:'rn',rownumber:true"></th>
+					<!-- <th data-options="field:'chk',checkbox:true"></th> -->
+					<th data-options="field:'created_time'">出入库时间</th>
+					<th data-options="field:'device_no'">设备编号</th>
+					<th data-options="field:'operate_name'">出入库类型</th>
+				</tr>
+			</thead>
+			<tbody></tbody>
+		</table>
+	</div>
+	<script>
+		/*
+		var provinceData = xProvinceCityDistrict['province'];
+		
+		function onChangeProvince(newValue) {
+            if (newValue) {
+                $('#city').select2('loadData', xProvinceCityDistrict['city'][newValue]);
+            } else {
+            	$('#city').select2('loadData',[]);
+            }
+            $('#district').select2('loadData',[]);
+        }
+
+        function onChangeCity(newValue) {
+            if (newValue) {
+                var province = $('#province').val();
+                $('#district').select2('loadData', xProvinceCityDistrict['district'][province + newValue]);
+            } else {
+            	$('#district').select2('loadData',[]);
+            }
+        }
+        */
+       
+        function onBeforeSearch() {
+    		return $('#search-fm').form('enableValidation').form('validate');
+    	}
+
+	</script>
+</body>
+
+</html>

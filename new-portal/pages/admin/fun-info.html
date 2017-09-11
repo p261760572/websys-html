@@ -1,0 +1,168 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>功能</title>
+    <link rel="stylesheet" type="text/css" href="../../js/themes/default/easyui.css" />
+    <link rel="stylesheet" type="text/css" href="../../js/themes/icon.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/tool.css" />
+    <script type="text/javascript" src="../../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../../js/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../../js/jquery.xtool.js"></script>
+</head>
+
+<body>
+    <div>
+        <form id="search-fm" class="form" action="/action/admin/fun-info/search" method="post">
+            <table class="table" style="width:800px;">
+                <caption>查询功能</caption>
+                <tr>
+                    <td class="right td30">
+                        <label>功能ID：</label>
+                    </td>
+                    <td class="td30">
+                        <input type="text" name="fun_id">
+                    </td>
+                    <td class="right td20">
+                        <label>功能名称：</label>
+                    </td>
+                    <td class="td30">
+                        <input type="text" name="fun_name">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="right td20">
+                        <label>URL：</label>
+                    </td>
+                    <td class="td30">
+                        <input type="text" name="url">
+                    </td>
+                    <td class="right td20">
+                        <label>功能流程：</label>
+                    </td>
+                    <td class="td30">
+                        <input type="text" name="flow">
+                    </td>
+                </tr>
+                <tfoot>
+                    <tr>
+                        <td colspan="4" class="center">
+                            <div style="margin:5px;"></div>
+                            <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search',datagrid:'#search-dg'" style="padding:0 5px;" onclick="onClickSearch(this)">查询</a>
+                            &nbsp;&nbsp;
+                            <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-clear',datagrid:'#search-dg'" style="padding:0 5px;" onclick="onClickReset(this)">重置</a>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </form>
+    </div>
+    <br>
+    <div id="search-dg-tb">
+        <a href="javascript:void(0)" class="easyui-linkbutton action" onClick="onClickAdd(this)" data-options="plain:true,iconCls:'icon-add',form:'#detail-fm',url:'/action/admin/fun-info/create'">新增</a>
+        <a id="view-btn" href="javascript:void(0)" class="easyui-linkbutton action" onClick="onClickView(this)" data-options="plain:true,iconCls:'icon-view',datagrid:'#search-dg',form:'#detail-fm',url:'/action/admin/fun-info/view',onSuccess:onView">查看详情</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton action" onClick="onClickEdit(this)" data-options="plain:true,iconCls:'icon-edit',datagrid:'#search-dg',form:'#detail-fm',url:'/action/admin/fun-info/update',onSuccess:onEdit">编辑</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton action" onClick="onClickDeleteSubmit(this)" data-options="plain:true,iconCls:'icon-remove',datagrid:'#search-dg',url:'/action/admin/fun-info/delete'">删除</a>
+    </div>
+    <table id="search-dg" title="功能" class="easyui-datagrid" style="width:800px;" data-options="rownumbers:true,pagination:true,toolbar:'#search-dg-tb',onDblClickRow:function(rowIndex, rowData){$('#view-btn').click();},idField:'fun_id'">
+        <thead>
+            <tr>
+                <!-- <th data-options="field:'chk',checkbox:true"></th> -->
+                <th data-options="field:'fun_id',width:80">功能ID</th>
+                <th data-options="field:'fun_name',width:200">功能名称</th>
+                <th data-options="field:'url',width:200">URL</th>
+            </tr>
+        </thead>
+    </table>
+    <br>
+    <div>
+        <form id="detail-fm" class="form view" action="/action/admin/fun-info/view" method="post">
+            <table class="table" style="width:800px;">
+                <caption>功能</caption>
+                <tbody>
+                    <tr>
+                        <td class="right td20">
+                            <label>功能ID：</label>
+                        </td>
+                        <td class="td30">
+                            <input type="text" name="fun_id" class="add edit"><span class="required">*</span>
+                        </td>
+                        <td class="right td20">
+                            <label>功能名称：</label>
+                        </td>
+                        <td class="td30">
+                            <input type="text" name="fun_name" class="easyui-validatebox" data-options="required:true" style="width:200px;"><span class="required">*</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="right td20">
+                            <label>URL：</label>
+                        </td>
+                        <td colspan="3" class="td80">
+                            <input type="text" name="url" class="easyui-validatebox" data-options="required:true" style="width:300px;"><span class="required">*</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="right td20">
+                            <label>功能流程：</label>
+                        </td>
+                        <td colspan="3" class="td80">
+                            <div>
+                                <a href="javascript:void(0)" onclick="beautifySqlStmt('#flow')">格式化</a>
+                            </div>
+                            <textarea id="flow" name="flow" style="width:600px; height:300px;"></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="right td20">
+                            <label>日志流程：</label>
+                        </td>
+                        <td colspan="3" class="td80">
+                            <div>
+                                <a href="javascript:void(0)" onclick="beautifySqlStmt('#log-flow')">格式化</a>
+                            </div>
+                            <textarea id="log-flow" name="log_flow" style="width:600px; height:100px;"></textarea>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="4">
+                            <div style="margin:5px;"></div>
+                            <a href="#" class="easyui-linkbutton add" data-options="iconCls:'icon-ok',url:'/action/admin/fun-info/create'" style="padding:0 5px;" onclick="onClickSubmit(this)">新增提交</a>
+                            &nbsp;&nbsp;
+                            <a href="#" class="easyui-linkbutton edit" data-options="iconCls:'icon-ok',url:'/action/admin/fun-info/update'" style="padding:0 5px;" onclick="onClickSubmit(this)">编辑提交</a>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </form>
+    </div>
+    <script>
+        function onReloadConfig() {
+            xTool.send('/action/admin/reload', {}, function () {});
+        }
+
+        function beautifySqlStmt(id) {
+            var text = $(id).val()
+            $(id).val(js_beautify(text));
+        }
+
+        function onView(data) {
+            if (data.flow) {
+                data.flow = js_beautify(data.flow);
+            }
+
+            if (data.log_flow) {
+                data.log_flow = js_beautify(data.log_flow);
+            }
+        }
+
+        function onEdit(data) {
+            onView(data);
+        }
+    </script>
+</body>
+
+</html>

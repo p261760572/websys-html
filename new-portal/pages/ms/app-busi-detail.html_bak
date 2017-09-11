@@ -1,0 +1,642 @@
+<!doctype html>
+<html>
+
+<head>
+<meta charset="utf-8">
+<title>APP业务信息</title>
+<link rel="stylesheet" type="text/css" href="../../js/themes/default/xui.css" />
+<link rel="stylesheet" type="text/css" href="../../js/themes/icon.css" />
+<link rel="stylesheet" type="text/css" href="../../css/tool-v2.css" />
+<link rel="stylesheet" type="text/css" href="../../js/cropperjs/cropper.min.css" />
+<style>
+	.image-cell-hd {
+		font-size: 17px;
+		font-family: Helvetica Neue,Helvetica,Arial,sans-serif;
+		line-height: 1.41176471;
+		width: 1000px;
+	}
+	.image-cells {
+		padding: 10px 15px;
+	}
+	.image-cell-bd {
+		/*max-height:600px;*/
+		overflow:auto;
+		/*width: 80%;*/
+	}
+	.img-container {
+/*		min-width: 450px;
+		padding: 20px;*/
+		margin: auto;
+	}
+
+	.img-container img{
+		max-width: 100%;
+	}
+</style>
+<script type="text/javascript" src="../../js/jquery.min.js"></script>
+<script type="text/javascript" src="../../js/jQueryRotate-2.3.min.js"></script>
+<script type="text/javascript" src="../../js/jquery.xui.min.js"></script>
+<script type="text/javascript" src="../../js/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript" src="../../js/jquery.tool-v2.js"></script>
+<script type="text/javascript" src="../../js/jquery.xconfig.js"></script>
+<script type="text/javascript" src="../../js/layer/layer.js"></script>
+<script type="text/javascript" src="../../js/cropperjs/cropper.min.js"></script>
+</head>
+
+<body class="search-body">
+	<div class="detail-div">
+		<form id="detail-fm" class="form" action="/action/ms/app-busi/view" method="post" data-options="onSerialize:onSerializeForm,onLoad:onLoadForm">
+			<input type="hidden" name="rec_id">
+			<div class="readonly" style="padding: 5px; width:1000px;">
+				<table class="table" style="width: 100%;">
+					<tr>
+						<td class="right td20"><label>联系人手机：</label></td>
+						<td class="td30"><input type="text" name="mobile" class="xui-validatebox"
+							data-options="required:true"><span class="required">*</span></td>
+						<td class="right td20"><label>开户行名称：</label></td>
+						<td class="td30"><input type="text" name="subbranch_name" class="xui-validatebox" data-options="required:true"><span
+							class="required">*</span></td>
+					</tr>
+					<tr>
+					  <td class="right td20"><label>装机地区：</label></td>
+					  <td class="td30"><input type="text" name="district_name" class="xui-validatebox" data-options=""></td>
+					  <td class="right td20"><label>装机详细地址：</label></td>
+					  <td class="td30"><input type="text" name="installed_addr" class="xui-validatebox"
+							data-options="required:true">
+					    <span class="required">*</span></td>
+				  </tr>
+					<tr>
+					  <td class="right td20"><label>联系人：</label></td>
+					  <td class="td30"><input type="text" name="linkman" class="xui-validatebox"
+							data-options="required:true">
+				      <span class="required">*</span></td>
+						<td class="right td20"><label>联系电话：</label></td>
+						<td class="td30"><input type="text" name="tel_no" class="xui-validatebox " data-options="required:false"></td>
+					</tr>
+					<tr>
+	                    <td class="right td20"><label>借记卡手续费：</label></td>
+                        <td class="td30"><input type="text" name="fee_algo" class="xui-validatebox " data-options="required:true"><span class="required">*</span></td>
+						<td class="right td20"><label>贷记卡手续费：</label></td>
+                        <td class="td30"><input type="text" name="credit_fee_algo" class="xui-validatebox " data-options="required:true"><span class="required">*</span></td>
+					</tr>
+                    <tr>
+                      <td class="right td20"><label>押金：</label></td>
+                      <td class="td80"><input type="text" name="deposit_amount" class="xui-validatebox" data-options="">
+                        <span class="required">*</span></td>
+                      <td class="right td20"><label>通讯费：</label></td>
+                      <td class="td30"><input type="text" name="traffic_amount" class="xui-validatebox" data-options=""></td>
+                    </tr>
+					<tr>
+					  <td class="right td20"><label>销售款：</label></td>
+					  <td class="td30"><input type="text" name="sale_amount" class="xui-validatebox " data-options=""></td>
+					  <td class="right td20"><label>机具类型：</label></td>
+					  <td class="td30"><input type="text" name="equi_type" class="xui-validatebox" data-options="">
+					    <span class="required">*</span></td>
+					</tr>
+					<tr>
+					  <td class="right td20"><label>装机数量：</label></td>
+					  <td class="td30"><input type="text" name="num_term" class="xui-validatebox " data-options="required:true">
+					    <span class="required">*</span></td>
+					  <td class="right td20"><label>业务类型：</label></td>
+					  <td class="td30"><input type="text" id="apptype" name="apptype" class="xui-validatebox" data-options="">
+					    <span class="required">*</span></td>
+					</tr>
+				  <tr>
+				  	  <td class="right td20"><label>备注：</label></td>
+					  <td class="td80" colspan="3"><input type="text" name="remark" style="width:85%;"></td>
+				  </tr>
+				  <tr class="editable-check1">
+					  <td class="right td20"><label>通过或驳回原因：</label></td>
+					  <td class="td80" colspan="3"><input type="text" id="checked_reason" name="checked_reason" class="xui-validatebox" style="width:85%;" data-options="">
+					  </td>
+				  </tr>
+				</table>
+			</div>
+			<div style="position:fixed; bottom:0px; z-index:1000; height:65px; background:url(../../images/toolbar_bg.jpg) repeat-x bottom left; background-color: #d6e9fa;">
+			<!--<div style="margin:5px;"></div> -->
+			<div style="text-align: center; width:1000px;">
+				<div style="padding:8px; font-size: 14px;"><a href="#营业执照照片">营业执照照片</a>
+<a href="#税务登记证照片">税务登记证照片</a>
+<a href="#法人身份证照片">法人身份证照片</a>
+<a href="#门店照片">门店照片</a>
+<a href="#结算账户(银行卡)照片">结算账户(银行卡)照片</a>
+<a href="#商户协议">商户协议</a>
+<a href="#账号授权书">账号授权书</a>
+<a href="#其他照片">其他照片</a></div>
+				
+				<a class="xui-linkbutton invisible visible-check1" href="javascript:void(0)" style="padding: 0 5px;"
+					data-options="initDom:true,iconCls:'icon-ok',url:'/action/ms/app-busi/check1-pass',onBefore:onBeforeCheck1Pass,onSubmit:onCheck1PassSubmit"
+					onClick="check1PassSubmit(this)">通过</a>
+				<a class="xui-linkbutton invisible visible-check1" href="javascript:void(0)" style="padding: 0 5px;"
+					data-options="initDom:true,iconCls:'icon-no',url:'/action/ms/app-busi/check1-nopass',onBefore:onBeforeCheck1NoPass,onSubmit:onSubmit"
+					onClick="xTool.submit(this)">驳回</a>
+				<a class="xui-linkbutton" href="javascript:void(0)" style="padding: 0 5px;"
+					data-options="initDom:true,iconCls:'icon-cancel'" onClick="xTool.close(this)">关闭</a>
+			</div>
+			</div>
+		
+		<div class="image-cells readonly-view">
+		<div class="image-cell-hd" id="营业执照照片">
+			<a href="#营业执照照片">营业执照照片</a> <span id="reg_status" style="padding-left:50px; color:red;"></span>
+			<table class="table editable-check1" style="width: 100%;">
+			<tr>
+			  <td class="right td20"><label>营业执照号码：</label></td>
+			  <td class="td30"><input type="text" id="license_no" name="license_no" class="xui-validatebox" data-options="required:false" style="text-transform:uppercase;"><a href="javascript:void(0)" onclick="gsxt('license_no')">企业信用信息(湖南)</a></td>
+			  <td class="right td20"><label>营业执照名称：</label></td>
+			  <td class="td30"><input type="text" id="mcht_name" name="mcht_name" class="xui-validatebox" data-options="required:false"><a href="javascript:void(0)" onclick="gsxt('mcht_name')">企业信用信息(湖南)</a></td>
+		  	</tr>
+		  	<tr>
+          <td class="right td20"><label>营业执照有效期：</label></td>
+          <td class="td30"><input type="text" id="license_date" name="license_date" class="Wdate xui-validatebox" data-options="required:false" onfocus="WdatePicker({dateFmt:'yyyyMMdd'})">
+          </td>
+          <td class="right td20"><label>经营范围：</label></td>
+          <td class="td30"><input type="text" id="business_scope" name="business_scope" class="xui-validatebox" data-options="required:false">
+          </td>
+        </tr>
+        <tr>
+				  	  <td class="right td20"><label>基本资料备注：</label></td>
+					  <td class="td80" colspan="3"><input type="text" name="mchnt_remark" style="width:85%;"></td>
+				  </tr>
+		    </table>
+        </div>
+		<div class="image-cell-bd" id="01">
+	    </div>
+	    
+	    <div class="image-cell-hd" id="税务登记证照片">
+	    	<a href="#税务登记证照片">税务登记证照片</a>
+        </div>
+	    <div class="image-cell-bd" id="02">
+	    </div>
+	    
+        <div class="image-cell-hd" id="法人身份证照片">
+	    	<a href="#法人身份证照片">法人身份证照片</a>
+	    	<table class="table editable-check1" style="width: 100%;">
+			<tr>
+			  <td class="right td20"><label>法人名称：</label></td>
+			  <td class="td30"><input type="text" id="cert_name" name="cert_name" class="xui-validatebox" data-options="required:false"></td>
+			  <td class="right td20"><label>法人证件号码：</label></td>
+			  <td class="td30"><input type="text" id="cert_id" name="cert_id" class="xui-validatebox" data-options="required:false"></td>
+		  	</tr>
+		  	<tr>
+		  	  <td class="right td20"><label>法人身份证件有效期：</label></td>
+			  <td class="td30"><input type="text" id="cert_date" name="cert_date" class="Wdate xui-validatebox" data-options="required:false" onfocus="WdatePicker({dateFmt:'yyyyMMdd'})"></td>
+			  <td class="right td20"></td>
+			  <td class="td30"></td>
+		  	</tr>
+		    </table>
+        </div>
+	    <div class="image-cell-bd" id="03">
+	    </div>
+	    
+        <div class="image-cell-hd" id="门店照片">
+	    	<a href="#门店照片">门店照片</a>
+	    	<table class="table editable-check1" style="width: 100%;">
+			<tr>
+			  <td class="right td20"><label>门店名称：</label></td>
+			  <td class="td30"><input type="text" id="marchant_name" name="marchant_name" class="xui-validatebox" data-options="required:false"></td>
+			  <td class="right td20"></td>
+			  <td class="td30"></td>
+		  	</tr>
+		    </table>
+        </div>
+	    <div class="image-cell-bd" id="04">
+	    </div>
+	    
+        <div class="image-cell-hd" id="结算账户(银行卡)照片">
+	    	<a href="#结算账户(银行卡)照片">结算账户(银行卡)照片</a>
+	    	<table class="table editable-check1" style="width: 100%;">
+				  <tr>
+				  	  <td class="right td20"><label>户名：</label></td>
+					  <td class="td30"><input type="text" id="account_name" name="account_name" class="xui-validatebox" data-options="required:false">
+					  </td>
+					  <td class="right td20"><label>账号：</label></td>
+					  <td class="td30"><input type="text" id="account_no" name="account_no" class="xui-validatebox" data-options="required:false">
+					  </td>
+				  </tr>
+		    </table>
+        </div>
+	    <div class="image-cell-bd bankcard" id="16">
+	    </div>
+	    <div class="image-cell-hd" id="商户协议">
+	    	<a href="#商户协议">商户协议</a>
+        </div>
+	    <div class="image-cell-bd" id="06">
+	    </div>
+	    <div class="image-cell-hd" id="账号授权书">
+	    	<a href="#账号授权书">账号授权书</a>
+        </div>
+	    <div class="image-cell-bd" id="13">
+	    </div>
+		<div class="image-cell-hd" id="其他照片">
+	    	<a href="#其他照片">其他照片</a>
+        </div>
+	    <div class="image-cell-bd" id="17">
+	    </div>
+	    </div>
+	    </form>
+	    <div style="display:block; height:50px;"> </div>
+	</div>
+
+	<script>
+		$.extend($.fn.validatebox.defaults.rules, {
+		     businessScope: {
+		         validator: function(value, param) {
+		             var bd = '、,\\`"#$%&\'()*./<>@[\]^_{|}~¢£¤¥¦§©®°¶·×÷ƒ৳฿៛‐‒–—―‘’“”†‡•…‰‱′″※‽₠₡₢₣₥₦₧₨₩₪₫€₭₮₯₰₱₲₳₴₵₸₹₽№℗℠™ℳ─□⟨⟩。〃々〈〉《》【】〔〕！，：；？＿～';
+		             for (var i = 0; i < value.length; i++) {
+		                 if (bd.indexOf(value.charAt(i)) >= 0) {
+		                     return false;
+		                 }
+		             }
+		             return true;
+		         },
+		         message: '输入内容不能有标点符号'
+		     }
+		 });
+		
+		var apptypeData = [{
+            "text": "收单/收银宝",
+            "value": "105"
+        }, {
+            "text": "当面付",
+            "value": "109"
+        }];
+		
+		var query;
+		$(function() {
+			var fm, fmDom;
+			initCombobox();
+			fm = $('#detail-fm');
+			fmDom = fm[0];
+
+			query = xTool.parseQueryString();
+			query.operateType = query.operateType || 'view';
+			xTool.transformStatus(fm, query.operateType);
+			
+			if (query.operateType == 'view') {
+				$('span.required', fm).hide();
+			}
+	
+			xTool.loadDetail(fmDom, query);
+            
+            $('#license_no').change(function() {
+            	xTool.send('/action/ms/mchnt-base-info/exist', {
+	            	license_no: $(this).val()
+	            }, function (data) {
+	                if (data.code == 0) {
+	                	if(data.data.mcht_name) {
+	                		if(!$('#mcht_name').val()) {
+	                			$('#mcht_name').val(data.data.mcht_name).change();
+	                			$('#license_date').val(data.data.license_date);
+	                			$('#business_scope').val(data.data.business_scope);
+	                		}
+						}
+	                }
+	            });
+            });
+			
+			$('#mcht_name').change(function() {
+				if(!$('#marchant_name').val()) {
+					$('#marchant_name').val($(this).val())
+				}
+			});
+			
+			/*
+			//DOMMouseScroll firefox
+			$('.image-cell-bd').on('mousewheel', function(e) {
+				var delta = (e.originalEvent.wheelDelta) ? e.originalEvent.wheelDelta : -(e.originalEvent.detail || 0);
+				if ((delta > 0 && $(this).scrollTop() <= 3) || (delta < 0 && this.scrollHeight - $(this).height() - $(this).scrollTop() <= 3)) {
+	                e.preventDefault();
+	            }
+			});
+			*/
+		});
+		
+		function initCombobox() {
+            xTool.send('/action/ms/parameter/list', {
+                //work_id: '1'
+            }, function (data) {
+                if (data.code == 0) {
+	                /*
+                	$('#recipient_id').combobox('loadData', data.work_id);
+                    xConfig['work_id'] = data.work_id;
+                    */
+                }
+            });
+        }
+        
+        function onSerializeForm(data) {
+	    	data.license_no = data.license_no.toUpperCase();
+	    }
+	    
+	    function formatApptype(value) {
+            return xTool.formatField(apptypeData, value);
+        }
+		
+		function onLoadForm (data) {
+            $.each(data.images, function(index, item) {
+            	var op = '';
+            	if(data.images[index].ei_type == '03') {
+            		op = '<button type="button" onclick="idcardocr(this,0)">识别身份证(正面)</button><button type="button" onclick="idcardocr(this,1)">识别身份证(反面)</button><span style="padding-left:50px; color:red; font-size:16px;"></span>';
+            	} else if(data.images[index].ei_type == '16') {
+            		op = '<button type="button" onclick="bankcardocr(this)">识别银行卡</button><button type="button" onclick="cropperImage(this)">裁剪识别银行卡</button><span style="padding-left:50px; color:red; font-size:16px;"></span>';
+            	}
+            	
+            	$('#' + data.images[index].ei_type).append('<div><button type="button" onclick="onClickLeft(this)">向左</button><button type="button" onclick="onClickRight(this)">向右</button>'+op+'</div><img alt="照片" src="'+xTool.getUrl(data.images[index].file_url)+'" style="">');
+            });
+            $('#license_no').change();
+            data.data.apptype = formatApptype(data.data.apptype);
+		}
+		
+		function check1PassSubmit(target) {
+			var license_no = $('#license_no').val();
+			//$(target).linkbutton('disable');
+			xTool.send('/action/ms/mchnt-base-info/exist', {
+            	license_no: license_no
+            }, function (data) {
+                if (data.code == 0) {
+                	var formData = $('#detail-fm').serializeObject();
+					$('#detail-fm').form('load', {
+						mcht_name: formData.mcht_name || data.data.mcht_name,
+						license_date: formData.license_date || data.data.license_date,
+						business_scope: formData.business_scope || data.data.business_scope,
+						cert_name: formData.cert_name || data.data.cert_name,
+						cert_id: formData.cert_id || data.data.cert_id,
+						cert_date: formData.cert_date || data.data.cert_date
+					});
+                	if(data.data.mcht_name) {
+	                	xTool.showConfirm(data.data.mcht_name + '已经存在,是否继续?', function(r) {
+							if(r) {
+								xTool.submit(target);
+							}
+						});
+					} else {
+						xTool.submit(target);
+					}
+                }
+            });
+		}
+		
+		
+		function onCheck1PassSubmit(requestData, responseData) {
+			xTool.showInfo('操作成功', function() {
+				try {
+					if (window.opener && !window.opener.closed) {
+						window.opener.reloadSearchDatagrid();
+					}
+				} catch(e) {
+				}
+				window.location.href = xTool.getUrl('/pages/ms/mchnt-base-info.html?displayType=update&') + $.param({
+					license_no: requestData.license_no
+				});
+			});
+		}
+		
+
+		function onSubmit(requestData, responseData) {
+			xTool.showInfo('操作成功', function() {
+				try {
+					if (window.opener && !window.opener.closed) {
+						window.opener.reloadSearchDatagrid();
+					}
+				} catch(e) {
+				}
+				xTool.close();
+			});
+		}
+		
+		function onBeforeCheck1Pass() {
+			$('#detail-fm').find('.editable-check1 .validatebox-text').validatebox({
+				required: true
+			});
+			$('#checked_reason').validatebox({
+				required: false
+			});		
+		}
+		
+		function onBeforeCheck1NoPass() {
+			$('#detail-fm').find('.editable-check1 .validatebox-text').validatebox({
+				required: false
+			});
+			$('#checked_reason').validatebox({
+				required: true
+			});
+		}
+		
+		function onClickLeft(target) {
+			var img = $(target).parent().next('img');
+			var state = img.data('img');
+			if(!state) {
+				state = {
+					width: img.width(),
+					height: img.height(),
+					degree: 0
+				};
+				img.data('img', state);
+			}
+			state.degree -= 90;
+			state.degree = state.degree%360;
+			// console.log(state.degree);
+			img.rotate(state.degree > 0 ? state.degree : 360+state.degree);
+			img.css({
+				'margin-top': Math.abs((state.degree/90)%2)*(state.width-state.height)/2,
+				'margin-left': Math.abs((state.degree/90)%2)*(state.height-state.width)/2
+			});
+			
+			return false;
+		}
+		
+		function onClickRight(target) {
+			var img = $(target).parent().next('img');
+			var state = img.data('img');
+			if(!state) {
+				state = {
+					width: img.width(),
+					height: img.height(),
+					degree: 0
+				};
+				img.data('img', state);
+			}
+			state.degree += 90;
+			state.degree = state.degree%360;
+			// console.log(state.degree);
+			img.rotate(state.degree > 0 ? state.degree : 360+state.degree);
+			img.css({
+				'margin-top': Math.abs((state.degree/90)%2)*(state.width-state.height)/2,
+				'margin-left': Math.abs((state.degree/90)%2)*(state.height-state.width)/2
+			});
+			
+			return false;
+		}
+		
+		function fill_blank(id, value) {
+			if(!$('#'+id).val()) {
+				$('#'+id).val(value)
+			}
+		}
+		
+		function gsxt(id) {
+			var license_no = $('#'+id).val();
+			if(!license_no) {
+				return false;
+			}
+
+			layer.load();
+			
+			xTool.send('/saic/gsxt', {
+            	license_no: license_no
+            }, function (data) {
+            	layer.closeAll('loading');
+                if (data.code == 0) {
+                	if(data.rows.length != 1) {
+                		alert('找到' + data.rows.length + '条记录,无法处理');
+                	} else {
+                		fill_blank('mcht_name', data.rows[0].name);
+                		fill_blank('business_scope', data.rows[0].business_scope);
+                		fill_blank('license_date', data.rows[0].deadline);
+                		fill_blank('cert_name', data.rows[0].legal_person_name);
+                		$('#reg_status').text(data.rows[0].reg_status);
+                		
+                		if(confirm('是否打开企业信用信息公示系统（湖南）?')) {
+                			window.open(data.rows[0].url);
+                		}
+                	}
+                }
+            }, function(jqXHR, textStatus, errorThrown) {
+                layer.closeAll('loading');
+            });
+		}
+
+		function idcardocr(target, cardType) {
+			var url = $(target).parent().next('img').attr('src')
+			if(!url) {
+				return false;
+			}
+		
+			layer.load();
+			xTool.send('/saic/idcard', {
+            	url: url,
+            	card_type: cardType
+            }, function (data) {
+            	layer.closeAll('loading');
+                if (data.code == 0) {
+                	fill_blank('cert_name', data.data.name);
+                	fill_blank('cert_id', data.data.id);
+                	fill_blank('license_no', data.data.id);
+                	fill_blank('mcht_name', data.data.name);
+                	if (data.data.valid_date) {
+                		fill_blank('cert_date', data.data.valid_date.substr(-10).replace(/\./g, ''));
+                		fill_blank('license_date', data.data.valid_date.substr(-10).replace(/\./g, ''));
+                	}
+
+                	var text = ''
+                	var items = ['name', 'id', 'valid_date']
+                	for (var i = 0; i < items.length; i++) {
+                		if(data.data[items[i]]) {
+                			text += data.data[items[i]] + ' ';
+                		}
+                	}
+
+                	 $(target).nextAll('span').text(text);
+                }
+            }, function(jqXHR, textStatus, errorThrown) {
+                layer.closeAll('loading');
+            });
+		}
+
+		function bankcardocr(target, imageData) {
+			var url;
+			if(!imageData) {
+				url = $(target).parent().next('img').attr('src')
+				if(!url) {
+					return false;
+				}
+			}
+		
+			layer.load();
+			xTool.send('/saic/bankcard', {
+            	url: url,
+            	data: imageData            	
+            }, function (data) {
+            	layer.closeAll('loading');
+                if (data.code == 0) {
+                	layer.closeAll();
+                	var text = ''
+                	var items = ['bank_card_number']
+                	for (var i = 0; i < items.length; i++) {
+                		if(data.data[items[i]]) {
+                			text += data.data[items[i]] + ' ';
+                		}
+                	}
+
+                	if($.trim($('#account_no').val()) != $.trim(data.data.bank_card_number)) {
+                		text += '银行卡号不一致请核对';
+                	}
+
+                	$(target).nextAll('span').text(text);
+                }
+            }, function(jqXHR, textStatus, errorThrown) {
+                layer.closeAll('loading');
+            });
+		}
+
+
+		function cropperImage(target) {
+			var prev = $(target).parent();
+			var img = prev.next('img');
+			var image = img[0];
+			var area = '500px';
+
+			if(img.width() > img.height()) {
+				area = '800px';
+			}
+
+
+			$('#img-container .img-container').append(img);
+
+			var cropper = new Cropper(image, {
+				aspectRatio: 450/282,
+				autoCropArea: 0.8
+				// minContainerWidth: 450,
+				// minContainerHeight: 450
+			});
+
+
+			var index = layer.open({
+			  title: '图片裁剪',
+			  type: 1,
+			  area: area,
+			  offset: '0px',
+			  content: $('#img-container'),
+			  btn: ['确认', '取消', '向左', '向右'],
+			  yes: function () {
+			  	var imageData = cropper.getCroppedCanvas().toDataURL('image/jpeg');
+			  	bankcardocr(target, imageData);
+			  	// layer.closeAll();
+			  },
+			  btn3: function (argument) {
+			  	cropper.rotate(-45);
+			  	return false;
+			  },
+			  btn4: function () {
+			  	cropper.rotate(45);
+			  	return false;
+			  },
+			  end: function () {
+			  	if(cropper) {
+			  		prev.after(img);
+			  		cropper.destroy();
+			  	}
+			  }
+			});
+		}
+		
+	</script>
+
+
+	<div id="img-container" style="margin: auto">
+	  <div class="img-container">
+      </div>
+    </div>
+</body>
+
+</html>

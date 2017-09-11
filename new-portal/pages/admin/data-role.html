@@ -1,0 +1,265 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>数据角色管理</title>
+    <link rel="stylesheet" type="text/css" href="../../js/themes/default/easyui.css" />
+    <link rel="stylesheet" type="text/css" href="../../js/themes/icon.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/tool.css" />
+    <script type="text/javascript" src="../../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../../js/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../../js/jquery.xtool.js"></script>
+</head>
+
+<body>
+    <div style="width:500px;">
+    	<div>
+            <a href="javascript:void(0)" class="easyui-linkbutton action" onClick="onAdd(this)" data-options="plain:true,iconCls:'icon-add',form:'#detail-fm',url:'/action/admin/data-role/create'">新增子角色</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton action" onClick="onView(this)" data-options="plain:true,iconCls:'icon-view',tree:'#tt',form:'#detail-fm',url:'/action/admin/data-role/view'">查看详情</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton action" onClick="onEdit(this)" data-options="plain:true,iconCls:'icon-edit',tree:'#tt',form:'#detail-fm',url:'/action/admin/data-role/update'">编辑</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton action" onClick="xTool.deleteNodeSubmit(this)" data-options="plain:true,iconCls:'icon-remove',tree:'#tt',url:'/action/admin/data-role/delete'">删除</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton action" onClick="$('#dlg').dialog('center').dialog('open')" data-options="plain:true,iconCls:'icon-application',url:'/action/admin/data-role/assign-rule'">数据规则分配</a>
+        </div>
+        <div style="height:1px;">&nbsp;</div>
+        <ul id="tt" data-options="idField:'role_id'"></ul>
+	</div>
+    <div id="detail-dlg" class="easyui-dialog" title="数据角色" style="padding:5px;" data-options="modal:true,closed:true">
+        <form id="detail-fm" method="post" action="/action/admin/data-role/view" class="form init-view">
+            <table class="table" style="width:650px;">
+                <tr>
+                    <td class="right td15">
+                        <label>数据角色ID：</label>
+                    </td>
+                    <td class="td35">
+                        <input class="add edit" type="text" name="role_id">
+                    </td>
+                    <td class="right td20">
+                        <label>父数据角色ID：</label>
+                    </td>
+                    <td class="td30">
+                        <input id="role-pid" type="text" name="role_pid" class="add edit easyui-validatebox" data-options="required:true"><label class="required">*</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="right td15">
+                        <label>角色名称：</label>
+                    </td>
+                    <td class="td35">
+                        <input type="text" name="role_name" class="easyui-validatebox" data-options="required:true"><label class="required">*</label>
+                    </td>
+                    <td class="right td20">
+                        <label>角色描述：</label>
+                    </td>
+                    <td class="td30">
+                        <input type="text" name="role_desc">
+                    </td>
+                </tr>
+                <tfoot>
+                    <tr>
+                        <td colspan="4" class="center">
+                            <div style="margin:5px;"></div>
+                            <a href="#" class="easyui-linkbutton button add" data-options="iconCls:'icon-ok',url:'/action/admin/data-role/create',onSuccess:onAddSubmit" style="padding:0 5px;" onclick="xTool.addSubmit(this)">新增提交</a>
+                            <a href="#" class="easyui-linkbutton button edit" data-options="iconCls:'icon-ok',url:'/action/admin/data-role/update',onSuccess:onEditSubmit" style="padding:0 5px;" onclick="xTool.editSubmit(this)">编辑提交</a>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </form>
+    </div>
+    <div id="dlg" class="easyui-dialog" title="数据规则分配" data-options="modal:true,closed:true,buttons:'#dlg-btn',onBeforeOpen:onAssign" style="width:980px; height:480px; padding:5px;">
+        <div>
+            <span style="font-size:12px; font-weight:bold; line-height:20px;">
+                <label>角色名称：</label>
+                <label id="role-name"></label>
+            </span>
+          <form id="search-data-fole-fm" action="/action/admin/data-role/exist-rule" method="post">
+          <input name="role_id" type="hidden" class="reset" id="role_id" value="" ><label>规则名称：
+            <input type="text" name="rule_name" id="rule_name">
+          </label>
+          &nbsp;
+          <a href="javascript:void(0)" class="easyui-linkbutton" data-options="datagrid:'#data-rule-dg'" style="padding:0 5px;" onclick="xTool.search(this)">查询</a> &nbsp; <a href="javascript:void(0)" class="easyui-linkbutton" style="padding:0 5px;" onclick="xTool.reset(this)">重置</a> 
+          </form>
+        </div>
+        
+        <div>
+            <table>
+                <tr>
+                    <td>
+                        <table id="data-rule-dg" class="easyui-datagrid" title="待选数据规则" data-options="rownumbers:true,pagination:true,singleSelect:false,onDblClickRow:onMoveRight" style="width:450px; height:340px;">
+                            <thead>
+                                <tr>
+                                    <th data-options="field:'data_rule_id',width:80">数据规则ID</th>
+                                    <th data-options="field:'rule_name',width:200">规则名称</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </td>
+                    <td>
+                        <a id="move-right-btn" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-right',from:'#data-rule-dg',to:'#selected-data-rule-dg'" onclick="xTool.move(this)"></a>
+                        <br>
+                        <a id="move-left-btn" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-left',to:'#data-rule-dg',from:'#selected-data-rule-dg'" onclick="xTool.move(this)"></a>
+                    </td>
+                    <td>
+                        <table id="selected-data-rule-dg" class="easyui-datagrid" title="已选数据规则" data-options="rownumbers:true,pagination:false,singleSelect:false,onDblClickRow:onMoveLeft" style="width:450px; height:340px;">
+                            <thead>
+                                <tr>
+                                    <th data-options="field:'data_rule_id',width:80">数据规则ID</th>
+                                    <th data-options="field:'rule_name',width:200">规则名称</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div id="dlg-btn">
+        <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-ok'" style="padding:0 5px;" onclick="onAssignSubmit(this)"> 确定 </a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-cancel'" style="padding:0 5px;" onclick="$('#dlg').dialog('close')"> 关闭 </a>
+    </div>
+    <script>
+        $(function () {
+            initTree();
+        });
+
+        function initTree() {
+            xTool.send('/action/admin/data-role/list', {}, function (data) {
+                if (data.code == 0) {
+                    $('#tt').tree({
+                        dnd: true,
+                        data: xTool.genEasyuiTreeData(data.rows,{
+                        	id: 'role_id',
+                        	pid: 'role_pid',
+                        	text: 'role_name'
+                        }),
+                        onDrop: onDropInst
+                    });
+                }
+            });
+        }
+        
+        function onAddSubmit(request, response) {
+            var selected = $('#tt').tree('getSelected');
+            $('#tt').tree('append', {
+                parent: selected ? selected.target : null,
+                data: [{
+                    id: response.data.role_id,
+                    text: request.role_name
+                }]
+            });
+            $('#detail-dlg').dialog('close');
+        }
+
+        function onEditSubmit(request, response) {
+            var selected = $('#tt').tree('getSelected');
+            if (selected) {
+                $('#tt').tree('update', {
+                    target: selected.target,
+                    text: request.role_name
+                });
+            }
+            $('#detail-dlg').dialog('close');
+        }
+
+        function onDropInst(target, source, point) {
+            var targetNode = $('#tt').tree('getNode', target);
+            var sendData = {};
+            sendData.role_id = source.id;
+            sendData.role_pid = targetNode.id;
+            sendData.type = point;
+
+            xTool.send('/action/admin/data-role/drop', sendData, function (data) {
+                if (data.code == 0) {
+                    showInfo('操作成功');
+                } else {
+                    initMenuTree();
+                }
+            });
+        }
+
+        function onMoveRight() {
+            $('#move-right-btn').click();
+        }
+
+        function onMoveLeft() {
+            $('#move-left-btn').click();
+        }
+
+        function onAssign() {
+            var selected = $('#tt').tree('getSelected');
+
+            if (selected) {
+                $('#role-name').html(selected.text);
+				$('#search-data-fole-fm').form('load', {role_id:selected.id});
+                $('#data-rule-dg').datagrid('loadData', {
+                    total: 0,
+                    rows: []
+                });
+                $('#selected-data-rule-dg').datagrid('loadData', {
+                    total: 0,
+                    rows: []
+                });
+
+                var data = {
+                    role_id: selected.id
+                };
+
+				data.flag = '0';
+                $('#data-rule-dg').datagrid({
+                    url: '/action/admin/data-role/exist-rule',
+                    queryParams: data
+                });
+                
+                data.flag = '1';
+                data.rows = 1000;
+                $('#selected-data-rule-dg').datagrid({
+                    url: '/action/admin/data-role/exist-rule',
+                    queryParams: data
+                });
+            } else {
+                return false;
+            }
+        }
+
+        function onAssignSubmit() {
+            var row = $('#tt').tree('getSelected');
+            var rows = $('#selected-data-rule-dg').datagrid('getRows');
+
+            xTool.send('/action/admin/data-role/assign-rule', {
+                role_id: row.id,
+                rows: rows
+            }, function (data, textStatus, jqXHR) {
+                if (data.code == 0) {
+                    $('#dlg').dialog('close');
+                }
+            });
+        }
+
+        function onAdd(target) {
+            var node = $('#tt').tree('getSelected');
+            if (node) {         
+				$('#detail-dlg').dialog('open');    
+				xTool.add(target);   				
+				$('#role-pid').val(node.id);
+            } else {
+				xTool.showInfo('没有选择结点');
+                return false;
+            }
+        }
+		
+		function onView(target) {
+			if(xTool.viewNode(target) != false) {
+				$('#detail-dlg').dialog('open');
+			}            
+		}
+		
+		function onEdit(target) {
+			if(xTool.editNode(target) != false) {
+				$('#detail-dlg').dialog('open');
+			}            
+		}
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,131 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>终端历史营销</title>
+<link rel="stylesheet" type="text/css" href="../../js/themes/default/xui.css" />
+<link rel="stylesheet" type="text/css" href="../../js/themes/icon.css" />
+<link rel="stylesheet" type="text/css" href="../../css/tool-v2.css" />
+<style></style>
+<script type="text/javascript" src="../../js/jquery.min.js"></script>
+<script type="text/javascript" src="../../js/jquery.xui.min.js"></script>
+<script type="text/javascript" src="../../js/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript" src="../../js/jquery.tool-v2.js"></script>
+<script type="text/javascript" src="../../js/jquery.xconfig.js"></script>
+<script type="text/javascript" src="../../js/jquery.xdistrict.js"></script>
+</head>
+
+<body>
+<div class="search-div">
+  <div>
+    <form id="search-fm" class="form search-form" action="/action/ms/term-ad-his/search" method="post" data-options="">
+      <table class="table" style="width: 1000px;">
+        <caption>
+        查询终端历史营销
+        </caption>
+        <tr>
+          <td class="right td20"><label>工商营业执照名称：</label></td>
+          <td class="td30"><input type="text" name="mcht_name"></td>
+          <td class="right td20"><label>工商营业执照证件号码：</label></td>
+          <td class="td30"><input type="text" name="license_no"></td>
+        </tr>
+        <tr>
+          <td class="right td20"><label>实际营业地址：</label></td>
+          <td class="td30"><input type="text" name="addr"></td>
+          <td class="right td20"><label>法人名称：</label></td>
+          <td class="td30"><input type="text" name="cert_name"></td>
+        </tr>
+        <tr>
+          <td class="right td20"><label>商户号：</label></td>
+          <td class="td30"><input type="text" name="mchnt_cd"></td>
+          <td class="right td20"><label>终端号：</label></td>
+          <td class="td30"><input type="text" name="term_id"></td>
+        </tr>
+        <tr>
+          <td class="right td20"><label>PSAM卡号：</label></td>
+          <td class="td30"><input type="text" name="psam_no"></td>
+          <td class="right td20"><label>终端标识码：</label></td>
+          <td class="td30"><input type="text" name="term_no"></td>
+        </tr>
+        <tr>
+          <td class="right td20"><label>所在地区：</label></td>
+          <td class="td30"><input type="text" id="province" name="province" class="xui-combobox" style="width:50px;" data-options="initDom:true,data:provinceData,onChange:onChangeProvince">
+            <input type="text" id="city" name="city" class="xui-combobox" style="width:50px;" data-options="initDom:true,data:[],onChange:onChangeCity">
+            <input type="text" id="district" name="district" class="xui-combobox" style="width:50px;" data-options="initDom:true"></td>
+          <td class="right td20"><label>营销名称：</label></td>
+          <td class="td30"><input type="text" name="ad_name"></td>
+        </tr>
+        <tfoot>
+          <tr>
+            <td colspan="4" class="center"><div style="margin: 5px;"></div>
+              <a id="search-btn" class="xui-linkbutton" href="javascript:void(0)" style="padding: 0 5px;"
+									data-options="initDom:true,iconCls:'icon-search',datagrid:'#search-dg'" onclick="xTool.search(this)">查询</a>
+              &nbsp;&nbsp;
+              <a class="xui-linkbutton" href="javascript:void(0)" style="padding: 0 5px;"
+									data-options="initDom:true,iconCls:'icon-clear'" onclick="xTool.reset(this)">重置</a></td>
+          </tr>
+        </tfoot>
+      </table>
+    </form>
+  </div>
+  <br>
+  <table id="search-dg" title="终端历史营销列表" class="xui-datagrid" style="width: 1000px;"
+			data-options="initDom:true,pagination:true">
+    <thead>
+      <tr>
+        <th data-options="field:'rn',rownumber:true"></th>
+        <th data-options="field:'term_no'">终端标识码</th>
+        <th data-options="field:'psam_no'">PSAM卡号</th>
+        <th data-options="field:'mcht_name'">工商营业执照名称</th>
+        <th data-options="field:'district_name'">装机城市</th>
+        <th data-options="field:'installed_addr'">装机地址</th>
+		<th data-options="field:'ad_name'">营销名称</th>
+		<th data-options="field:'ad_comment'">营销说明</th>
+		<th data-options="field:'begin_time'">开始时间</th>
+		<th data-options="field:'end_time'">结束时间</th>
+		<th data-options="field:'last_modified_by'">操作人</th>
+		<th data-options="field:'last_modified_time'">操作时间</th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+</div>
+
+<script>
+		
+		var query;
+		$(function() {
+			query = xTool.parseQueryString();
+			if(query.term_no) {
+				$('#search-fm').form('load', query);
+				$('#search-btn').click();
+			}
+		});
+		
+		var provinceData = xProvinceCityDistrict['province'];
+		
+		function onChangeProvince(newValue, oldValue) {
+            //if (newValue) {
+                $('#city').combobox('clear').combobox('loadData', xProvinceCityDistrict['city'][newValue]);
+                $('#district').combobox('clear');
+            //}
+        }
+
+        function onChangeCity(newValue, oldValue) {
+            //if (newValue) {
+                var province = $('#province').combobox('getValue');
+                $('#district').combobox('clear').combobox('loadData', xProvinceCityDistrict['district'][province + newValue]);
+            //}
+        }
+        
+		function formatByUsed(value, row, index) {
+			if(row.used == '1') {
+				return value;
+			}
+			return '';
+		}
+
+	</script>
+</body>
+</html>

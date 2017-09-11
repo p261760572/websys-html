@@ -1,0 +1,1141 @@
+<!doctype html>
+<html style="height:100%;">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="renderer" content="webkit">
+<title>客户基本资料</title>
+<link rel="stylesheet" type="text/css" href="../../js/themes/default/xui.css">
+<link rel="stylesheet" type="text/css" href="../../js/themes/icon.css">
+<link rel="stylesheet" type="text/css" href="../../css/tool.css">
+<script type="text/javascript" src="../../js/jquery.min.js"></script>
+<script type="text/javascript" src="../../js/jquery.xui.min.js"></script>
+<script type="text/javascript" src="../../js/My97DatePicker/WdatePicker.js"></script>
+<link href="../../js/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="../../js/jquery.xconfig.js"></script>
+<script type="text/javascript" src="../../js/jquery.xdistrict.js"></script>
+<script type="text/javascript" src="../../js/jquery.tool.js"></script>
+</head>
+
+<body class="search-body" style="height:100%; margin:0; padding:0;">
+<div class="search-div" style="height:100%;">
+  <div style="padding:5px;">
+    
+    <div>
+      <div class="xui-datagrid datagrid" style="min-width: 800px;" id="search-dg" data-options="[myGridDefaults, {idField:'rec_id',onClickRow:onClickRow,transition:myDefaultTransition}]">
+        <div class="datagrid-header">客户基本资料列表</div>
+        <div class="datagrid-body">
+          <div class="datagrid-toolbar"><a href="javascript:void(0)" class="action xui-linkbutton l-btn l-btn-plain" onclick="xTool.add(this)" data-options="plain:true,iconCls:'icon-add',form:'#detail-fm',url:'/action/ms/mchnt-base-info/create',onSuccess:onAddSuccess"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">新增</span><span class="l-btn-icon icon-add">&nbsp;</span></span></a><a href="javascript:void(0)" class="action xui-linkbutton l-btn l-btn-plain" onclick="$('#search-dlg').dialog('open').dialog('center')" data-options="plain:true,iconCls:'icon-search',dialog:'#detail-fm',url:'/action/ms/mchnt-base-info/search'"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">查询</span><span class="l-btn-icon icon-search">&nbsp;</span></span></a><a href="javascript:void(0)" class="action xui-linkbutton l-btn l-btn-plain" style="display:none;" onclick="xTool.view(this)" data-options="disabled:true,plain:true,iconCls:'icon-view',datagrid:'#search-dg',form:'#detail-fm',url:'/action/ms/mchnt-base-info/view'"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">查看详情</span><span class="l-btn-icon icon-view">&nbsp;</span></span></a><a href="javascript:void(0)" class="action xui-linkbutton l-btn l-btn-plain" style="display:none;" onclick="xTool.edit(this)" data-options="disabled:true,plain:true,iconCls:'icon-edit',datagrid:'#search-dg',form:'#detail-fm',url:'/action/ms/mchnt-base-info/update',onSuccess:onEditSuccess"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">编辑</span><span class="l-btn-icon icon-edit">&nbsp;</span></span></a><a href="javascript:void(0)" class="action xui-linkbutton l-btn l-btn-plain" style="display:none;" onclick="xTool.check1(this)" data-options="disabled:true,plain:true,iconCls:'icon-check1',datagrid:'#search-dg',form:'#detail-fm',url:'/action/ms/mchnt-base-info/check1-pass',onSuccess:onCheck1Success"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">审核</span><span class="l-btn-icon icon-check1">&nbsp;</span></span></a><a href="javascript:void(0)" class="action xui-linkbutton l-btn l-btn-plain" style="display:none;" onclick="xTool.openModifyInfoWin(this)" data-options="disabled:true,plain:true,iconCls:'icon-history',datagrid:'#search-dg',url:'/action/ms/mchnt-base-info/modify-info'"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">历史变更信息</span><span class="l-btn-icon icon-history">&nbsp;</span></span></a><a href="javascript:void(0)" class="action xui-linkbutton l-btn l-btn-plain" style="display:none;" onclick="onClickBatchCheck1(this)" data-options="disabled:true,plain:true,iconCls:'icon-check1',datagrid:'#search-dg',url:'/action/ms/mchnt-base-info/batch-check1-pass'"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">批量审核</span><span class="l-btn-icon icon-check1">&nbsp;</span></span></a><a href="javascript:void(0)" class="action xui-linkbutton l-btn l-btn-plain" style="display:none;" onclick="xTool.deleteBatchSubmit(this)" data-options="disabled:true,plain:true,iconCls:'icon-remove',datagrid:'#search-dg',url:'/action/ms/mchnt-base-info/batch-delete'"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">批量删除</span><span class="l-btn-icon icon-remove">&nbsp;</span></span></a><a href="javascript:void(0)" class="action xui-linkbutton l-btn l-btn-plain" style="display:none;" onclick="xTool.cancelCheck1BatchSubmit(this)" data-options="disabled:true,plain:true,iconCls:'icon-check1',datagrid:'#search-dg',url:'/action/ms/mchnt-base-info/batch-cancel-check1'"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">批量取消待审</span><span class="l-btn-icon icon-check1">&nbsp;</span></span></a></div>
+          <div class="datagrid-view">
+            <table class="datagrid-table" border="0" cellspacing="0" cellpadding="0">
+              <thead>
+                <tr class="datagrid-header-row">
+                  <th class="datagrid-header-rownumber" data-options="field:'rn',rownumber:true"></th>
+                  <th class="datagrid-td-check" data-options="field:'chk',checkbox:true"><div class="datagrid-header-check">
+                      <input type="checkbox">
+                    </div></th>
+                  <th data-options="field:'license_no',width:150">工商营业执照证件号码</th>
+                  <th data-options="field:'mcht_name',width:200">工商营业执照名称</th>
+                  <th data-options="field:'addr',width:150">实际营业地址</th>
+                  <th data-options="field:'oper_in',width:80,formatter:formatOperIn">操作标志</th>
+                  <th data-options="field:'proc_st',width:90,formatter:formatProcSt">记录处理状态</th>
+                  <th data-options="field:'last_modified_by',width:80">最后修改人</th>
+                  <th data-options="field:'last_modified_time',width:140">最后修改时间</th>
+                  <th data-options="field:'op',width:100,formatter:formatOp">操作</th>
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+          </div>
+          <div class="datagrid-pager"></div>
+        </div>
+      </div>
+    </div>
+    <div id="mchnt-binding-div"> <br>
+      <div class="xui-datagrid datagrid" style="min-width: 800px;" id="mchnt-busi-dg" data-options="[myGridDefaults, {toolbar:null,idField:'rec_id',onClickRow:onClickBusiRow,transition:myDefaultTransition}]">
+        <div class="datagrid-header">商户业务列表</div>
+        <div class="datagrid-body">
+          <div class="datagrid-view">
+            <table class="datagrid-table" border="0" cellspacing="0" cellpadding="0">
+              <thead>
+                <tr class="datagrid-header-row">
+                  <th class="datagrid-header-rownumber" data-options="field:'rn',rownumber:true"></th>
+                  <th data-options="field:'apptype',width:120,formatter:formatApptype">业务类型</th>
+                  <th data-options="field:'license_no',width:150">工商营业执照证件号码</th>
+                  <th data-options="field:'fee_chan',width:100,formatter:formatFeeChan">交易渠道</th>
+                  <th data-options="field:'e_id',width:100,formatter:formatEId">拓展人</th>
+                  <th data-options="field:'mchnt_cd',width:100">商户号</th>
+                  <th data-options="field:'account_type',width:120,formatter:formatAccountType">账户类型</th>
+                  <th data-options="field:'account_no',width:120">账户帐号</th>
+                  <th data-options="field:'bank_name',width:120">账户银行</th>
+                  <th data-options="field:'oper_in',width:80,formatter:formatOperIn">操作标志</th>
+                  <th data-options="field:'proc_st',width:90,formatter:formatProcSt">记录处理状态</th>
+                  <th data-options="field:'last_modified_by',width:80">最后修改人</th>
+                  <th data-options="field:'last_modified_time',width:140">最后修改时间</th>
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+          </div>
+          <div class="datagrid-pager"></div>
+        </div>
+      </div>
+      <br>
+      <div class="xui-datagrid datagrid" style="min-width: 800px;" id="term-info-dg" data-options="[myGridDefaults, {toolbar:null,idField:'rec_id',transition:myDefaultTransition}]">
+        <div class="datagrid-header">终端信息列表</div>
+        <div class="datagrid-body">
+          <div class="datagrid-view">
+            <table class="datagrid-table" border="0" cellspacing="0" cellpadding="0">
+              <thead>
+                <tr class="datagrid-header-row">
+                  <th class="datagrid-header-rownumber" data-options="field:'rn',rownumber:true"></th>
+                  <th data-options="field:'term_no',width:80">终端标识码</th>
+                  <th data-options="field:'term_id',width:80">终端号</th>
+                  <th data-options="field:'equi_type',width:80,formatter:formatEquiType">机具类型</th>
+                  <th data-options="field:'marchant_name',formatter:formatMarchantName">门店名称</th>
+                  <th data-options="field:'license_no',width:150">工商营业执照证件号码</th>
+                  <th data-options="field:'man',width:120">客户装机联系人</th>
+                  <th data-options="field:'tel_no',width:120">客户装机联系电话</th>
+                  <th data-options="field:'installed_addr',width:120">客户装机地址</th>
+                  <th data-options="field:'installed_status',width:80,formatter:formatInstalledStatus">安装状态</th>
+                  <th data-options="field:'oper_in',width:80,formatter:formatOperIn">操作标志</th>
+                  <th data-options="field:'proc_st',width:90,formatter:formatProcSt">记录处理状态</th>
+                  <th data-options="field:'last_modified_by',width:80">最后修改人</th>
+                  <th data-options="field:'last_modified_time',width:140">最后修改时间</th>
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+          </div>
+          <div class="datagrid-pager"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="detail-div" class="detail-div" style="width: 100%; height: 100%; display: none;">
+  <div class="xui-tabs tabs" id="tt" data-options="fit:true,border:false,onSelect:onSelect">
+    <div class="tabs-header">
+      <ul class="tabs-nav">
+        <li class="tabs-selected">客户基本资料</li>
+        <li>商户业务</li>
+        <li>终端信息</li>
+        <li>影印件</li>
+      </ul>
+    </div>
+    <div class="tabs-panels" data-options="fit:true,border:false,onSelect:onSelect" style="border: 0px; overflow: auto; height: 582px;">
+      <div id="ie7-bug" style="padding:5px; overflow:auto;" class="tabs-panel">
+        <form id="detail-fm" class="form view" action="/action/ms/mchnt-base-info/view" method="post" data-options="onLoad:onLoadDetailForm,onSerialize:onSerializeDetailForm" style="width:950px;">
+          <div class="xui-accordion accordion" data-options="multiple:true" style="overflow:auto;">
+            <div class="accordion-panel">
+              <div class="accordion-header">客户基本资料
+                <div class="accordion-icon accordion-collapse"></div>
+              </div>
+              <div data-options="selected:true" style="padding:5px;" class="accordion-body">
+                <table class="table" style="table-layout:auto; width:100%;">
+                  <tbody>
+                    <tr>
+                      <td class="right td20"><label>工商营业执照名称：</label></td>
+                      <td colspan="3" class="td80"><input name="mcht_id" type="hidden" id="mcht_id">
+                        <input type="text" id="mcht_name" name="mcht_name" class="xui-validatebox" data-options="required:true" style="width:600px;">
+                        <label class="required">*</label></td>
+                    </tr>
+                    <tr>
+                      <td class="right td20"><label>工商营业执照注册地址：</label></td>
+                      <td colspan="3" class="td80"><input type="text" id="license_addr" name="license_addr" class="xui-validatebox" data-options="required:true,validType:['maxByteLength[60]','addr']" style="width:600px;">
+                        <label class="required">*</label></td>
+                    </tr>
+                    <tr>
+                      <td class="right td20"><label>实际营业地址：</label></td>
+                      <td colspan="3" class="td80"><input type="text" name="addr" class="xui-validatebox" data-options="required:true,validType:['maxByteLength[60]','addr']" id="addr" style="width:600px;">
+                        <label class="required">*</label></td>
+                    </tr>
+                    <tr>
+                      <td class="right td20"><label>工商营业执照证件号码：</label></td>
+                      <td class="td30"><input type="text" id="license_no" name="license_no" class="xui-validatebox" data-options="required:true">
+                        <label class="required">*</label>
+                        
+                        <!-- <input type="button" class="button add edit" name="check-btn" id="check-btn" value="检查" onClick="onClickCheckLicenseNo()" style="padding-right:2px; padding-left:2px;"> -->
+                        
+                        <input type="button" class="button add edit" name="button" id="button" value="系统分配" onclick="onClickNoLicenseNo()" style="padding-right:2px; padding-left:2px;"></td>
+                      <td class="right td20"><label>企业性质：</label></td>
+                      <td class="td30 clear-readonly"><select name="property" class="xui-select2 xui-validatebox" data-options="required:true,data:xConfig['property']">
+                        </select>
+                        <label class="required">*</label></td>
+                    </tr>
+                    <tr>
+                      <td class="right td20"><label>税务登记证号码：</label></td>
+                      <td class="td30"><input type="text" name="taxcert_no" class="xui-validatebox" data-options=""></td>
+                      <td class="right td20"><label>组织机构代码证：</label></td>
+                      <td class="td30"><input type="text" name="org_code_cert" class="xui-validatebox" data-options=""></td>
+                    </tr>
+                    <tr>
+                      <td class="right td20"><label>法人名称：</label></td>
+                      <td class="td30"><input type="text" name="cert_name" class="xui-validatebox" data-options="required:true">
+                        <label class="required">*</label></td>
+                      <td class="right td20"><label>联系人：</label></td>
+                      <td class="td30"><input type="text" name="contact_man" class="xui-validatebox" data-options="required:true">
+                        <label class="required">*</label></td>
+                    </tr>
+                    <tr>
+                      <td class="right td20"><label>法人证件类型：</label></td>
+                      <td class="td30 clear-readonly">
+                      	<select name="cert_type" class="xui-select2 xui-validatebox" data-options="required:true,data:xConfig['cert_type']" onchange="onChangeCertType(this)">
+                        </select>
+                        <label class="required">*</label></td>
+                      <td class="right td20"><label>法人证件号码：</label></td>
+                      <td class="td30"><input type="text" id="cert_id" name="cert_id" class="xui-validatebox" data-options="required:true,validType:['certId','length[16,18]']">
+                        <label class="required">*</label></td>
+                    </tr>
+                    <tr>
+                      <td class="right td20"><label>手机：</label></td>
+                      <td class="td30"><input type="text" name="mobile" class="xui-validatebox" data-options="required:true,validType:['mobile']">
+                        <label class="required">*</label></td>
+                      <td class="right td20"><label>固定电话：</label></td>
+                      <td class="td30"><input type="text" name="tel_no" class="xui-validatebox" data-options="validType:['digit']"></td>
+                    </tr>
+                    <tr>
+                      <td class="right td20"><label>所在地区：</label></td>
+                      <td class="td30 clear-readonly"><span> <span class="xui-combobox combobox" id="province" data-options="editable:false,required:true,data:provinceData,onChange:onChangeProvince">
+                        <input type="text" class="combobox-text" style="width: 45px;">
+                        <input type="hidden" name="province" class="combobox-value">
+                        <span class="combobox-addon"><i class="combobox-icon combobox-arrow"></i></span></span> <span class="xui-combobox combobox" id="city" data-options="editable:false,required:true,onChange:onChangeCity">
+                        <input type="text" class="combobox-text" style="width: 45px;">
+                        <input type="hidden" name="city" class="combobox-value">
+                        <span class="combobox-addon"><i class="combobox-icon combobox-arrow"></i></span></span> <span class="xui-combobox combobox" id="district" data-options="editable:false,required:true">
+                        <input type="text" class="combobox-text" style="width: 45px;">
+                        <input type="hidden" name="district" class="combobox-value">
+                        <span class="combobox-addon"><i class="combobox-icon combobox-arrow"></i></span></span>
+                        <label class="required">*</label>
+                        </span></td>
+                      <td class="right td20"><label>拓展方：</label></td>
+                      <td class="td30 clear-readonly"><span class="xui-combobox combobox" id="ec_id" data-options="required:true,validType:['combobox']">
+                        <input type="text" class="combobox-text">
+                        <input type="hidden" name="ec_id" class="combobox-value">
+                        <span class="combobox-addon"><i class="combobox-icon combobox-arrow"></i></span></span>
+                        <label class="required">*</label></td>
+                    </tr>
+                    <tr>
+					  <td class="right td20"><label>行业大类：</label></td>
+					  <td class="td30 clear-readonly"><select id="buss_type_large" name="buss_type_large" class="xui-select2 xui-validatebox" data-options="required:true,valueField:'industry_id',textField:'industry_name',data:xConfig['industry']" onchange="onChangeIndustry(this.value)">
+					    </select>
+					    <label class="required">*</label></td>
+					  <td class="right td20"><label>行业小类：</label></td>
+					  <td class="td30"><select id="buss_type_small" name="buss_type_small" class="xui-select2 xui-validatebox" style="width:160px;" data-options="required:true,valueField:'industry_sub_id',textField:'industry_sub_name'">
+					    </select>
+                         <label class="required">*</label>
+					  </td>
+					</tr>
+                    <tr>
+                      <td class="right td20"><label>注册资本：</label></td>
+                      <td class="td30"><input type="text" name="registered_capital" class="xui-validatebox" data-options="required:true,validType:['number']">
+                      <span>(万元)</span><label class="required">*</label></td>
+                      <td class="right td20"><label>经营范围：</label></td>
+                      <td class="td30"><input type="text" name="business_scope" class="xui-validatebox" data-options="required:true,validType:['maxByteLength[40]','businessScope']">
+                      <label class="required">*</label></td>
+                    </tr>
+                    <tr>
+                      <td class="right td20"><label>营业执照有效期：</label></td>
+                      <td class="td30"><input type="text" name="license_date" class="Wdate xui-validatebox" data-options="required:true" onfocus="WdatePicker({dateFmt:'yyyyMMdd'})">
+                      <label class="required">*</label></td>
+                      <td class="right td20"><label>法人身份证件有效期：</label></td>
+                      <td class="td30"><input type="text" name="cert_date" class="Wdate xui-validatebox" data-options="required:true" onfocus="WdatePicker({dateFmt:'yyyyMMdd'})">
+                      <label class="required">*</label></td>
+                    </tr>
+                    <tr>
+                      <td class="right td20"><label>合同有效期：</label></td>
+                      <td class="td30"><input type="text" name="contract_date" class="Wdate xui-validatebox" data-options="required:true" onfocus="WdatePicker({dateFmt:'yyyyMMdd'})"><label class="required">*</label></td>
+                      <td class="right td20"><label>风险等级：</label></td>
+                      <td class="td30 clear-readonly"><select id="risk_level" name="risk_level" class="xui-select2 xui-validatebox" data-options="required:true,data:xConfig['risk_level']">
+                      </select>
+                        <label class="required">*</label></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="accordion-panel">
+              <div class="accordion-header">实名支付必填资料(以下带*的必需一次性填写)
+                <div class="accordion-icon accordion-collapse"></div>
+              </div>
+              <div style="padding:5px;" class="accordion-body">
+                <table class="table" style="width:100%;">
+                  <tbody>
+                    <tr>
+                      <td class="right td20"><label>注册资本：</label></td>
+                      <td class="td30 clear-readonly"><select name="register_capital" class="xui-select2 required-101 xui-validatebox" data-options="data:xConfig['register_capital']" onchange="onChange101(this)">
+                        </select>
+                        <label class="optional">*</label></td>
+                      <td class="right td20"><label>经营年限：</label></td>
+                      <td class="td30 clear-readonly"><select name="operate_limit" class="xui-select2 required-101 xui-validatebox" data-options="data:xConfig['operate_limit']" onchange="onChange101(this)">
+                        </select>
+                        <label class="optional">*</label></td>
+                    </tr>
+                    <tr>
+                      <td class="right td20"><label>员工人数：</label></td>
+                      <td class="td30 clear-readonly"><select name="staffs" class="xui-select2 required-101 xui-validatebox" data-options="data:xConfig['staffs']" onchange="onChange101(this)">
+                        </select>
+                        <label class="optional">*</label></td>
+                      <td class="right td20"><label>经营场所：</label></td>
+                      <td class="td30 clear-readonly"><select name="operate_area" class="xui-select2 required-101 xui-validatebox" data-options="data:xConfig['operate_area']" onchange="onChange101(this)">
+                        </select>
+                        <label class="optional">*</label></td>
+                    </tr>
+                    <tr>
+                      <td class="right td20"><label>内部管理：</label></td>
+                      <td class="td30 clear-readonly"><select name="inner_manage" class="xui-select2 required-101 xui-validatebox" data-options="data:xConfig['inner_manage']" onchange="onChange101(this)">
+                        </select>
+                        <label class="optional">*</label></td>
+                      <td class="right td20"><label>是否上市：</label></td>
+                      <td class="td30 clear-readonly"><select name="market_commpany" class="xui-select2 required-101 xui-validatebox" data-options="data:xConfig['market_commpany']" onchange="onChange101(this)">
+                        </select>
+                        <label class="optional">*</label></td>
+                    </tr>
+                    <tr>
+                      <td class="right td20"><label>业务关系：</label></td>
+                      <td class="td30 clear-readonly"><select name="bus_relation" class="xui-select2 required-101 xui-validatebox" data-options="data:xConfig['bus_relation']" onchange="onChange101(this)">
+                        </select>
+                        <label class="optional">*</label></td>
+                      <td class="right td20"><label>现场考察：</label></td>
+                      <td class="td30 clear-readonly"><select name="inspace" class="xui-select2 required-101 xui-validatebox" data-options="data:xConfig['inspace']" onchange="onChange101(this)">
+                        </select>
+                        <label class="optional">*</label></td>
+                    </tr>
+                    <tr>
+                      <td class="right td20"><label>授权协议：</label></td>
+                      <td class="td30 clear-readonly"><select name="auth_argent" class="xui-select2 required-101 xui-validatebox" data-options="data:xConfig['auth_argent']" onchange="onChange101(this)">
+                        </select>
+                        <label class="optional">*</label></td>
+					  <td class="right td20"><label>非标准行业情况说明：</label></td>
+                      <td class="td30"><input type="text" name="not_norm_desc" class="xui-validatebox" data-options=""></td>                        	
+                    </tr>
+                    <tr>
+                      <td class="right td20"><label>实际经营范围：</label></td>
+                      <td class="td30"><input type="text" name="real_operate_range" class="xui-validatebox" data-options=""></td>
+                      <td class="right td20"><label>选择父客户：</label></td>
+                      <td class="td30"><input type="text" name="up_commercial" class="xui-validatebox" data-options=""></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="accordion-panel">
+              <div class="accordion-header">附加信息
+                <div class="accordion-icon accordion-collapse"></div>
+              </div>
+              <div style="padding:5px;" class="accordion-body">
+                <table class="table" style="width:100%;">
+                  <tbody>
+                    <tr>
+                      <td class="right td20"><label>财务联系人：</label></td>
+                      <td class="td30"><input type="text" name="financial_operator" class="xui-validatebox" data-options=""></td>
+                      <td class="right td20"><label>营业用地性质：</label></td>
+                      <td class="td30"><select name="site_flag" class="xui-select2 xui-validatebox" data-options="data:xConfig['site_flag']">
+                      </select></td>
+                    </tr>
+                    <tr>
+                      <td class="right td20"><label>注册资本币种：</label></td>
+                      <td class="td30"><input type="text" name="capital_currency" class="xui-validatebox" data-options=""></td>
+                      <td class="right td20"><label>邮编：</label></td>
+                      <td class="td30"><input type="text" name="zip_code" class="xui-validatebox" data-options=""></td>
+                    </tr>
+                    <tr>
+                      <td class="right td20"><label>营业规模：</label></td>
+                      <td class="td30"><input type="text" name="scale_business" class="xui-validatebox" data-options=""></td>
+                      <td class="right td20"><label>邮件：</label></td>
+                      <td class="td30"><input type="text" name="e_mail" class="xui-validatebox" data-options=""></td>
+                    </tr>
+                    <tr>
+                      <td class="right td20"><label>传真：</label></td>
+                      <td class="td30"><input type="text" name="fax" class="xui-validatebox" data-options=""></td>
+                      <td class="right td20"><label>申请终端数量：</label></td>
+                      <td class="td30"><input name="term_number" type="text" class="xui-validatebox" value="0" data-options=""></td>
+                    </tr>
+                    <tr>
+                      <td class="right td20"><label>客户等级：</label></td>
+                      <td class="td30"><select name="grade" class="xui-select2 xui-validatebox" data-options="data:xConfig['grade']">
+                      </select></td>
+                      <td class="right td20"><label>拓展方客户经理电话：</label></td>
+                      <td class="td30"><input type="text" name="ec_branch_telno" class="xui-validatebox" data-options="" id="ec_branch_telno"></td>
+                    </tr>
+                    <tr>
+                      <td class="right td20"><label>拓展方客户经理：</label></td>
+                      <td class="td30"><input type="text" name="ec_branch_name" class="xui-validatebox" data-options=""></td>
+                      <td class="right td20"><label>拓展人：</label></td>
+                      <td class="td30"><span class="xui-combobox combobox" id="e_id" data-options="">
+                        <input type="text" class="combobox-text">
+                        <input type="hidden" name="e_id" class="combobox-value">
+                        <span class="combobox-addon"><i class="combobox-icon combobox-arrow"></i></span></span></td>
+                    </tr>
+                    <tr>
+                      <td class="right td20"><label>备注：</label></td>
+                      <td class="td30"><input type="text" name="note" class="xui-validatebox" data-options=""></td>
+                      <td class="right td20">&nbsp;</td>
+                      <td class="td30">&nbsp;</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="accordion-panel">
+              <div class="accordion-header">系统使用
+                <div class="accordion-icon accordion-collapse"></div>
+              </div>
+              <div style="padding:5px;" class="accordion-body">
+                <table class="table" style="width:100%;">
+                  <tbody>
+                    <tr>
+                      <td class="right td20"><label>记录编号：</label></td>
+                      <td class="td30"><input type="text" name="rec_id" class="add edit"></td>
+                      <td class="right td20"><label>记录操作标志：</label></td>
+                      <td class="td30"><input type="text" name="oper_in" class="add edit"></td>
+                    </tr>
+                    <tr>
+                      <td class="right td20"><label>记录处理状态：</label></td>
+                      <td class="td30"><input type="text" name="proc_st" class="add edit"></td>
+                      <td class="right td20"><label>创建人：</label></td>
+                      <td class="td30"><input type="text" name="created_by" class="add edit"></td>
+                    </tr>
+                    <tr>
+                      <td class="right td20"><label>创建时间：</label></td>
+                      <td class="td30"><input type="text" name="created_time" class="add edit"></td>
+                      <td class="right td20"><label>最后修改人：</label></td>
+                      <td class="td30"><input type="text" name="last_modified_by" class="add edit"></td>
+                    </tr>
+                    <tr>
+                      <td class="right td20"><label>最后修改时间：</label></td>
+                      <td class="td30"><input type="text" name="last_modified_time" class="add edit"></td>
+                      <td class="right td20"><label>审核人：</label></td>
+                      <td class="td30"><input type="text" name="last_checked_by" class="add edit"></td>
+                    </tr>
+                    <tr>
+                      <td class="right td20"><label>审核时间：</label></td>
+                      <td class="td30"><input type="text" name="last_checked_time" class="add edit"></td>
+                      <td class="right td20"><label>审核通过或不通过原因：</label></td>
+                      <td class="td30"><input type="text" name="checked_reason" class="add edit" id="checked_reason"></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div style="display:block; height:50px;"> </div>
+          <div id="detail-tb" style="position:fixed; bottom:0px; z-index:1000;height:40px; background:url(../../images/toolbar_bg.jpg) repeat-x top left;">
+            <div style="margin:7px;"></div>
+            <div style="text-align:center; width:950px;"> <a href="javascript:void(0)" class="button add xui-linkbutton l-btn" data-options="iconCls:'icon-save',url:'/action/ms/mchnt-base-info/create-save',onSuccess:onCreateSaveSubmitSuccess" style="padding:0 5px;" onclick="xTool.addSubmit(this)"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">保存</span><span class="l-btn-icon icon-save">&nbsp;</span></span></a> <a href="javascript:void(0)" class="button add xui-linkbutton l-btn" data-options="iconCls:'icon-ok',url:'/action/ms/mchnt-base-info/create',onSuccess:onCreateSubmitSuccess,prompt:false" style="padding:0 5px;" onclick="xTool.addSubmit(this)"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">提交</span><span class="l-btn-icon icon-ok">&nbsp;</span></span></a> <a href="javascript:void(0)" class="button edit xui-linkbutton l-btn" data-options="iconCls:'icon-ok',url:'/action/ms/mchnt-base-info/update-save',onSuccess:onUpdateSaveSubmitSuccess" style="padding:0 5px;" onclick="xTool.editSubmit(this)"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">保存</span><span class="l-btn-icon icon-ok">&nbsp;</span></span></a> <a href="javascript:void(0)" class="button edit xui-linkbutton l-btn" data-options="iconCls:'icon-ok',url:'/action/ms/mchnt-base-info/update',onSuccess:onUpdateSubmitSuccess,prompt:false" style="padding:0 5px;" onclick="xTool.editSubmit(this)"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">提交</span><span class="l-btn-icon icon-ok">&nbsp;</span></span></a> <a href="javascript:void(0)" class="button check1 xui-linkbutton l-btn" data-options="iconCls:'icon-ok',url:'/action/ms/mchnt-base-info/check1-pass',onSuccess:onCheck1SubmitSuccess,prompt:false" style="padding:0 5px;" onclick="xTool.check1Submit(this)"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">审核通过</span><span class="l-btn-icon icon-ok">&nbsp;</span></span></a> <a href="javascript:void(0)" class="button check1 xui-linkbutton l-btn" data-options="iconCls:'icon-no',url:'/action/ms/mchnt-base-info/check1-nopass',onSuccess:onCheck1SubmitSuccess,prompt:false" style="padding:0 5px;" onclick="onClickCheckNopass(this)"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">审核不通过</span><span class="l-btn-icon icon-no">&nbsp;</span></span></a> <a href="javascript:void(0)" id="return-btn" class="xui-linkbutton l-btn" data-options="iconCls:'icon-return',onSuccess:onReturnSearchSuccess" style="padding:0 5px;" onclick="xTool.returnSearch(this)"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">返回</span><span class="l-btn-icon icon-return">&nbsp;</span></span></a> </div>
+            <a style="position:fixed; left: 850px;  bottom:6px; z-index:1000;" href="javascript:void(0)" class="xui-linkbutton l-btn" onclick="xTool.openModifyInfoWin(this)" data-options="iconCls:'icon-history',url:'/action/ms/mchnt-base-info/modify-info'"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">历史变更信息</span><span class="l-btn-icon icon-history">&nbsp;</span></span></a> </div>
+        </form>
+      </div>
+      <div style="overflow: hidden; height: 100%; display: none;" class="tabs-panel">
+        <iframe id="mchnt-busi-iframe" src="javascript:void(0)" frameborder="0" style="width:100%; height:100%; border: 0; overflow: hidden;"></iframe>
+      </div>
+      <div style="overflow: hidden; height: 100%; display: none;" class="tabs-panel">
+        <iframe id="term-info-iframe" src="javascript:void(0)" frameborder="0" style="width:100%; height:100%; border: 0; overflow: hidden;"></iframe>
+      </div>
+      <div style="overflow: hidden; height: 100%; display: none;" class="tabs-panel">
+        <iframe id="photo-copy-iframe" src="javascript:void(0)" frameborder="0" style="width:100%; height:100%; border: 0; overflow: hidden;"></iframe>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="xui-dialog dialog" id="search-dlg" data-options="iconCls:'icon-search',modal:true,closed:true">
+  <div class="dialog-header">查询客户基本资料
+  	<a class="dialog-close" href="javascript:void(0)"></a>
+  </div>
+  <div class="dialog-view">
+    <div class="easyui-dialog dialog-body" title="查询客户基本资料" data-options="iconCls:'icon-search',modal:true,closed:true" style="padding:5px;">
+      <form id="search-fm" class="form search-form" action="/action/ms/mchnt-base-info/search" method="post" data-options="onSerialize:onSerializeSearchForm">
+        <table class="table" style="width:950px;">
+          <tbody>
+          	<tr>
+              <td class="right td20"><label>商户号：</label></td>
+              <td class="td30"><input type="text" name="mchnt_cd"></td>
+              <td class="right td20"><label>终端号/PSAM卡号：</label></td>
+              <td class="td30"><input type="text" name="term_id"></td>
+            </tr>
+            <tr>
+              <td class="right td20"><label>工商营业执照名称：</label></td>
+              <td class="td30"><input type="text" name="mcht_name"></td>
+              <td class="right td20"><label>工商营业执照证件号码：</label></td>
+              <td class="td30"><input type="text" name="license_no"></td>
+            </tr>
+            <tr>
+              <td class="right td20"><label>实际营业地址：</label></td>
+              <td class="td30"><input type="text" name="addr"></td>
+              <td class="right td20"><label>法人名称：</label></td>
+              <td class="td30"><input type="text" name="cert_name"></td>
+            </tr>
+            <tr>
+              <td class="right td20"><label>收单机构：</label></td>
+              <td class="td30"><span class="xui-combobox combobox" id="acq_inst_id" data-options="valueField:'acq_inst_id',textField:'acq_inst_name'">
+                <input type="text" class="combobox-text">
+                <input type="hidden" name="acq_inst_id" class="combobox-value">
+                <span class="combobox-addon"><i class="combobox-icon combobox-arrow"></i></span></span></td>
+              <td class="right td20"><label>拓展方：</label></td>
+              <td class="td30"><span class="xui-combobox combobox" id="ec_id2">
+                <input type="text" class="combobox-text">
+                <input type="hidden" name="ec_id" class="combobox-value">
+                <span class="combobox-addon"><i class="combobox-icon combobox-arrow"></i></span></span></td>
+            </tr>
+            <tr>
+              <td class="right td20"><label>拓展人：</label></td>
+              <td class="td30"><span class="xui-combobox combobox" id="e_id2">
+                <input type="text" class="combobox-text">
+                <input type="hidden" name="e_id" class="combobox-value">
+                <span class="combobox-addon"><i class="combobox-icon combobox-arrow"></i></span></span></td>
+              <td class="right td20"><label>终端标识码：</label></td>
+              <td class="td30"><input type="text" name="term_no"></td>
+            </tr>
+            <tr>
+              <td class="right td20"><label>创建日期：</label></td>
+              <td class="td30"><input id="created_time" type="text" class="Wdate" name="created_time" style="width:100px;" onfocus="WdatePicker({onpicked:function(){$dp.$('created_time2').focus();},maxDate:'#F{$dp.$D(\'created_time2\')}'})">
+                <input id="created_time2" type="text" class="Wdate" name="created_time2" style="width:100px;" onfocus="WdatePicker({minDate:'#F{$dp.$D(\'created_time\')}'})"></td>
+              <td class="right td20"><label>修改日期：</label></td>
+              <td class="td30"><input id="last_modified_time" type="text" class="Wdate" name="last_modified_time" style="width:100px;" onfocus="WdatePicker({onpicked:function(){$dp.$('last_modified_time2').focus();},maxDate:'#F{$dp.$D(\'last_modified_time2\')}'})">
+                <input id="last_modified_time2" type="text" class="Wdate" name="last_modified_time2" style="width:100px;" onfocus="WdatePicker({minDate:'#F{$dp.$D(\'last_modified_time\')}'})"></td>
+            </tr>
+            <tr>
+              <td class="right td20"><label>记录处理状态：</label></td>
+              <td class="td30"><select class="xui-select2 xui-validatebox" name="proc_st2" data-options="data:xConfig['proc_st']['A']">
+                </select></td>
+              <td class="right td20"><label>业务操作标志：</label></td>
+              <td class="td30"><input type="radio" name="oper_in2" value="I">
+                <label>新增</label>
+                <input type="radio" name="oper_in2" value="U">
+                <label>修改</label></td>
+            </tr>
+            <tr>
+              <td class="right td20"><label>业务类型：</label></td>
+              <td class="td30"><span class="xui-combobox combobox" data-options="panelHeight:'auto',editable:false,required:true,data:xConfig['apptype']">
+                <input type="text" class="combobox-text">
+                <input type="hidden" name="apptype" class="combobox-value">
+                <span class="combobox-addon"><i class="combobox-icon combobox-arrow"></i></span></span></td>
+<td class="right td20"><label>所在地区：</label></td>
+                      <td class="td30"><span> <span class="xui-combobox combobox" id="province2" data-options="data:provinceData,onChange:onChangeProvince2">
+                        <input type="text" class="combobox-text" style="width: 50px;">
+                        <input type="hidden" name="province" class="combobox-value">
+                        <span class="combobox-addon"><i class="combobox-icon combobox-arrow"></i></span></span> <span class="xui-combobox combobox" id="city2" data-options="onChange:onChangeCity2">
+                        <input type="text" class="combobox-text" style="width: 50px;">
+                        <input type="hidden" name="city" class="combobox-value">
+                        <span class="combobox-addon"><i class="combobox-icon combobox-arrow"></i></span></span> <span class="xui-combobox combobox" id="district2" data-options="">
+                        <input type="text" class="combobox-text" style="width: 50px;">
+                        <input type="hidden" name="district" class="combobox-value">
+                        <span class="combobox-addon"><i class="combobox-icon combobox-arrow"></i></span></span>
+                        </span></td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="4" class="center"><div style="margin:5px;"></div>
+                <a href="javascript:void(0)" id="search-btn" class="xui-linkbutton l-btn" data-options="iconCls:'icon-search',datagrid:'#search-dg',dialog:'#search-dlg',onSuccess:onSearchSuccess" style="padding:0 5px;" onclick="xTool.search(this)"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">查询</span><span class="l-btn-icon icon-search">&nbsp;</span></span></a> &nbsp;&nbsp; <a href="javascript:void(0)" class="xui-linkbutton l-btn" data-options="iconCls:'icon-clear',datagrid:'#search-dg'" style="padding:0 5px;" onclick="xTool.reset(this)"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">重置</span><span class="l-btn-icon icon-clear">&nbsp;</span></span></a></td>
+            </tr>
+          </tfoot>
+        </table>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="xui-dialog dialog" id="check1-dlg" data-options="iconCls:'icon-search',modal:true,closed:true">
+  <div class="dialog-header">批量审核客户基本资料<a class="dialog-close" href="javascript:void(0)"></a></div>
+  <div class="dialog-view">
+    <div class="easyui-dialog dialog-body" title="批量审核客户基本资料" data-options="iconCls:'icon-search',modal:true,closed:true" style="padding:5px;">
+      <form id="check1-fm" class="form" method="post" data-options="">
+        <table class="table" style="table-layout:fixed; width:800px;">
+          <tbody>
+            <tr>
+              <td class="right td20"><label>同时审核商户业务：</label></td>
+              <td class="td30"><input type="checkbox" name="check1_busi"></td>
+              <td class="right td20"><label>同时审核终端：</label></td>
+              <td class="td30"><input type="checkbox" name="check1_term"></td>
+            </tr>
+            <tr>
+              <td class="right td20"><label>审核通过或不通过原因：</label></td>
+              <td colspan="3" class="td80"><input type="text" name="checked_reason" style="width:600px;"></td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="4" class="center"><div style="margin:5px;"></div>
+                <a href="javascript:void(0)" class="button check1 xui-linkbutton l-btn" data-options="iconCls:'icon-ok',datagrid:'#search-dg',url:'/action/ms/mchnt-base-info/batch-check1-pass',onBefore:onBatchCheck1Before,onSuccess:onBatchCheck1Success" style="padding:0 5px;" onclick="xTool.check1BatchSubmit(this)"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">审核通过</span><span class="l-btn-icon icon-ok">&nbsp;</span></span></a> <a href="javascript:void(0)" class="button check1 xui-linkbutton l-btn" data-options="iconCls:'icon-no',datagrid:'#search-dg',url:'/action/ms/mchnt-base-info/batch-check1-nopass',onBefore:onBatchCheck1Before,onSuccess:onBatchCheck1Success" style="padding:0 5px;" onclick="xTool.check1BatchSubmit(this)"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">审核不通过</span><span class="l-btn-icon icon-no">&nbsp;</span></span></a></td>
+            </tr>
+          </tfoot>
+        </table>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="xui-dialog dialog" id="check-nopass-dlg" data-options="iconCls:'icon-search',modal:true,closed:true">
+  <div class="dialog-header">审核客户基本资料<a class="dialog-close" href="javascript:void(0)"></a></div>
+  <div class="dialog-view">
+    <div class="easyui-dialog dialog-body" title="审核客户基本资料" data-options="iconCls:'icon-search',modal:true,closed:true" style="padding:5px;">
+      <form id="check-nopass-fm" class="form" method="post" data-options="">
+        <table class="table" style="table-layout:fixed; width:800px;">
+          <tbody>
+            <tr>
+              <td class="right td20"><label>审核不通过原因：</label></td>
+              <td class="td80"><input type="text" style="display:none;">
+                <input type="hidden" name="rec_id">
+                <input type="text" name="checked_reason" class="xui-validatebox" data-options="required:true" style="width:600px;">
+                <label class="required">*</label></td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="2" class="center"><div style="margin:5px;"></div>
+                <a href="javascript:void(0)" class="button edit xui-linkbutton l-btn" data-options="onSuccess:onCheckNopassSuccess" style="padding:0 5px;" onclick="xTool.submitForm(this)"><span class="l-btn-left"><span class="l-btn-text">提交</span></span></a></td>
+            </tr>
+          </tfoot>
+        </table>
+      </form>
+    </div>
+  </div>
+</div>
+<iframe id="myFrame" name="myFrame" src="javascript:void(0)" frameborder="0" style="width:100%; height:100%; border: 0; overflow: hidden; display: none;"></iframe>
+<script>
+	
+		 $.extend($.fn.validatebox.defaults.rules, {
+		     businessScope: {
+		         validator: function(value, param) {
+		             var bd = ',\\`"#$%&\'()*./<>@[\]^_{|}~¢£¤¥¦§©®°¶·×÷ƒ৳฿៛‐‒–—―‘’“”†‡•…‰‱′″※‽₠₡₢₣₥₦₧₨₩₪₫€₭₮₯₰₱₲₳₴₵₸₹₽№℗℠™ℳ─□⟨⟩。〃々〈〉《》【】〔〕！，：；？＿～';
+		             for (var i = 0; i < value.length; i++) {
+		                 if (bd.indexOf(value.charAt(i)) >= 0) {
+		                     return false;
+		                 }
+		             }
+		             return true;
+		         },
+		         message: '输入内容不能有标点符号(除了顿号)'
+		     }
+		 });
+	
+        var formDefaults = {
+            'province': '43',
+            'property': '5',
+            'cert_type': '01',
+            'acq_inst_id': '48215500',
+            'term_number': '1',
+            'ec_id': '1',
+            'district': ''
+        };
+
+        var myDefaultTransition = xConfig['status_transition']['A'];
+        var provinceData = xProvinceCityDistrict['province'];
+        var cityData = xProvinceCityDistrict['city']['43'];
+
+		function onChangeIndustry(newValue) {
+			$('#buss_type_small').select2('clear').select2('loadData',xConfig['industry_sub'][newValue]);
+		}
+
+        function onChangeProvince(newValue, oldValue) {
+            if (newValue) {
+                $('#city').combobox('clear').combobox('loadData', xProvinceCityDistrict['city'][newValue]);
+                $('#district').combobox('clear').combobox('loadData',[]);
+            }
+        }
+
+        function onChangeCity(newValue, oldValue) {
+            if (newValue) {
+                var province = $('#province').combobox('getValue');
+                $('#district').combobox('clear').combobox('loadData', xProvinceCityDistrict['district'][province + newValue]);
+            }
+        }
+        
+        function onChangeProvince2(newValue, oldValue) {
+            if (newValue) {
+                $('#city2').combobox('clear').combobox('loadData', xProvinceCityDistrict['city'][newValue]);
+                $('#district2').combobox('clear').combobox('loadData',[]);
+            }
+        }
+
+        function onChangeCity2(newValue, oldValue) {
+            if (newValue) {
+                var province = $('#province2').combobox('getValue');
+                $('#district2').combobox('clear').combobox('loadData', xProvinceCityDistrict['district'][province + newValue]);
+            }
+        }
+
+        function onSelect(title, index) {
+            if (index == 0) {
+                return;
+            }
+
+            var query = xTool.parseQueryString();
+            var data = $('#detail-fm').serializeObject()
+
+            if (data.mcht_id == '') {
+                $('#tt').tabs('select', 0);
+                return;
+            }
+            
+            if(!g_select_tab) {
+
+	            query.rec_id = data.rec_id;
+	            query.mcht_id = data.mcht_id;
+	            query.province = data.province;
+	            query.city = data.city;
+	
+	            var queryString = $.param(query).replace(/\+/g, '%20');
+	            if (index == 1) {
+	                updateIframeSrc(index, 'mchnt-busi.html?' + queryString);
+	            } else if (index == 2) {
+	                updateIframeSrc(index, 'term-info.html?' + queryString);
+	            } else if (index == 3) {
+	                updateIframeSrc(index, 'photo-copy.html?' + queryString);
+	            }
+        	}
+        	g_select_tab = false;
+
+            function updateIframeSrc(index, url) {
+                var p = $('#tt').tabs('getTab', index);
+                var f = p.find('iframe');
+                if (f.attr('src') != url) {
+                    f.attr('src', url);
+                }
+            }
+        }
+
+        function onSerializeSearchForm(data) {
+            $.extend(data, g_search);
+            //g_query
+            //终端号是16位为PSAM卡号
+            if(data.term_id.length == 16) {
+            	data.psam_no = data.term_id;
+            	data.term_id = null;
+            }
+        }
+
+        function onLoadDetailForm(data) {
+            $('#province').combobox('clear').combobox('setValue', data.data.province);
+            $('#city').combobox('clear').combobox('setValue', data.data.city);
+            $('#district').combobox('clear').combobox('setValue', data.data.district);
+            $('#buss_type_large').val(data.data.buss_type_large).change();
+            if(data.data.cert_type == '01') {
+				$('#cert_id').validatebox({
+					validType: ['certId','length[16,18]']
+				});
+			} else {
+				$('#cert_id').validatebox({
+					validType: null
+				});
+			}
+        }
+        
+        function onSerializeDetailForm() {
+        	$('#license_no').blur();
+        }
+
+        function onCreateSaveSubmitSuccess(request, response) {
+            var fm = $('#detail-fm');
+            $('#mcht_id').val(response.data.mcht_id);
+
+            xTool.loadDetail(fm[0], response.data);
+            xTool.transformStatus(fm[0], 'edit');
+        }
+
+        function onCreateSubmitSuccess(request, response) {
+            $('#detail-fm').form('load', response.data);
+            if(response.data.oper_in == 'I' && response.data.proc_st == '1') {
+            	xTool.showConfirm('是否新增商户业务?', function(r) {
+            		if(r) {
+            			$('#tt').tabs('select', 1);
+            		} else {
+            			$('#return-btn').trigger('click');
+            		}
+            	});
+            } else {
+            	xTool.showInfo('操作成功');
+    			$('#return-btn').trigger('click');
+    		}
+        }
+        
+        function onUpdateSubmitSuccess(request, response) {
+            if(response.data.oper_in == 'I' && response.data.proc_st == '1') {
+            	xTool.showConfirm('是否新增商户业务?', function(r) {
+            		if(r) {
+            			$('#tt').tabs('select', 1);
+            		} else {
+            			$('#return-btn').trigger('click');
+            		}
+            	});
+            } else {
+            	xTool.showInfo('操作成功');
+    			$('#return-btn').trigger('click');
+    		}
+        }
+
+        function onUpdateSaveSubmitSuccess(request, response) {
+            var fm = $('#detail-fm');
+            xTool.loadDetail(fm[0], response.data);
+            xTool.transformStatus(fm[0], 'edit');
+        }
+
+        function onReturnSearchSuccess() {
+            g_mcht_id = null;
+            g_no_data_found = false;
+            $('#search-dg').datagrid('reload');
+            
+            $('#license_no').validatebox('disableValidation');
+        }
+        
+        function onCheck1Success() {
+        	$('#checked_reason').removeAttr('readonly');
+        }
+        
+        function onCheck1SubmitSuccess(request, response) {
+        	if(response.data.oper_in == 'I' && response.data.proc_st == '8') {
+            	xTool.showConfirm('是否审批商户业务?', function(r) {
+            		if(r) {
+            			$('#tt').tabs('select', 1);
+            		} else {
+            			$('#return-btn').trigger('click');
+            		}
+            	});
+            } else {
+            	xTool.showInfo('操作成功');
+    			$('#return-btn').trigger('click');
+    		}
+        }
+        
+        function onAddSuccess() {
+        	xTool.addSuccess.call(this);
+        	
+        	$('#province').combobox('clear').combobox('setValue', formDefaults.province);
+            $('#city').combobox('clear').combobox('setValue', formDefaults.city);
+            $('#district').combobox('clear').combobox('setValue', formDefaults.district);
+        	
+        	var flag = false;
+        	$('#detail-fm input.required-101').each(function(i, domEle) {
+				if($(domEle).combobox('getValue')) {
+					flag = true;
+				}
+			}).next().find('.validatebox-text').validatebox({
+                required: flag
+            });
+            
+            $('#license_no').validatebox('enableValidation');
+        }
+        
+        function onEditSuccess() {
+        	//$('#license_no').validatebox({validType:null});
+        }
+        
+        function onBatchCheck1Before(data) {
+        	$.extend(data, $('#check1-fm').serializeObject());
+        }
+        
+        function onBatchCheck1Success() {
+        	$('#check1-dlg').dialog('close');
+        }		
+        
+        function onClickRow(rowIndex, rowData) {
+            var param = {
+                mcht_id: rowData.mcht_id
+            };
+
+            //param.proc_st = g_search.proc_st2;
+            if(g_search.proc_st2 == '1') {
+            	param.count = '1';
+            }
+            
+            $('#mchnt-busi-dg').datagrid('clearSelections').datagrid({
+                url: '/action/ms/mchnt-busi/search',
+                pageNumber: 1,
+                queryParams: param,
+                onLoadSuccess: function(data) {
+                	if(g_search.proc_st2 && data.data) {
+                		$('#mchnt-busi-dg').children('.datagrid-header').html('商户业务列表(无需审核的业务数'+ data.data.total +')');
+                	}
+                	
+                	if(!data.clear) {
+	                	$('#term-info-dg').datagrid('clearSelections').datagrid({
+			                url: '/action/ms/term-info/search',
+			                pageNumber: 1,
+			                queryParams: param
+			            });
+		        	}
+                }
+            });
+        }
+        
+        function onClickBusiRow(rowIndex, rowData) {
+            var param = {
+                mcht_id: rowData.mcht_id,
+                apppay_id: rowData.apppay_id
+            };
+
+            param.proc_st = g_search.proc_st2;
+            
+            $('#term-info-dg').datagrid('clearSelections').datagrid({
+                url: '/action/ms/term-info/search',
+                pageNumber: 1,
+                queryParams: param
+            });
+        }
+
+		function onClickApptype() {
+			$('.search-div').hide();
+			$('#myFrame').show();
+		}
+		
+		function onClickApptypeReturn() {
+			$('.search-div').show();
+			$('#myFrame').hide();
+			$('#mchnt-busi-dg').datagrid('reload');
+		}
+
+        function formatApptype(value, rowData, rowIndex) {			
+    		var query = $.extend(query, g_query);
+    		query.rec_id = rowData.rec_id;
+    		query.mcht_id = rowData.mcht_id;
+    		var queryString = $.param(query).replace(/\+/g, '%20');
+	    	var text = xTool.formatField(xConfig['apptype'], value);
+			var url = 'mchnt-busi-detail.html?' + queryString;   					
+	    	var s = '<a href="'+url+'" target="myFrame" onClick="onClickApptype(this)">'+text+'</a>';
+	    	
+	    	return s;
+        }
+        
+        function onClickMarchantName() {
+			$('.search-div').hide();
+			$('#myFrame').show();
+		}
+		
+		function onClickMarchantNameReturn() {
+			$('.search-div').show();
+			$('#myFrame').hide();
+			$('#term-info-dg').datagrid('reload');
+		}
+
+        function formatMarchantName(value, rowData, rowIndex) {			
+    		var query = $.extend(query, g_query);
+    		query.rec_id = rowData.rec_id;
+    		query.mcht_id = rowData.mcht_id;
+    		var queryString = $.param(query).replace(/\+/g, '%20');
+			var url = 'term-info-detail.html?' + queryString;   					
+	    	var s = '<a href="'+url+'" target="myFrame" onClick="onClickApptype(this)">'+value+'</a>';
+	    	
+	    	return s;
+        }
+
+        function formatAccountType(value, rowData, rowIndex) {
+            return xTool.formatField(xConfig['account_type'], value);
+        }
+        
+        function formatFeeChan(value, rowData, rowIndex) {
+            return xTool.formatField(xConfig['fee_chan'], value);
+        }
+        
+        function formatEId(value, rowData, rowIndex) {
+            return xTool.formatField(xConfig['e_id'], value);
+        }
+        
+        function formatEquiType(value) {
+            return xTool.formatField(xConfig['equi_type'], value);
+        }
+	
+        function formatOperIn(value, rowData, rowIndex) {
+            return xTool.formatField(xConfig['oper_in']['A'], value);
+        }
+
+        function formatProcSt(value, rowData, rowIndex) {
+            return xTool.formatField(xConfig['proc_st']['A'], value);
+        }
+
+		function onClickNoLicenseNo() {
+			xTool.send('/action/ms/mchnt-base-info/generate-license-no', {}, function (data) {
+                if (data.code == 0) {
+                    $('#license_no').val(data.data.license_no);
+                }
+            });
+		}		
+		
+		function formatOp(value, rowData, rowIndex) {
+			var query = xTool.parseQueryString();
+
+            query.rec_id = rowData.rec_id;
+            query.mcht_id = rowData.mcht_id;
+	
+	       var queryString = $.param(query).replace(/\+/g, '%20');
+			var url = 	'photo-copy.html?' + queryString;   		
+			
+	    	var s = '<a href="'+url+'" target="_blank">影印件</a>';
+	    	
+	    	return s;
+	    }
+		
+		function onClickBatchCheck1(target) {
+			$('#check1-fm').form('clear');
+			$('#check1-dlg').dialog('open').dialog('center');
+		}
+		
+		function onClickCheckNopass(target) {
+			var opts = $.parser.parseOptions(target);
+			var data = $('#detail-fm').serializeObject();
+			var f = $('#check-nopass-fm');
+			xTool.transformStatus(f[0], 'edit');
+			f.form('clear').form('load',{
+				rec_id: data.rec_id
+			}).attr('action',opts.url);
+			$('#check-nopass-dlg').dialog('open').dialog('center');
+		}
+		
+		function onCheckNopassSuccess() {
+        	$('#check-nopass-dlg').dialog('close');
+        	$('#return-btn').trigger('click');
+        }
+		
+		function onChange101(target) {
+			var flag = false;
+			/*
+			$('#detail-fm select.required-101').each(function(i, domEle) {
+				if($(domEle).val()) {
+					flag = true;
+				}
+			}).validatebox({
+                required: flag
+            });
+      */
+		}
+		
+		function onChangeCertType(target) {
+			if($(target).val() == '01') {
+				$('#cert_id').validatebox({
+					validType: ['certId','length[16,18]']
+				});
+			} else {
+				$('#cert_id').validatebox({
+					validType: null
+				});
+			}
+		}
+		
+		function onSearchSuccess(data) {
+			$('#mchnt-busi-dg').datagrid('loadData',{total:0,rows:[],clear:true});
+			$('#term-info-dg').datagrid('loadData',{total:0,rows:[]});
+			if(data.total == 0 && g_no_data_found) {				 
+				xTool.showInfo('没有查到数据');
+			}
+			g_no_data_found = true;
+		}			
+		
+		function formatInstalledStatus(value) {
+            return xTool.formatField(xConfig['installed_status'], value);
+        }
+
+        function initCombobox() {
+            xTool.send('/action/ms/parameter/list', {
+                ec_id: '1',
+                e_id: '1',
+                acq_inst_id: '1'
+            }, function (data) {
+                if (data.code == 0) {
+                    $('#ec_id').combobox('loadData', data.ec_id);
+                    $('#e_id').combobox('loadData', data.e_id);
+                    
+                    $('#ec_id2').combobox('loadData', data.ec_id);
+                    $('#e_id2').combobox('loadData', data.e_id);
+                    $('#acq_inst_id').combobox('loadData', data.acq_inst_id);
+                    
+                    //更新
+                    xConfig['ec_id'] = data.ec_id;
+                    xConfig['e_id'] = data.e_id;
+                    xConfig['acq_inst_id'] = data.acq_inst_id;
+                }
+            });
+        }
+		
+		var g_query;
+        var g_search = {};
+        var g_select_tab = false;
+        var g_mcht_id = null;
+        var g_no_data_found = true;
+        $(function () {
+            //当前模式
+            g_query = xTool.parseQueryString();
+
+            if (g_query.displayType == 'search') {
+                xTool.displayType(['search', 'view', 'modify-info']);
+            } else if (g_query.displayType == 'update') {
+                xTool.displayType(['search', 'view', 'modify-info', 'create', 'update', 'batch-delete', 'batch-cancel-check1']);
+            } else if (g_query.displayType == 'abarbeitung') {
+                xTool.displayType(['search', 'view', 'modify-info']);
+            } else if (g_query.displayType == 'check1') {
+                xTool.displayType(['search', 'view', 'modify-info', 'check1-pass', 'batch-check1-pass', 'batch-check1-nopass']);
+                //$('#mchnt-binding-div').show();
+                g_search.proc_st2 = '1';
+            } else if (g_query.displayType == 'check2') {
+                xTool.displayType(['search', 'view', 'modify-info', 'check2-pass', 'batch-check2-pass', 'batch-check2-nopass']);
+                //$('#mchnt-binding-div').show();
+                g_search.proc_st2 = '2';
+            }
+
+            /*
+            $('#detail-tb').css({
+            	position: 'absolute',
+            	left: 0,
+                top: ($(window).height() + $(window).scrollTop() - 40),
+                right: '',
+                bottom: ''
+            });
+            */
+            
+            xTool.send('/action/user/view', {}, function (data) {
+                if (data.code == 0) {
+                    formDefaults.province = data.data.province;
+                    formDefaults.city = data.data.city;
+                    //formDefaults.district = data.data.district;
+                }
+            });
+
+            initCombobox();
+
+            //事件
+            $('#license_addr').change(function () {
+                var license_addr = $(this).val();
+                var addr = $('#addr').val();
+                if (addr.length <= 0) {
+                    $('#addr').val(license_addr);
+                }
+            });
+            
+        	$('#license_no').blur(function() {
+        		var data = $('#detail-fm').serializeObject()
+        		
+        		$(this).validatebox({
+        			novalidate: false,
+        			queryParams: {
+        				rec_id: data.rec_id
+        			},
+        			validType:['remote[\'/action/ms/mchnt-base-info/exist-license-no\',\'license_no\',\'工商营业执照证件号码\']']
+        		});
+        	});
+        	
+        	if($.inArray(g_query.displayType, ['check1', 'check2']) >= 0) {
+        		setTimeout(function() {
+	        		g_no_data_found = false;
+	        		$('#search-btn').trigger('click');
+				
+					setInterval(function() {
+						g_no_data_found = false;
+						$('#search-btn').trigger('click');
+					}, 1200000);
+				}, 0);
+        	} else {
+        		if(g_query.license_no) {
+        			$('#search-fm').form('load', g_query);
+	        		g_no_data_found = false;
+	        		$('#search-btn').trigger('click');
+        		}
+        	}
+        	
+        	$('.tabs-panels').height($(document).height()-40);
+        	$(window).resize(function() {
+        		$('.tabs-panels').height($(document).height()-40);
+        	});
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!doctype html>
+<html>
+
+<head>
+<meta charset="utf-8">
+<title>联通资金归集对账</title>
+<link rel="stylesheet" type="text/css" href="../../js/themes/default/xui.css" />
+<link rel="stylesheet" type="text/css" href="../../js/themes/icon.css" />
+<link rel="stylesheet" type="text/css" href="../../css/tool-v2.css" />
+<script type="text/javascript" src="../../js/jquery.min.js"></script>
+<script type="text/javascript" src="../../js/jquery.xui.min.js"></script>
+<script type="text/javascript" src="../../js/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript" src="../../js/jquery.tool-v2.js"></script>
+<script type="text/javascript" src="../../js/jquery.xconfig.js"></script>
+</head>
+
+<body class="search-body">
+	<div class="search-div">
+		<div>
+			<form id="search-fm" class="form search-form" action="/action/ms/unicom-trans/search" method="post" data-options="">
+				<table class="table" style="width: 950px;">
+					<caption>查询联通资金归集对账</caption>
+					<tr>
+						<td class="right td20"><label>交易日期：</label></td>
+						<td class="td30"><input id="settle_date" type="text" class="xui-validatebox Wdate" name="settle_date" style="width: 100px;"
+							onfocus="WdatePicker({onpicked:function(){$dp.$('settle_date2').focus();},maxDate:'#F{$dp.$D(\'settle_date2\')}'})" data-options="required:true">
+							<input id="settle_date2" type="text" class="xui-validatebox Wdate" name="settle_date2" style="width: 100px;"
+							onfocus="WdatePicker({minDate:'#F{$dp.$D(\'settle_date\')}'})" data-options="required:true"><span class="required">*</span></td>
+						<td class="right td20">&nbsp;</td>
+						<td class="td30">&nbsp;</td>
+					</tr>
+					<tfoot>
+						<tr>
+							<td colspan="4" class="center">
+								<div style="margin: 5px;"></div> <a class="xui-linkbutton" href="javascript:void(0)" style="padding: 0 5px;"
+									data-options="initDom:true,iconCls:'icon-search',datagrid:'#search-dg',onBefore:onBeforeSearch" onclick="xTool.search(this)">查询</a>
+								&nbsp;&nbsp; <a class="xui-linkbutton" href="javascript:void(0)" style="padding: 0 5px;"
+									data-options="initDom:true,iconCls:'icon-clear'" onclick="xTool.reset(this)">重置</a>
+								&nbsp;&nbsp; <a class="xui-linkbutton" href="javascript:void(0)" style="padding: 0 5px;"
+									data-options="initDom:true,iconCls:'icon-export',url:'/action/ms/unicom-trans/export',onBefore:onBeforeSearch" onclick="xTool.exportData(this)">导出</a>
+							</td>
+						</tr>
+					</tfoot>
+				</table>
+			</form>
+		</div>
+		<br>
+		<table id="search-dg" title="联通资金归集对账列表" class="xui-datagrid" style="width: 950px;"
+			data-options="initDom:true,pagination:true">
+			<thead>
+				<tr>
+					<th data-options="field:'rn',rownumber:true"></th>
+					<!-- <th data-options="field:'chk',checkbox:true"></th> -->
+					<th data-options="field:'marchant_name'">商户名</th>
+					<th data-options="field:'marchant_name'">分店名称</th>
+					<th data-options="field:'installed_addr'">交易地址</th>
+					<th data-options="field:'settle_date'">交易日期</th>
+					<th data-options="field:'date_time'">交易时间</th>
+					<th data-options="field:'trans_type'">交易类型</th>
+					<th data-options="field:'card_no'">卡号</th>
+					<th data-options="field:'shop_id'">pos商户号</th>
+					<th data-options="field:'pos_id'">pos终端号</th>
+					<!--<th data-options="field:'终端流水'">终端流水</th>-->
+					<th data-options="field:'serial_number'">平台流水</th>
+					<th data-options="field:'amount'">交易金额(元)</th>
+					<th data-options="field:'fee'">交易手续费(元)</th>
+					<!--<th data-options="field:'附加数据'">附加数据</th>-->
+				</tr>
+			</thead>
+			<tbody></tbody>
+		</table>
+	</div>
+	<script>
+		function onBeforeSearch() {
+    		return $('#search-fm').form('enableValidation').form('validate');
+    	}
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,239 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>功能集</title>
+    <link rel="stylesheet" type="text/css" href="../../js/themes/default/easyui.css" />
+    <link rel="stylesheet" type="text/css" href="../../js/themes/icon.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/tool.css" />
+    <script type="text/javascript" src="../../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../../js/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../../js/jquery.xtool.js"></script>
+</head>
+
+<body class="search-body">
+	<div class="search-div">
+    <div>
+        <form id="search-fm" class="form" action="/action/admin/fun-set/search" method="post">
+            <table class="table" style="width:800px;">
+                <caption>查询功能集</caption>
+                <tr>
+                    <td class="right td20">
+                        <label>功能集ID：</label>
+                    </td>
+                    <td class="td30">
+                        <input type="text" name="fun_set_id">
+                    </td>
+                    <td class="right td20">
+                        <label>功能集名称：</label>
+                    </td>
+                    <td class="td30">
+                        <input type="text" name="fun_set_name">
+                    </td>
+                </tr>
+                <tfoot>
+                    <tr>
+                        <td colspan="4" class="center">
+                            <div style="margin:5px;"></div>
+                            <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-search',datagrid:'#search-dg'" style="padding:0 5px;" onclick="xTool.search(this)">查询</a>
+                            &nbsp;&nbsp;
+                            <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-clear',datagrid:'#search-dg'" style="padding:0 5px;" onclick="xTool.reset(this)">重置</a>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </form>
+    </div>
+    <br>
+    <div id="search-dg-tb">
+        <a href="javascript:void(0)" class="easyui-linkbutton action" onClick="xTool.add(this)" data-options="plain:true,iconCls:'icon-add',form:'#detail-fm',url:'/action/admin/fun-set/create'">新增</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton action" onClick="xTool.view(this)" data-options="disabled:true,plain:true,iconCls:'icon-view',datagrid:'#search-dg',form:'#detail-fm',url:'/action/admin/fun-set/view'">查看详情</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton action" onClick="xTool.edit(this)" data-options="disabled:true,plain:true,iconCls:'icon-edit',datagrid:'#search-dg',form:'#detail-fm',url:'/action/admin/fun-set/update'">编辑</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton action" onClick="$('#dlg').dialog('center').dialog('open')" data-options="disabled:true,plain:true,iconCls:'icon-application',url:'/action/admin/fun-set/assign-fun'">功能分配</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton action" onClick="xTool.deleteBatchSubmit(this)" data-options="disabled:true,plain:true,iconCls:'icon-remove',datagrid:'#search-dg',url:'/action/admin/fun-set/batch-delete'">批量删除</a>
+    </div>
+    <table id="search-dg" title="功能集" class="easyui-datagrid" style="width:800px;" data-options="[myGridDefaults, {idField:'fun_set_id',transition:funSetTransition}]">
+        <thead>
+            <tr>
+                <th data-options="field:'chk',checkbox:true"></th>
+                <th data-options="field:'fun_set_id',width:80">功能集ID</th>
+                <th data-options="field:'fun_set_name',width:150">功能集名称</th>
+                <th data-options="field:'fun_set_desc',width:150">功能集描述</th>
+            </tr>
+        </thead>
+    </table>
+    <br>
+    </div>
+    <div class="detail-div">
+        <form id="detail-fm" method="post" action="/action/admin/fun-set/view" class="form init-view">
+            <table class="table" style="width:800px;">
+                <caption>功能集</caption>
+                <tbody>
+                    <tr>
+                        <td class="right td20">
+                            <label>功能集ID：</label>
+                        </td>
+                        <td class="td30">
+                            <input name="fun_set_id" type="text" class="add edit" readonly>
+                        </td>
+                        <td class="right td20">
+                            <label>功能集名称：</label>
+                        </td>
+                        <td class="td30">
+                            <input type="text" name="fun_set_name" class="easyui-validatebox" data-options="novalidate:true,required:true">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="right td20">
+                            <label>功能集描述：</label>
+                        </td>
+                        <td class="td30">
+                            <input type="text" name="fun_set_desc" class="">
+                        </td>
+                        <td class="right td20">&nbsp;</td>
+                        <td class="td30">&nbsp;</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="4">
+                            <div style="margin:5px;"></div>
+                            <a href="javascript:void(0)" class="easyui-linkbutton button add" data-options="iconCls:'icon-ok',url:'/action/admin/fun-set/create'" style="padding:0 5px;" onclick="xTool.addSubmit(this)">新增提交</a>
+                            <a href="javascript:void(0)" class="easyui-linkbutton button edit" data-options="iconCls:'icon-ok',url:'/action/admin/fun-set/update'" style="padding:0 5px;" onclick="xTool.editSubmit(this)">编辑提交</a>
+                            <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-return'" style="padding:0 5px;" onclick="xTool.returnSearch(this)">返回</a>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </form>
+    </div>
+    <div id="dlg" class="easyui-dialog" title="功能分配" data-options="modal:true,closed:true,buttons:'#dlg-btn',onBeforeOpen:onClickAssign" style="width:920px;height:420px; padding:5px;">
+        <span style="font-size:12px;font-weight:bold;line-height:20px;">
+    <label>功能集名称：</label>
+    <label id="fun_set_name"></label>
+  </span>
+  <form action="/action/admin/fun-set/exist-fun" method="post">
+                <table style="width:550px;">
+                    <tr>
+                        <td class="right">
+                            <label>功能名称：</label>
+                        </td>
+                        <td>
+                            <input name="flag" type="hidden" value="0">
+                            <input id="fun-set-id" name="fun_set_id" type="hidden" value="">
+                            <input type="text" name="fun_name">
+                        </td>
+                        <td class="right">
+                            <label>URL：</label>
+                        </td>
+                        <td><input type="text" name="url">
+                      </td>
+                        <td><a href="javascript:void(0)" class="easyui-linkbutton" data-options="datagrid:'#fun-info-dg'" style="padding:0 5px;" onclick="xTool.search(this)">查询</a>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        <table>
+            <tr>
+                <td>
+                    <table id="fun-info-dg" class="easyui-datagrid" title="待选功能" data-options="rownumbers:true,pagination:true,singleSelect:false,onDblClickRow:onFunMoveRight" style="width:440px; height:260px;">
+                        <thead>
+                            <tr>
+                                <th data-options="field:'fun_name',width:150">功能名称</th>
+                                <th data-options="field:'url',width:200">URL</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </td>
+                <td>
+                    <a id="movright-btn" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-right',from:'#fun-info-dg',to:'#selected-fun-info-dg'" onclick="xTool.move(this)"></a>
+                    <br>
+                    <a id="movleft-btn" href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-left',to:'#fun-info-dg',from:'#selected-fun-info-dg'" onclick="xTool.move(this)"></a>
+                </td>
+                <td>
+                    <table id="selected-fun-info-dg" class="easyui-datagrid" title="已选功能" data-options="rownumbers:true,singleSelect:false,onDblClickRow:onFunMoveLeft" style="width:400px; height:260px;">
+                        <thead>
+                            <tr>
+                                <th data-options="field:'fun_name',width:150">功能名称</th>
+                                <th data-options="field:'url',width:200">URL</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </td>
+            </tr>
+        </table>
+        <div id="dlg-btn">
+            <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-ok'" style="padding:0 5px;" onclick="onClickAssignSubmit(this)"> 确定 </a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-cancel'" style="padding:0 5px;" onClick="$('#dlg').dialog('close')"> 关闭 </a>
+        </div>
+    </div>
+    <script>
+        function onFunMoveRight() {
+            $('#movright-btn').click();
+        }
+
+        function onFunMoveLeft() {
+            $('#movleft-btn').click();
+        }
+
+        function onClickAssign() {
+            var row = $('#search-dg').datagrid('getSelected');
+
+            if (row) {
+                $('#fun_set_name').html(row.fun_set_name);
+                $('#fun-set-id').val(row.fun_set_id);
+                $('#fun-info-dg').datagrid('loadData', {
+                    total: 0,
+                    rows: []
+                });
+                $('#selected-fun-info-dg').datagrid('loadData', {
+                    total: 0,
+                    rows: []
+                });
+
+				row.flag = '0';
+                $('#fun-info-dg').datagrid({
+                    url: '/action/admin/fun-set/exist-fun',
+                    queryParams: row
+                });
+                
+                row.flag = '1';
+                $('#selected-fun-info-dg').datagrid({
+                    url: '/action/admin/fun-set/exist-fun',
+                    queryParams: row
+                });
+            } else {
+                return false;
+            }
+        }
+
+        function onClickAssignSubmit() {
+            var row = $('#search-dg').datagrid('getSelected');
+            var rows = $('#selected-fun-info-dg').datagrid('getRows');
+
+            xTool.send('/action/admin/fun-set/assign-fun', {
+                fun_set_id: row.fun_set_id,
+                rows: rows
+            }, function (data, textStatus, jqXHR) {
+                if (data.code == 0) {
+                    $('#dlg').dialog('close');
+                } else {
+                    alert(data.msg);
+                }
+            });
+        }
+
+        var funSetTransition = [{
+            oper_in: '0',
+            proc_st: '0',
+            action: 'update'
+        }, {
+            oper_in: '0',
+            proc_st: '0',
+            action: 'delete'
+        }];
+    </script>
+</body>
+
+</html>

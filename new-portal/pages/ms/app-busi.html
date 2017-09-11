@@ -1,0 +1,205 @@
+<!doctype html>
+<html>
+
+<head>
+<meta charset="utf-8">
+<title>APP业务信息</title>
+<link rel="stylesheet" type="text/css" href="../../js/themes/default/xui.css" />
+<link rel="stylesheet" type="text/css" href="../../js/themes/icon.css" />
+<link rel="stylesheet" type="text/css" href="../../css/tool-v2.css" />
+<script type="text/javascript" src="../../js/jquery.min.js"></script>
+<script type="text/javascript" src="../../js/jquery.xui.min.js"></script>
+<script type="text/javascript" src="../../js/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript" src="../../js/jquery.tool-v2.js"></script>
+<script type="text/javascript" src="../../js/jquery.xconfig.js"></script>
+</head>
+
+<body class="search-body">
+	<div class="search-div">
+		<div>
+			<form id="search-fm" class="form search-form" action="/action/ms/app-busi/search" method="post" data-options="">
+				<table class="table" style="width: 950px;">
+					<caption>查询APP业务信息</caption>
+					<tr>
+						<td class="right td20"><label>营业执照号码：</label></td>
+						<td class="td30"><input type="text" name="license_no"></td>
+						<td class="right td20"><label>营业执照名称：</label></td>
+						<td class="td30"><input type="text" name="mcht_name"></td>
+					</tr>
+					<tr>
+						<td class="right td20"><label>联系人手机：</label></td>
+						<td class="td30"><input type="text" name="mobile"></td>
+						<td class="right td20"><label>开户支行名称：</label></td>
+						<td class="td30"><input type="text" name="subbranch_name"></td>
+					</tr>
+					<tr>
+						<td class="right td20"><label>创建日期：</label></td>
+						<td class="td30"><input id="created_time" type="text" class="Wdate" name="created_time" style="width: 100px;"
+							onfocus="WdatePicker({onpicked:function(){$dp.$('created_time2').focus();},maxDate:'#F{$dp.$D(\'created_time2\')}'})">
+							<input id="created_time2" type="text" class="Wdate" name="created_time2" style="width: 100px;"
+							onfocus="WdatePicker({minDate:'#F{$dp.$D(\'created_time\')}'})"></td>
+						<td class="right td20"><label>修改日期：</label></td>
+						<td class="td30"><input id="last_modified_time" type="text" class="Wdate" name="last_modified_time"
+							style="width: 100px;"
+							onfocus="WdatePicker({onpicked:function(){$dp.$('last_modified_time2').focus();},maxDate:'#F{$dp.$D(\'last_modified_time2\')}'})">
+							<input id="last_modified_time2" type="text" class="Wdate" name="last_modified_time2" style="width: 100px;"
+							onfocus="WdatePicker({minDate:'#F{$dp.$D(\'last_modified_time\')}'})"></td>
+					</tr>
+					<tr>
+					  <td class="right td20"><label>记录处理状态：</label></td>
+					  <td class="td30"><input type="text" name="proc_st" class="xui-combobox" style="width:75px;" data-options="initDom:true,panelHeight:'auto',data:procStData"></td>
+					  <td class="right td20"></td>
+					  <td class="td30"></td>
+				  </tr>
+					<tfoot>
+						<tr>
+							<td colspan="4" class="center">
+								<div style="margin: 5px;"></div> <a class="xui-linkbutton" href="javascript:void(0)" style="padding: 0 5px;"
+									data-options="initDom:true,iconCls:'icon-search',datagrid:'#search-dg'" onclick="xTool.search(this)">查询</a>
+								&nbsp;&nbsp; <a class="xui-linkbutton" href="javascript:void(0)" style="padding: 0 5px;"
+									data-options="initDom:true,iconCls:'icon-clear'" onclick="xTool.reset(this)">重置</a>
+							</td>
+						</tr>
+					</tfoot>
+				</table>
+			</form>
+		</div>
+		<br>
+		<table id="search-dg" title="APP业务信息列表" class="xui-datagrid" style=""
+			data-options="initDom:true,idField:'apppay_id',pagination:true">
+			<thead>
+				<tr>
+					<th data-options="field:'rn',rownumber:true"></th>
+					<!-- <th data-options="field:'chk',checkbox:true"></th> -->
+					<th data-options="field:'apptype',formatter:formatApptype">业务类型</th>
+					<th data-options="field:'license_no'">营业执照号码</th>
+					<th data-options="field:'mcht_name'">营业执照名称</th>
+					<!--
+					<th data-options="field:'mobile'">客户手机号</th>
+					<th data-options="field:'subbranch_name'">开户行名称</th>
+					-->
+					<th data-options="field:'linkman'">联系人</th>
+					<th data-options="field:'mobile'">联系人手机</th>
+					<!--
+					<th data-options="field:'tel_no'">联系电话</th>
+					-->
+					<th data-options="field:'installed_addr'">装机详细地址</th>
+					<th data-options="field:'proc_st',formatter:formatProcSt">记录处理状态</th>
+					<th data-options="field:'last_modified_by'">最后修改人</th>
+					<th data-options="field:'last_modified_time'">最后修改时间</th>
+					<th data-options="field:'last_checked_by'">处理人</th>
+					<!--<th data-options="field:'last_checked_time'">处理时间</th>-->
+					<th data-options="field:'op',formatter:formatOp">操作</th>
+				</tr>
+			</thead>
+			<tbody></tbody>
+		</table>
+	</div>
+	<script>
+		var procStData = [{
+            "text": "暂存",
+            "value": "1"
+        }, {
+            "text": "已提交",
+            "value": "2"
+        }, {
+            "text": "待完善",
+            "value": "3"
+        }, {
+            "text": "已处理",
+            "value": "4"
+        }, {
+            "text": "处理中",
+            "value": "5"
+        }, {
+            "text": "审核通过",
+            "value": "8"
+        }, {
+            "text": "审核不通过",
+            "value": "9"
+        }, {
+            "text": "已派单",
+            "value": "A"
+        }, {
+            "text": "装机中",
+            "value": "B"
+        }, {
+            "text": "已装机",
+            "value": "C"
+        }];
+        
+        var apptypeData = [{
+            "text": "收单/收银宝",
+            "value": "105"
+        }, {
+            "text": "当面付",
+            "value": "109"
+        }];
+        
+		
+		var query;
+		$(function() {
+			query = xTool.parseQueryString();
+			initCombobox();
+		});
+		
+		function formatOp(value, row, index) {
+			var params = jQuery.param({
+				rec_id : row.rec_id
+			});
+			var url = 'app-busi-detail.html?' + params
+			var s = '<a href="'+url+'&operateType=view" target="_blank" style="margin-right:10px;">详情</a>';
+			
+			if(row.proc_st == '2') {
+				s += '<a href="'+url+'&operateType=check1" target="_blank" style="margin-right:10px;" onclick="grabCheck1(event,\''+row.rec_id+'\')">处理</a>';
+			} else if(row.proc_st == '5') {
+				s += '<a href="'+url+'&operateType=check1" target="_blank" style="margin-right:10px;">继续处理</a>';
+			}
+			
+			return s;
+		}
+		
+		function grabCheck1(event, rec_id) {
+			//event.preventDefault();
+			xTool.send('/action/ms/app-busi/grab-check1', {
+                rec_id: rec_id
+            }, function (data) {
+                if (data.code == 0) {
+                } else {
+                	if(event.preventDefault) {
+                		event.preventDefault();
+                	} else {
+                		event.returnValue = false;
+                	}
+                }
+            }, false);            
+		}
+
+        function formatProcSt(value, rowData, rowIndex) {
+            return xTool.formatField(procStData, value);
+        }
+        
+        function formatApptype(value, rowData, rowIndex) {
+            return xTool.formatField(apptypeData, value);
+        }
+		
+		function reloadSearchDatagrid() {
+			$('#search-dg').datagrid('reload');
+		}
+		
+		function initCombobox() {
+            xTool.send('/action/ms/parameter/list', {
+                //work_id: '1'
+            }, function (data) {
+                if (data.code == 0) {
+                	/*
+                	$('#recipient_id').combobox('loadData', data.work_id);
+                    xConfig['work_id'] = data.work_id;
+                    */
+                }
+            });
+        }
+	</script>
+</body>
+
+</html>
