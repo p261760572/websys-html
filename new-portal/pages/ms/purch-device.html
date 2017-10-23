@@ -69,7 +69,7 @@
 
                     <tr>
                         <td class="right td20">
-                            <label>开始设备编号：</label>
+                            <label>开始设备编号(支持批量粘贴)：</label>
                         </td>
                         <td colspan="2" class="td30">
                             <input type="text" id="device_no" name="device_no" class="xui-validatebox" style="text-transform:uppercase;" data-options="required:true">
@@ -168,6 +168,7 @@
             var data = f.serializeObject();
             data.device_no=data.device_no.toUpperCase();
 			
+			var arr = data.device_no.split(/\s/);
             if (f.form('enableValidation').form('validate') != true) {
                 return false;
             }
@@ -180,20 +181,32 @@
             var inc = parseInt(data.inc);
             var i, t;
             
-            var tmp = $.extend({}, data);
-            for (i = 0; i < count; i++) {
-				if (xTool.inObjectArray(tmp.device_no, rows, 'device_no')) {
-	                xTool.showError('设备不能重复添加');
-	                return;
-	            }                
-	            
-                $(opts.datagrid).datagrid('appendRow', tmp);
-                
-                t = string_add_num(tmp.device_no, inc);
-                tmp = $.extend({}, data, {
-                	device_no: t.str
-                });                
-            }
+			if (arr.length > 1) {
+				for (i = 0; i < arr.length; i++) {
+					data.device_no = arr[i];
+					if (xTool.inObjectArray(data.device_no, rows, 'device_no')) {
+						xTool.showError('设备不能重复添加');
+						return;
+					}                
+
+					$(opts.datagrid).datagrid('appendRow', data);
+				}
+			} else {
+				var tmp = $.extend({}, data);
+				for (i = 0; i < count; i++) {
+					if (xTool.inObjectArray(tmp.device_no, rows, 'device_no')) {
+						xTool.showError('设备不能重复添加');
+						return;
+					}                
+
+					$(opts.datagrid).datagrid('appendRow', tmp);
+
+					t = string_add_num(tmp.device_no, inc);
+					tmp = $.extend({}, data, {
+						device_no: t.str
+					});                
+				}
+			}
 
             $(target).linkbutton('enable');
             $('#add-submit-btn').linkbutton('enable');
