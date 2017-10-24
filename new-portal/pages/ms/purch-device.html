@@ -188,8 +188,8 @@
 						xTool.showError('设备不能重复添加');
 						return;
 					}                
-
-					$(opts.datagrid).datagrid('appendRow', data);
+					var tmp = $.extend({}, data);
+					$(opts.datagrid).datagrid('appendRow', tmp);
 				}
 			} else {
 				var tmp = $.extend({}, data);
@@ -197,7 +197,7 @@
 					if (xTool.inObjectArray(tmp.device_no, rows, 'device_no')) {
 						xTool.showError('设备不能重复添加');
 						return;
-					}                
+					}
 
 					$(opts.datagrid).datagrid('appendRow', tmp);
 
